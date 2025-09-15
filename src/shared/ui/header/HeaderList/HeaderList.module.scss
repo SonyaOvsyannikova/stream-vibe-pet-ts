@@ -1,0 +1,14 @@
+@import '../../../styles/styles.scss';
+
+.headerList {
+  display: none;
+  @include tablet-above {
+    display: flex;
+    padding: 24px 40px;
+    column-gap: fluid-to-laptop(30, 16);
+    border: var(--border-width-m) solid var(--color-grey-15);
+    border-radius: var(--border-radius-m);
+    background-color: var(--color-grey-06);
+  }
+
+}

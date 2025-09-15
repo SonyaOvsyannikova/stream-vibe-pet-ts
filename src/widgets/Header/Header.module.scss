@@ -1,0 +1,20 @@
+@import "../../shared/styles/styles.scss";
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 16px;
+  padding-top: fluid-to-laptop(30,24);
+  padding-bottom: 50px; //временно, убрать потом
+
+  @include mobile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 46px;
+  }
+}
+
+

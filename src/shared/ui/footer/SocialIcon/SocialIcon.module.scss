@@ -1,0 +1,21 @@
+@import '../../../styles/styles';
+
+.footerLinksContainer {
+  display: flex;
+  flex-direction: row;
+  column-gap: fluid-to-laptop(14,10);
+}
+.footerTitle {
+  margin: 0;
+}
+.footerLink {
+  padding: fluid-to-laptop(16,12);
+  background-color: var(--color-grey-10);
+  border: var(--border-width-s) solid var(--color-grey-15);
+  border-radius: var(--border-radius-s);
+}
+.footerItem {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(24, 16);
+}

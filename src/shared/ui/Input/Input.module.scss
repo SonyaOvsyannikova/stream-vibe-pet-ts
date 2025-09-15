@@ -1,0 +1,14 @@
+.inputSearch{
+  background-color: inherit;
+  border: var(--border) ;
+  color: var(--color-grey-light-99);
+  border-radius: var(--border-radius-m);
+  padding: 5px;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.inputCloseButton {
+
+}

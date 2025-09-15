@@ -1,0 +1,14 @@
+@import '../../../styles/styles';
+.footerItem {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(24, 16);
+}
+.footerTitle {
+  margin: 0;
+}
+.footerLinksContainer{
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(14, 8);
+}

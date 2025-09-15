@@ -1,0 +1,7 @@
+@import '../../../styles/styles.scss';
+
+.iconInner {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid-to-laptop(30, 14);
+}
