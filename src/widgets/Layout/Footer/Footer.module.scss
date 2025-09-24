@@ -1,0 +1,51 @@
+//еще вернуться к футеру
+.footer {
+  background-color: var(--color-grey-06);
+}
+
+.footerExtra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 16px;
+  padding-top: fluid-to-laptop(24, 20);
+  padding-bottom: fluid(50, 20);
+  border-top: 1px solid var(--color-grey-15);
+
+  @include mobile {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+}
+.footerCopyright {
+  display: flex;
+  align-items: center;
+}
+.footerList {
+  display: flex;
+}
+.footerItem {
+  $spacing: fluid-to-laptop(20, 16);
+
+
+  &:nth-child(1) {
+    margin-right: $spacing;
+  }
+
+  &:nth-child(2)::before {
+    content: '|';
+    margin-right: $spacing;
+    color:  var(--color-grey-15);
+    font-weight: 300;
+  }
+
+  &:nth-child(2)::after {
+    content: '|';
+    margin-left: $spacing;
+    color:  var(--color-grey-15);
+    font-weight: 300;
+  }
+  &:nth-child(3) {
+    margin-left: $spacing;
+  }
+}

@@ -1,4 +1,4 @@
-import React, {forwardRef} from 'react';
+import {forwardRef} from 'react';
 import cl from './Input.module.scss'
 
 const Input = forwardRef((props, ref) => {

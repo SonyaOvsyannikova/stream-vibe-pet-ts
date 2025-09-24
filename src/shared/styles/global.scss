@@ -1,3 +1,12 @@
+@use 'helpers/mixins' as *;
+@use './fonts' as *;
+
+html {
+  .is-locked {
+    overflow: hidden;
+  }
+}
+
 body {
   font-family: var(--font-family-base);
   display: flex;
