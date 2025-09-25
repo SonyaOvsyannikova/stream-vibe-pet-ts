@@ -1,8 +1,9 @@
-import {useCallback, useEffect, useRef, useState} from "react"
+import { useEffect, useRef, useState} from "react"
 import { movies, searchMovies} from "@/shared/api/Client";
 import { useDebounce } from "use-debounce";
 import cl from './SearchWithSuggestions.module.scss';
 import SearchInput from "@/shared/ui/SearchInput";
+import { Link } from "react-router-dom";
 
 const SearchWithSuggestions = () => {
 
@@ -115,47 +116,48 @@ const SearchWithSuggestions = () => {
             onSearchChange={handleSearchMovies}
             onSearchSubmit={handleSearchSumbit}
             onSearchClick={handleSearchSumbit}
-
             />
-
-            <div className={cl.movieListContainer}
-            ref={containerRef}>
-                <ul className={cl.movieList}>
-                    {(value.trim().length > 0 ? searchedMovies : allMovies).map(movie => {
-                        if(!movie.name || movie.name.trim() === '') { return null }
-                        return <li key={movie.id}
-                                   className={cl.movieListItem}>
-                            <a href='/public'
-                            className={cl.movieLink}>
-                                <div className={cl.posterContainer}>
-                                    {movie.poster?.previewUrl && (
-                                        <img src={movie.poster?.previewUrl}
-                                             alt={movie.name}
-                                             className={cl.posterMovie}/>
-                                    )}
-                                </div>
-                                <div>
-                                    <h4> {movie.name} </h4>
-                                    <div
-                                    className={cl.movieDescriptionRating}>
-                                        {Object.entries(movie.rating).filter(([key, value]) => value !== 0)
-                                            .map(([key, value]) => (
-                                                <p key={key}>
-                                                    {key}: {value}
-                                                </p>
-                                            ))}
+            {isLoading ? (
+                <div></div>
+            ) : ((value.length > 0 ? searchedMovies : allMovies).length > 0 ? (
+                <div className={cl.movieListContainer}
+                     ref={containerRef}>
+                    <ul className={cl.movieList}>
+                        {(value.trim().length > 0 ? searchedMovies : allMovies).map(movie => {
+                            if(!movie.name || movie.name.trim() === '') { return null }
+                            return <li key={movie.id}
+                                       className={cl.movieListItem}>
+                                <Link
+                                    to={`/movie/${movie.id}`}
+                                    className={cl.movieLink}>
+                                    <div className={cl.posterContainer}>
+                                        {movie.poster?.previewUrl && (
+                                            <img src={movie.poster?.previewUrl}
+                                                 alt={movie.name}
+                                                 className={cl.posterMovie}/>
+                                        )}
                                     </div>
-                                    <p>{movie.year}</p>
-                                    <p>{movie.alternativeName}</p>
-                                </div>
+                                    <div>
+                                        <h4> {movie.name} </h4>
+                                        <div
+                                            className={cl.movieDescriptionRating}>
+                                            {Object.entries(movie.rating).filter(([key, value]) => value !== 0)
+                                                .map(([key, value]) => (
+                                                    <p key={key}>
+                                                        {key}: {value}
+                                                    </p>
+                                                ))}
+                                        </div>
+                                        <p>{movie.year}</p>
+                                        <p>{movie.alternativeName}</p>
+                                    </div>
+                                </Link>
 
-                            </a>
-
-                        </li>
-                    })}
-                </ul>
-            </div>
-
+                            </li>
+                        })}
+                    </ul>
+                </div>
+            ) : null )}
         </div>
     );
 };

@@ -20,6 +20,7 @@ const SearchInput = (props) => {
                 className={cl.searchForm}
                 onSubmit={(e) => e.preventDefault()}>
                 <input
+
                     className={cl.searchInput}
                     ref={inputRef}
                     value={value}

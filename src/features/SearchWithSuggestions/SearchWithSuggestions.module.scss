@@ -4,10 +4,17 @@
 
 .movieListContainer {
   position: absolute;
-  width: 300px;
+  width: fluid(400, 300);
   z-index: 10;
   display: flex;
   justify-content: center;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
 
 }
 
@@ -22,6 +29,8 @@
   overflow-scrolling: auto;
   height: 600px;
   overflow: scroll;
+  overflow-x: hidden;
+
 }
 
 .movieListItem {

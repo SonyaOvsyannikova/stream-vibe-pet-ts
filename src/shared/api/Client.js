@@ -62,3 +62,16 @@ export const randomMovies = async () => {
         throw error
     }
 }
+export const moviesId = async () => {
+    try {
+        const response = await apiKinoPoisk.get('/v1.4/movie/movieId', {
+            params: {
+                query: 'id',
+            }
+        })
+        return response.data
+    }
+    catch (error) {
+        console.log(error)
+    }
+}

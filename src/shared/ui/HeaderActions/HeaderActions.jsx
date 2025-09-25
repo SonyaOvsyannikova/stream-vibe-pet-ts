@@ -2,12 +2,12 @@ import ButtonIcon from "@/shared/ui/ButtonIcon";
 import NotificationsIcon from "@/assets/icons/notificationsIcon.svg?react";
 import cl from './HeaderActions.module.scss'
 import SearchIcon from "@/assets/icons/searchIcon.svg?react";
-import React from "react";
+import React, {useState} from "react";
 import SearchWithSuggestions from "@/features/SearchWithSuggestions";
 
 const HeaderActions = () => {
 
-    const [searchVisible, setSearchVisible] = React.useState(false);
+    const [searchVisible, setSearchVisible] = useState(false);
 
     return (
         <div className={cl.searchContainer}>

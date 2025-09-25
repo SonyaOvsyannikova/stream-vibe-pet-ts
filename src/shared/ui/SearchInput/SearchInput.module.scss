@@ -6,12 +6,12 @@
   justify-content: center;
 }
 .searchInput{
-  width: 300px;
+  width: fluid(400, 300);
   height: 50px;
   border: var(--border);
   border-radius: var(--border-radius-m);
   background-color: var(--color-grey-30);
   color: var(--color-grey-light-99);
   padding: 0 fluid(30, 10);
-
+  margin-bottom: fluid(10,5);
 }
