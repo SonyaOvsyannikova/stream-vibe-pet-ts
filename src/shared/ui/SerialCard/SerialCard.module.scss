@@ -1,0 +1,9 @@
+.serialCard {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}
+.serialSection {
+  border: var(--border);
+  background-color: var(--color-grey-06);
+}

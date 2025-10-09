@@ -1,0 +1,11 @@
+.detailsStyle {
+  list-style: none;
+}
+.arrowIcon {
+  transition: transform 0.3s ease;
+}
+
+.arrowRotated {
+  transform: rotate(180deg);
+}
+

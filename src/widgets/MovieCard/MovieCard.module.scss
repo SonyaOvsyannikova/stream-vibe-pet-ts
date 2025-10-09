@@ -1,0 +1,145 @@
+.photoCast {
+  display: block;
+  width: fluid(102, 70) !important;
+  height: fluid(109, 70);
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  border-radius: var(--border-radius-m);
+}
+.cardPhotoCast {
+  display: flex;
+  flex-direction: column;
+  width: fluid(102, 70) !important;
+  height: auto;
+  row-gap: 20px;
+}
+.buttonHeaderMovieCard {
+  display: flex;
+  column-gap: 10px;
+}
+.headerMovieCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  margin-bottom: 30px;
+}
+.castMovieCard {
+  max-width: 1057px;
+  padding: 50px;
+  border: var(--border);
+  border-radius: var(--border-radius-m);
+}
+.prevButton {
+  border: var(--border);
+  @include square(52);
+  border-radius: 50%;
+  padding: 14px;
+  @include flex-center;
+}
+
+.review {
+  max-width: 1057px;
+  padding: 50px;
+  border: var(--border);
+  border-radius: var(--border-radius-m);
+}
+.reviewCardSection {
+  display: flex;
+  flex-direction: row;
+  row-gap: 20px;
+}
+.headerMovieCardButton {
+
+}
+.swiperPagination {
+
+}
+.paginationMovieCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+  margin-top: 40px;
+}
+
+.movieContent {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  padding-top: var(--section-padding-y);
+  padding-bottom: var(--section-padding-y);
+}
+.movieInfo {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+
+}
+.summaryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: var(--border);
+  background-color: var(--color-grey-06);
+  padding: 0 50px;
+  border-radius: var(--border-radius-l);
+}
+.summaryTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}
+.openAccordeon {
+  border: var(--border);
+  height: 52px;
+  width: 52px;
+  border-radius: 50%;
+}
+.serialInfo {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  border: var(--border);
+  padding: 40px;
+  border-radius: var(--border-radius-l);
+}
+.asidePanel {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  padding: 50px;
+  border: var(--border);
+  border-radius: var(--border-radius-l);
+  width: 100%;
+}
+
+
+.sectionHeader {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.sectionList {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  flex-wrap: wrap;
+}
+
+.infoTag {
+  border: var(--border);
+  background-color: var(--color-grey-06);
+  padding: 8px 14px;
+  border-radius: var(--border-radius-s);
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  align-items: center;
+}

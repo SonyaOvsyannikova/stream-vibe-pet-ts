@@ -1,0 +1,14 @@
+.movieCardDescription {
+  max-width: 1057px;
+  padding: 50px;
+  border: var(--border);
+  border-radius: var(--border-radius-m);
+}
+.headerDescription {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 27px;
+  margin-bottom: 14px;
+}

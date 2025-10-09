@@ -9,10 +9,12 @@ const HeaderActions = () => {
 
     const [searchVisible, setSearchVisible] = useState(false);
 
+
     return (
         <div className={cl.searchContainer}>
             {searchVisible && (
-                <SearchWithSuggestions />
+                <SearchWithSuggestions
+                onClose = { () => setSearchVisible(false) }/>
             )}
             {!searchVisible && (
                 <ButtonIcon

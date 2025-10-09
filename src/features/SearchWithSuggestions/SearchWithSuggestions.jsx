@@ -1,22 +1,28 @@
 import { useEffect, useRef, useState} from "react"
-import { movies, searchMovies} from "@/shared/api/Client";
+import {kinopoiskAPI} from "@/shared/api/сlient";
 import { useDebounce } from "use-debounce";
 import cl from './SearchWithSuggestions.module.scss';
 import SearchInput from "@/shared/ui/SearchInput";
 import { Link } from "react-router-dom";
+import {useOutsideClick} from "@/shared/hooks/useOutsideClick";
 
-const SearchWithSuggestions = () => {
+
+const SearchWithSuggestions = (props) => {
+
+    const { onClose } = props;
+    const outsideRef = useOutsideClick( () => {
+        if (onClose) onClose();
+    })
 
     const inputRef = useRef(null);
     const containerRef = useRef(null);
-
     const [allMovies, setAllMovies] = useState([]);
     const [value, setValue] = useState("");
     const [searchedMovies, setSearchedMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [debouncedSearchValue] = useDebounce(value, 250);
-    const [isOpen, setIsOpen] = useState(true);
+    const abortControllerRef = useRef(null);
 
 
     useEffect(() => {
@@ -24,7 +30,14 @@ const SearchWithSuggestions = () => {
             inputRef.current.focus()
         }
         loadTopMovies()
+
+        return () => {
+            if(abortControllerRef.current) {
+                abortControllerRef.current.abort()
+            }
+        }
     }, [])
+
     useEffect(() => {
         if(debouncedSearchValue.length > 0) {
             getSearchMovie(debouncedSearchValue)
@@ -32,38 +45,12 @@ const SearchWithSuggestions = () => {
             setSearchedMovies([]);
         }
     }, [debouncedSearchValue])
-    // useEffect(() => {
-    //     const handleClick = (e) => {
-    //         if(containerRef.current && !containerRef.current.contains(e.target)) {
-    //             setIsOpen(false)
-    //         }
-    //     }
-    //     document.addEventListener("click", handleClick);
-    //     return () => {
-    //         document.removeEventListener("click", handleClick);
-    //     }
-    //
-    // }, [])
-
-    // useEffect(() => {
-    //     const handleKeyDown = (e) => {
-    //         if(e.key === "Escape") {
-    //             setIsOpen(false);
-    //         }
-    //     }
-    //     document.addEventListener("keydown", handleKeyDown);
-    //     return () => {
-    //         document.removeEventListener("keydown", handleKeyDown);
-    //     }
-    // }, [])
-    // if(!isOpen) {return null}
-
 
     const loadTopMovies = async () => {
         if(isLoading || allMovies.length > 0) return;
         setIsLoading(true);
         try {
-            const response = await movies({
+            const response = await kinopoiskAPI.getPopularMovies({
                 limit: 10,
                 sortField: 'top10',
                 sortType: -1,
@@ -85,19 +72,38 @@ const SearchWithSuggestions = () => {
         console.log(dataInput);
     }
     const getSearchMovie = async (searchQuery) => {
+
         if(isLoading) return;
+
+        if(abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
         setIsLoading(true);
+
         try {
-            const response = await searchMovies(searchQuery)
+            const response = await kinopoiskAPI.getSearchMovies({
+                query: searchQuery,
+                limit: 10,
+            }, {
+                signal: controller.signal,
+            })
             setSearchedMovies(response.docs)
             console.log(response.docs)
         }
         catch(e) {
-            setError(e.response.data)
+            if (e.name === 'CanceledError' || e.name === 'AbortError') {
+                console.log('Запрос был отменён');
+            } else {
+                setError(e.response?.data || e.message);
+            }
         }
         finally {
             setIsLoading(false);
         }
+        return controller;
     }
 
     const handleSearchSumbit = (e) => {
@@ -109,7 +115,8 @@ const SearchWithSuggestions = () => {
 
 
     return (
-        <div className={cl.searchContent} >
+        <div className={cl.searchContent}
+        ref={outsideRef}>
             <SearchInput
             inputRef={inputRef}
             value={value}
@@ -121,24 +128,22 @@ const SearchWithSuggestions = () => {
                 <div></div>
             ) : ((value.length > 0 ? searchedMovies : allMovies).length > 0 ? (
                 <div className={cl.movieListContainer}
-                     ref={containerRef}>
-                    <ul className={cl.movieList}>
+                     ref={containerRef}
+                >
+                    <ul className={cl.movieList}
+                        >
                         {(value.trim().length > 0 ? searchedMovies : allMovies).map(movie => {
-                            if(!movie.name || movie.name.trim() === '') { return null }
                             return <li key={movie.id}
                                        className={cl.movieListItem}>
                                 <Link
                                     to={`/movie/${movie.id}`}
                                     className={cl.movieLink}>
                                     <div className={cl.posterContainer}>
-                                        {movie.poster?.previewUrl && (
-                                            <img src={movie.poster?.previewUrl}
-                                                 alt={movie.name}
+                                            <img src={movie.poster?.previewUrl || '../public/placehold.png'}
                                                  className={cl.posterMovie}/>
-                                        )}
                                     </div>
                                     <div>
-                                        <h4> {movie.name} </h4>
+                                        <h4> {movie.name ? movie.name : movie.alternativeName} </h4>
                                         <div
                                             className={cl.movieDescriptionRating}>
                                             {Object.entries(movie.rating).filter(([key, value]) => value !== 0)
@@ -149,7 +154,7 @@ const SearchWithSuggestions = () => {
                                                 ))}
                                         </div>
                                         <p>{movie.year}</p>
-                                        <p>{movie.alternativeName}</p>
+                                        <p>{movie.type}</p>
                                     </div>
                                 </Link>
 

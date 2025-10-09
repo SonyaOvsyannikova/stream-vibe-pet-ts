@@ -1,0 +1,12 @@
+.buttonAdd {
+  background-color: var(--color-grey-06);
+  color: var(--color-grey-light-75);
+  border: var(--border);
+  border-radius: var(--border-radius-s);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  column-gap: 4px;
+}

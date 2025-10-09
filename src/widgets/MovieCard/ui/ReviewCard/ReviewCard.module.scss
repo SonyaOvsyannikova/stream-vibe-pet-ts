@@ -1,0 +1,46 @@
+.ratingCard {
+  border: var(--border);
+  border-radius: var(--border-radius-s);
+  background-color: var(--color-grey-06);
+  padding: 40px;
+  height: 265px;
+  width: 488px ;
+  overflow: auto;
+}
+.ratingCard::-webkit-scrollbar {
+  width: 7px;
+  background-color: var(--color-grey-06);
+}
+
+.ratingCard::-webkit-scrollbar-thumb {
+  background: var(--color-grey-light-60);
+  border-radius: 5px;
+}
+
+.ratingCard::-webkit-scrollbar-track {
+
+}
+.ratingCardHeaderTitle {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+.ratingCardHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.reatingCardBody {
+
+}
+.review {
+
+}
+.cardReview {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}
+h6 {
+  margin: 0;
+}

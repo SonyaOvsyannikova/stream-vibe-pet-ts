@@ -1,0 +1,19 @@
+.paginationButton {
+  background-color: var(--color-grey-20);
+  max-width: 16px;
+  height: 4px;
+  border-radius: 4px;
+  border: none;
+  @include hover {
+    background-color: var(--color-red-45);
+    width: 23px;
+  }
+}
+.activeButton {
+  background-color: var(--color-red-45);
+  width: 23px;
+}
+.pagination {
+  display: inline-flex;
+  column-gap: 3px;
+}

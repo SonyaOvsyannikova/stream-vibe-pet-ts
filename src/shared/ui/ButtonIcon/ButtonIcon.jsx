@@ -1,15 +1,19 @@
 import cl from './ButtonIcon.module.scss'
+import clsx from 'clsx';
 
 const ButtonIcon = (props) => {
 
     const {
         label,
-        onClick
+        onClick,
+        className,
     } = props
+
+    const combinedClassName = clsx(cl.buttonIcon, className)
 
     return (
         <button
-        className={cl.buttonIcon}
+        className={combinedClassName}
         onClick={onClick}>{label}</button>
     );
 };
