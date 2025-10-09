@@ -55,9 +55,8 @@ const MovieCard = (props) => {
         <div className='container'>
             <div className={cl.movieContent}>
                 <div className={cl.movieInfo}>
-                    <div className={cl.serialInfo}>
                         {movieData?.type === 'tv-series' ? (
-                            <>
+                            <div className={cl.serialInfo}>
                                 <h4>Seasons and Episodes</h4>
                                 {seasons
                                     ?.filter(season => season.number > 0)
@@ -92,10 +91,8 @@ const MovieCard = (props) => {
                                             </div>
                                         </Accordeon>
                                     ))}
-                            </>
+                            </div>
                         ) : null}
-                    </div>
-
                     <Description
                         movieData={movieData}/>
                     <div className={cl.castMovieCard}>
