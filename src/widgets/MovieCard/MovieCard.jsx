@@ -12,13 +12,18 @@ import AvailableLanguage from '@/assets/icons/availableLanguage.svg?react'
 import Rating from '@/assets/icons/rating.svg?react'
 import Gernes from '@/assets/icons/gernes.svg?react'
 import PlusIcon from '@/assets/icons/plus.svg?react'
-import { useState} from "react";
+import More from '@/assets/icons/more.svg?react'
+import Collapse from '@/assets/icons/collapse.svg?react'
+import {useEffect, useRef, useState} from "react";
 import AddReviewButton from "@/shared/ui/AddReviewButton";
 import Slider from "@/shared/ui/Slider/Slider";
 import ReviewCard from "@/widgets/MovieCard/ui/ReviewCard";
 import Pagination from "@/shared/ui/Pagination";
 import Accordeon from "@/shared/ui/Accordeon";
 import SerialCard from "@/shared/ui/SerialCard";
+import Ratings from "@/shared/ui/Ratings";
+import NewReviewCard from "@/widgets/MovieCard/ui/NewReviewCard";
+import { useOutsideClick } from "@/shared/hooks/useOutsideClick";
 
 
 
@@ -29,26 +34,46 @@ const MovieCard = (props) => {
         movieData,
         seasons,
         reviews,
+        isOpenPlayer,
+        setIsOpenPlayer,
+        selectedEpisodes,
+        setSelectedEpisodes,
+        onPlayClick
          } = props;
+
 
     const [slider, setSlider] = useState(null);
     const [sliderCast, setSliderCast] = useState(null);
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [isOpen, setIsOpen] = useState({});
+    const [showAll, setShowAll] = useState(false);
+    const [openCreateReview, setOpenCreateReview] = useState(false);
+    const [addReviews, setAddReview] = useState([]);
+
+
+    useEffect(() => {
+        if (reviews && reviews.length > 0) {
+            setAddReview(reviews);
+        }
+    }, [reviews]);
+
+    const handleAddReview = (newReview) => {
+        setAddReview([newReview, ...addReviews])
+        console.log(addReviews)
+        setOpenCreateReview(false);
+    }
+
+
+    const defaultShowLanguage = 5;
 
     const handleSlideChange = (slideIndex) => {
         setCurrentSlide(slideIndex);
         slider?.slideTo(slideIndex);
     }
 
-    const toggleAccordeon = (seasonId) => {
-        setIsOpen((prevState) => (
-            {
-                ...prevState,
-                [seasonId]: !prevState[seasonId],
-            }
-        ));
-    }
+
+    const outsideRef = useOutsideClick( () => {
+        if(openCreateReview) setOpenCreateReview(false);
+    })
 
 
     return (
@@ -60,35 +85,33 @@ const MovieCard = (props) => {
                                 <h4>Seasons and Episodes</h4>
                                 {seasons
                                     ?.filter(season => season.number > 0)
+                                    .reverse()
                                     .map(season => (
                                         <Accordeon
                                             key={season.id}
-                                            open={!!isOpen[season.id]}
                                             summary={
                                                 <div className={cl.summaryHeader}>
                                                     <div className={cl.summaryTitle}>
-                                                        <h5>Season: {season.number}</h5>
-                                                        <h4>Episodes: {season.episodesCount}</h4>
+                                                        <h5 className={cl.seasonTitle}>{season.number < 10 ? `Season 0${season.number}` : `Season ${season.number}`}</h5>
+                                                        <p className={cl.seasonEpisodes}>Episodes: {season.episodesCount}</p>
                                                     </div>
-                                                    <ButtonIcon
-                                                        className={cl.openAccordeon}
-                                                        label={ !isOpen[season.id] ? <ArrowDown /> : <ArrowUp /> }
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            toggleAccordeon(season.id)
-                                                        }}
-                                                    >
-                                                    </ButtonIcon>
-                                                </div>
+                                                    <div className={cl.arrow}>
+                                                        <ArrowUp  />
+                                                    </div>
 
+                                                </div>
                                             }>
-                                            <div>
                                                 <SerialCard
                                                     seasonId={season.id}
                                                     episodes={season.episodes}
                                                     posters={season.poster}
-                                                    duration={season.duration}/>
-                                            </div>
+                                                    duration={season.duration}
+                                                    isOpenPlayer = {isOpenPlayer}
+                                                    setIsOpenPlayer={setIsOpenPlayer}
+                                                    selectedEpisodes = {selectedEpisodes}
+                                                    setSelectedEpisodes={setSelectedEpisodes}
+                                                    onPlayClick={onPlayClick}
+                                                />
                                         </Accordeon>
                                     ))}
                             </div>
@@ -128,22 +151,42 @@ const MovieCard = (props) => {
                         </SliderCast>
                     </div>
 
-                    <div className={cl.review}>
+                    <div className={cl.review}
+                         >
                         <div className={cl.headerMovieCard}>
                             <h6>Reviews</h6>
-                            <AddReviewButton>
-                                <PlusIcon /> Add Your Review
-                            </AddReviewButton>
+                            <div
+                                className={cl.headerMovieCard}
+                                ref={outsideRef}>
+                                {openCreateReview ?
+                                    <div className={cl.reviewOverlay}>
+                                        <div ref={outsideRef}>
+                                            <NewReviewCard
+                                            setOpenCreateReview = {setOpenCreateReview}
+                                            handleAddReview={handleAddReview}
+                                            />
+                                        </div>
+                                    </div>
+                                : null}
+                                <AddReviewButton
+                                    onClick={() => {
+                                        setOpenCreateReview(true)
+                                    }}>
+                                    <PlusIcon /> Add Your Review
+                                </AddReviewButton>
+                            </div>
                         </div>
                         <Slider
                             slidesPerView={2}
-                            onSwiper={setSlider}>
-                            {reviews.map((review, index) => (
+                            onSwiper={setSlider}
+                        onSlideChange={handleSlideChange}>
+                            {addReviews?.map((addReview, index) => (
                                 <SwiperSlide
                                     className={cl.reviewCardSection}
-                                    key={index}>
+                                    key={addReview.id}>
                                     <ReviewCard
-                                        review={review}>
+                                        review={addReview}
+                                        >
                                     </ReviewCard>
                                 </SwiperSlide>
                             ))}
@@ -171,11 +214,16 @@ const MovieCard = (props) => {
                         </div>
                     </div>
                 </div>
-                <aside className={cl.asidePanel}>
+                <aside className={cl.asidePanel}
+                onClick={() => {
+                    if(showAll) {
+                        setShowAll(false);
+                    }
+                }}>
                     <div className={cl.releasedYear}>
                         <div className={cl.sectionHeader}>
-                            <ReleasedYear/>
-                            <h6>Released Year </h6>
+                            <ReleasedYear className={cl.infoIcon}/>
+                            <p className={cl.infoLabel}>Released Year </p>
                         </div>
                         {movieData && (
                             <p>{movieData.year}</p>
@@ -183,36 +231,64 @@ const MovieCard = (props) => {
                     </div>
                     <div className={cl.infoSection}>
                         <div className={cl.sectionHeader}>
-                            <AvailableLanguage/>
-                            <h6> Available Languages </h6>
+                            <AvailableLanguage className={cl.infoIcon}/>
+                            <p className={cl.infoLabel}> Available Languages </p>
                         </div>
                         <div className={cl.sectionList}>
-                            {movieData?.countries?.map((country) => (
-                                <p className={cl.infoTag} key={country.id}>
-                                    {country.name}
-                                </p>
-                            ))}
+                            {showAll ? movieData?.names
+                                    .filter(name => name?.language)
+                                    .map((name) => (
+                                    <p className={cl.infoTag}>{name.language}</p>
+                            ))
+                                : movieData?.names
+                                    .filter(name => name?.language)
+                                    .slice(0, defaultShowLanguage)
+                                    .map((name) => (
+                                            <p className={cl.infoTag}>{name.language}</p>
+                                    ))
+                            }
+                            {movieData?.names?.filter(name => name?.language).length > defaultShowLanguage && !showAll && (
+                                <ButtonIcon
+                                label={<More />}
+                                className={cl.buttonMore}
+                                    onClick={() => {
+                                    setShowAll(true);
+                                }}></ButtonIcon>
+                            )}
+                            {showAll && (
+                                <ButtonIcon
+                                className={cl.buttonMore}
+                                label={<Collapse />}
+                                onClick={() => setShowAll(false)}></ButtonIcon>
+                            )}
                         </div>
                     </div>
-                    <div className={cl.infoSection}>
+                    <div className={cl.infoSection} >
                         <div className={cl.sectionHeader}>
-                            <Rating/>
-                            <h6>Ratings </h6>
+                            <Rating className={cl.infoIcon}/>
+                            <p className={cl.infoLabel}>Ratings </p>
                         </div>
                         <div className={cl.sectionList}>
                             {movieData?.rating && Object.entries(movieData.rating).filter(([key]) => key === 'imdb' || key === 'kp')
                                 .map(([key, value]) => (
-                                    <p className={cl.infoTag} key={key}>
-                                        {key}: {value}
-                                    </p>
+                                    <div className={cl.raitingTag}>
+                                        <h6 key={key}>
+                                            {key}
+                                        </h6>
+                                        <div className={cl.raitingTagBody}>
+                                            <Ratings
+                                                ratingValue={value}/>
+                                           <h6>{value}</h6>
+                                        </div>
+                                    </div>
                                 ))}
                         </div>
 
                     </div>
                     <div>
                         <div className={cl.sectionHeader}>
-                            <Gernes/>
-                            <h6>Gernes</h6>
+                            <Gernes className={cl.infoIcon} />
+                            <p className={cl.infoLabel}>Gernes</p>
                         </div>
                         <div className={cl.sectionList}>
                             {movieData?.genres.map((genre, index) => (
@@ -223,37 +299,30 @@ const MovieCard = (props) => {
                         </div>
 
                     </div>
-                    <div>
-                        <h6>Director</h6>
-
-                            {movieData?.persons?.filter((person) => person?.profession === 'сценаристы')
-                                ?.map((person) => (
-                                    <div className={cl.infoTag}>
+                    <div className={cl.creators}>
+                        <p className={cl.infoLabel}>Director</p>
+                            {movieData?.persons && movieData?.persons?.filter((person) => person?.profession === 'сценаристы')
+                                ?.map((person) => {
+                                    if(!person?.name) return null;
+                                    return (
+                                        <div className={cl.directorSection}>
                                         <img
-                                            style={{
-                                                width: '47px',
-                                                height: '58px',
-                                                borderRadius: '4px',
-                                            }}
-                                            src={person.photo} alt={person.name} />
-                                        <p  key={person.id}>
-                                            {person.name}
-                                        </p>
-                                    </div>
-
-                                ))}
+                                    className={cl.photoPerson}
+                                    src={person.photo ? person.photo : null} alt={person.name} />
+                                    <p  key={person.id}>
+                                        {person.name ? person.name : null}
+                                    </p>
+                                </div>
+                                    )
+                                })}
                     </div>
                     <div>
-                        <h6>Music</h6>
+                        <p className={cl.infoLabel}>Music</p>
                         {movieData?.persons?.filter((person) => person?.profession === 'композиторы')
                         ?.map((person) => (
-                            <div className={cl.infoTag}>
+                            <div className={cl.directorSection}>
                                 <img
-                                    style={{
-                                        width: '50px',
-                                        height: '60px',
-                                        borderRadius: '4px',
-                                    }}
+                                    className={cl.photoPerson}
                                     src={person.photo} alt={person.name} />
                                 <p key={person.id}>
                                     {person.name}

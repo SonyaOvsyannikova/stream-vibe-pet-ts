@@ -29,6 +29,7 @@ h2, .h2 {
 }
 h3, .h3 {
   @include fluid-text(38, 20)
+
 }
 h4, .h4 {
   @include fluid-text(24, 18)

@@ -13,7 +13,13 @@ export default defineConfig({
         alias: [{
             find: '@/',
             replacement: path.resolve('src') + '/',
-        }],
+        },
+        {
+            find: '@/',
+            replacement: path.resolve('') + '/',
+        }
+        ],
+
     },
     css: {
         preprocessorOptions: {

@@ -1,0 +1,50 @@
+.createReviewCard {
+  border: var(--border);
+  border-radius: var(--border-radius-l);
+  background-color: var(--color-grey-06);
+  z-index: 2;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.reviewCard {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  row-gap: fluid(20,10);
+}
+.reviewHeader {
+  display: flex;
+  flex-direction: row;
+  column-gap: fluid(20,10);
+}
+.reviewBody {
+ display: flex;
+ flex-direction: column;
+  row-gap: fluid(20,10);
+}
+.reviewBodyArea {
+  width: 100%;
+  background-color: var(--color-grey-15);
+  border: var(--border);
+  border-radius: var(--border-radius-m);
+  color: var(--color-white);
+  padding: fluid(20,10);
+  height: fluid(163, 109);
+  overflow: auto;
+}
+.reviewBodyArea::-webkit-scrollbar {
+  width: 7px;
+  background-color: var(--color-grey-06);
+}
+
+.reviewBodyArea::-webkit-scrollbar-thumb {
+  background: var(--color-grey-light-60);
+  border-radius: 5px;
+}
+.buttonMessage {
+  font-size: 10px !important;
+}
+
+

@@ -1,6 +1,12 @@
 import cl from './AddReviewButton.module.scss'
+
+
 const AddReviewButton = (props) => {
-    const {children, onClick} = props;
+
+    const {
+        children,
+        onClick
+    } = props;
 
     return (
         <button

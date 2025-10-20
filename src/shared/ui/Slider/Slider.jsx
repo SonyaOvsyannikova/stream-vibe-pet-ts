@@ -10,6 +10,7 @@ const Slider = (props) => {
     const {
         children,
         onSwiper,
+        onSlideChange
     } = props;
 
     return (
@@ -23,6 +24,7 @@ const Slider = (props) => {
                     nextEl: `.${cl.nextButton}`,
                 }}
                 onSwiper={onSwiper}
+                onSlideChange={(swiper) => onSlideChange(swiper.activeIndex)}
             >
                 {children}
             </Swiper>

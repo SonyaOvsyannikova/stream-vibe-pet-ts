@@ -9,7 +9,10 @@ import {useOutsideClick} from "@/shared/hooks/useOutsideClick";
 
 const SearchWithSuggestions = (props) => {
 
-    const { onClose } = props;
+    const {
+        onClose
+    } = props;
+
     const outsideRef = useOutsideClick( () => {
         if (onClose) onClose();
     })

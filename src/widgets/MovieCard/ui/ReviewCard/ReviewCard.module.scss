@@ -2,23 +2,14 @@
   border: var(--border);
   border-radius: var(--border-radius-s);
   background-color: var(--color-grey-06);
-  padding: 40px;
+  padding: fluid(40,24);
   height: 265px;
   width: 488px ;
-  overflow: auto;
 }
-.ratingCard::-webkit-scrollbar {
-  width: 7px;
-  background-color: var(--color-grey-06);
-}
-
-.ratingCard::-webkit-scrollbar-thumb {
-  background: var(--color-grey-light-60);
-  border-radius: 5px;
-}
-
-.ratingCard::-webkit-scrollbar-track {
-
+.gradeReview {
+  display: flex;
+  flex-direction: row;
+  column-gap: fluid(15,7);
 }
 .ratingCardHeaderTitle {
   display: flex;
@@ -43,4 +34,27 @@
 }
 h6 {
   margin: 0;
+}
+
+.reviewDescription {
+  overflow: auto;
+  max-height: fluid(108,96);
+  @include mobile {
+    max-height: 106px;
+  }
+}
+.reviewDescription::-webkit-scrollbar {
+  width: 7px;
+  background-color: var(--color-grey-06);
+}
+
+.reviewDescription::-webkit-scrollbar-thumb {
+  background: var(--color-grey-light-60);
+  border-radius: 5px;
+}
+.isActive {
+  color: gold;
+}
+.svg {
+  fill: var(--color-grey-light-60);
 }

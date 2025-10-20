@@ -6,9 +6,7 @@ import {useState} from "react";
 
 const Layout = () => {
 
-    const getMovieId = () => {
 
-    }
 
     return (
         <div>

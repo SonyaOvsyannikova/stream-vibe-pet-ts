@@ -2,6 +2,7 @@ import React from 'react';
 import cl from './SearchInput.module.scss'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import SearchIcon from "@/assets/icons/searchIcon.svg?react";
+import Input from "@/shared/ui/Input";
 
 
 const SearchInput = (props) => {
@@ -19,8 +20,7 @@ const SearchInput = (props) => {
             <form
                 className={cl.searchForm}
                 onSubmit={(e) => e.preventDefault()}>
-                <input
-
+                <Input
                     className={cl.searchInput}
                     ref={inputRef}
                     value={value}

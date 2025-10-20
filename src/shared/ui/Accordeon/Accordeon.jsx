@@ -4,21 +4,24 @@ const Accordeon = (props) => {
     const {
         children,
         summary,
-        open
     } = props;
 
 
 
     return (
         <div className={cl.accordeon}>
-                <details open={open}>
-                    <summary className={cl.detailsStyle}>
-                        {summary}
-                    </summary>
-                    <div >
-                        {children}
-                    </div >
-                </details>
+            <details name='faq' className={cl.detailsStyle} open={true}>
+                <summary className={cl.summaryStyle}>
+                    {summary}
+                </summary>
+                <div
+                    className={cl.accordionContent}
+                    id="faq-1"
+                    role="definition"
+                >
+                    {children}
+                </div>
+            </details>
         </div>
     );
 };

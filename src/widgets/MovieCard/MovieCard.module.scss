@@ -7,6 +7,38 @@
   object-fit: cover;
   border-radius: var(--border-radius-m);
 }
+.seasonTitle {
+  @include fluid-text(24, 16);
+}
+.seasonEpisodes {
+  @include fluid-text(18, 14);
+  color: var(--color-grey-light-60);
+}
+.infoLabel {
+  font-size: fluid-to-laptop(18, 16);
+  color: var(--color-grey-light-60);
+}
+.infoIcon {
+  width: fluid-to-laptop(24,20);
+  height: fluid-to-laptop(24,20);
+  color: var(--color-grey-light-60);
+}
+.raitingTag {
+  display: flex;
+  flex-direction: column;
+  border: var(--border);
+  background-color: var(--color-grey-06);
+  padding: 8px 14px;
+  border-radius: var(--border-radius-s);
+  row-gap: 5px;
+  width: 100%;
+}
+.raitingTagBody {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+  align-items: center;
+}
 .cardPhotoCast {
   display: flex;
   flex-direction: column;
@@ -51,12 +83,7 @@
   flex-direction: row;
   row-gap: 20px;
 }
-.headerMovieCardButton {
 
-}
-.swiperPagination {
-
-}
 .paginationMovieCard {
   display: flex;
   flex-direction: row;
@@ -67,9 +94,11 @@
 }
 
 .movieContent {
-  display: flex;
-  flex-direction: row;
-  column-gap: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
   padding-top: var(--section-padding-y);
   padding-bottom: var(--section-padding-y);
 }
@@ -77,16 +106,12 @@
   display: flex;
   flex-direction: column;
   row-gap: 30px;
-
 }
 .summaryHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border: var(--border);
-  background-color: var(--color-grey-06);
-  padding: 0 50px;
-  border-radius: var(--border-radius-l);
+  align-items: center;padding: fluid-to-laptop(32, 27) fluid-to-laptop(50,40);
+
 }
 .summaryTitle {
   display: flex;
@@ -116,6 +141,7 @@
   border: var(--border);
   border-radius: var(--border-radius-l);
   width: 100%;
+  height: fit-content;
 }
 
 
@@ -131,6 +157,7 @@
   flex-direction: row;
   column-gap: 10px;
   flex-wrap: wrap;
+  row-gap: 10px;
 }
 
 .infoTag {
@@ -141,5 +168,52 @@
   display: flex;
   flex-direction: row;
   column-gap: 10px;
+  align-items: center;
+}
+
+.arrow {
+  border: var(--border);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  @include flex-center;
+  transition: transform 0.3s ease;
+}
+
+:global(details[open]) .arrow {
+  transform: rotate(180deg);
+  color: var(--color-red-45);
+}
+
+.directorSection {
+  display: flex;
+  flex-direction: row;
+  border: var(--border);
+  background-color: var(--color-grey-06);
+  padding: fluid(18.5, 14.5) fluid(14, 12);
+  border-radius: var(--border-radius-s);
+  column-gap: 10px;
+  align-items: center;
+}
+.photoPerson {
+  width: fluid(40,30);
+  height: fluid(58,48);
+  border-radius: 4px;
+}
+.creators {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(20,15);
+}
+.reviewOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }

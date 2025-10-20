@@ -1,11 +1,17 @@
-.detailsStyle {
+.detailsStyle{
+  border: var(--border);
+  border-radius: var(--border-radius-l);
+  background-color: var(--color-grey-06);
+}
+.summaryStyle {
   list-style: none;
 }
-.arrowIcon {
-  transition: transform 0.3s ease;
+.accordionContent {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition-duration: 0.3s;
 }
-
-.arrowRotated {
-  transform: rotate(180deg);
+::-webkit-details-marker {
+  display: none;
 }
 

@@ -1,9 +1,70 @@
 .serialCard {
   display: flex;
   flex-direction: row;
+  align-items: center;
   column-gap: 20px;
+  overflow: hidden;
+  padding: 45px 0;
+  border-top: var(--border);
 }
 .serialSection {
-  border: var(--border);
   background-color: var(--color-grey-06);
+  padding: fluid(30,20) fluid(50,20);
+}
+.previewSerias {
+
+  width: 100%;
+  border: var(--border);
+  border-radius: var(--border-radius-m);
+}
+.episodeNumber{
+  @include fluid-text(30, 24);
+  display: flex;
+  align-items: center;
+  color: var(--color-grey-light-60);
+  width: fluid-to-laptop(60,30);
+}
+.imageContainer {
+  position: relative;
+  width: 172px;
+  height: 118px;
+  display: flex;
+  align-items: center;
+  @include mobile {
+    width: 182px;
+  }
+}
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.seriesContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: fluid-to-laptop(610, 472);
+}
+.seriesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.seriesTitle {
+  margin: 0;
+}
+.seriesDuration {
+  display: flex;
+  flex-direction: row;
+  column-gap: 4px;
+  border: var(--border);
+  border-radius: var(--border-radius-xs);
+  padding: fluid-to-laptop(8,6) fluid-to-laptop(10, 6);
 }
