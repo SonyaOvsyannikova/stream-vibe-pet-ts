@@ -25,3 +25,5 @@ dist-ssr
 .env
 .env.local
 .env.development.local
+public/planet_one.mp4
+src/assets/images/FreeTrial.svg
