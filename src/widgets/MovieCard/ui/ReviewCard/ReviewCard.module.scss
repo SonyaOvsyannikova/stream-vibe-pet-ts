@@ -20,6 +20,8 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  overflow: auto;
+  height: fluid(60,45);
 }
 .reatingCardBody {
 
@@ -43,7 +45,8 @@ h6 {
     max-height: 106px;
   }
 }
-.reviewDescription::-webkit-scrollbar {
+.reviewDescription::-webkit-scrollbar,
+.ratingCardHeader::-webkit-scrollbar {
   width: 7px;
   background-color: var(--color-grey-06);
 }

@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: repeat(var(--footerMenuColumns), 1fr);
   gap: 30px fluid(30, 10);
-  padding-block: fluid(100, 50);
+  //padding-block: fluid(100, 50);
   @include laptop {
     --footerMenuColumns: 3;
   }

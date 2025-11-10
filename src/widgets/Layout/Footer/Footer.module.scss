@@ -1,6 +1,7 @@
 //еще вернуться к футеру
 .footer {
   background-color: var(--color-grey-06);
+  padding: 100px 162px 50px;
 }
 
 .footerExtra {
@@ -11,7 +12,7 @@
   padding-top: fluid-to-laptop(24, 20);
   padding-bottom: fluid(50, 20);
   border-top: 1px solid var(--color-grey-15);
-
+  margin-top: 100px;
   @include mobile {
     flex-direction: column;
     row-gap: 20px;
