@@ -8,18 +8,40 @@ const axiosInstance = axios.create({
     }
 })
 
-
-
-export const kinopoiskAPI = {
-    getPopularMovies: async (options: {
+type optionsMovies = {
     signal?: AbortSignal,
     limit?: number,
     sortField?: string,
     sortType?: number,
-    } = {}
-    ) => {
+    top?: number,
+    rating?: Rating,
+    poster?: Poster,
+    year?: number
+}
+type Rating = {
+    kp?: number,
+    imdb?: number,
+    filmCritics?: number,
+    await?: number,
+}
+type Poster = {
+    previewUrl: string,
+    url: string,
+}
+
+export const kinopoiskAPI = {
+
+    getPopularMovies: async (options: optionsMovies = {}) => {
         try {
-            const response = await axiosInstance.get('/movie', {signal: options.signal});
+            const response = await axiosInstance.get('/movie', {
+
+                params: {
+                    limit: options.limit,
+                    sortField: options.sortField,
+                    sortType: options.sortType,
+                },
+
+                signal: options.signal});
             return response.data
         }
         catch (error) {

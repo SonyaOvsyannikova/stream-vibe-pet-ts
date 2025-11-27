@@ -10,6 +10,8 @@ export interface IResponseApiMovie {
     genres?: Genre[]
     backdrop: Backdrop
     description?: string
+    logo?: Logo
+    poster: Backdrop
 }
 interface Person {
     id: number
@@ -34,6 +36,10 @@ interface Genre {
     name?: string
 }
 interface Backdrop {
+    previewUrl: string
+    url: string
+}
+type Logo = {
     previewUrl: string
     url: string
 }

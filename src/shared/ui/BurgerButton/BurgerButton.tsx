@@ -1,9 +1,9 @@
 import cl from './BurgerButton.module.scss'
 
-type Props = {
+type BurgerButtonProps = {
     onClick?: () => void,
 }
-const BurgerButton = (props: Props) => {
+const BurgerButton = (props: BurgerButtonProps) => {
 
     const {
         onClick

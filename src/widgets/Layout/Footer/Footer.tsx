@@ -22,24 +22,24 @@ export interface FooterSection {
 }
 export type FooterNavigation = Record<footerSectionKey, FooterSection>;
 
-export interface Links {
+export type Links = {
     label?: string
     href?: Route
 }
-export interface Socials {
+export type Socials = {
     name: string,
     url: string,
     alt: string,
     IconComponent: FC<SVGProps<SVGSVGElement>>
 }
-export interface SocialLink {
+export type SocialLink = {
     ConnectWithUs: Connect
 }
-export interface Connect {
+export type Connect = {
     title: string,
     socials: Socials[]
 }
-export interface ExternalLink {
+export type ExternalLink = {
     title: string,
     path: Route,
 }

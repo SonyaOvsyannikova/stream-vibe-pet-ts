@@ -5,12 +5,12 @@ import TimeSeries from '@/assets/icons/time.svg?react'
 import { useRef } from "react";
 import {IResponseApiEpisodeData, IResponseApiSeasons} from "@/shared/types";
 
-interface IProps {
+type SerialCardProps = {
     episodes: IResponseApiSeasons['episodes'];
     onPlayClick?: (episode?: IResponseApiEpisodeData, index?: number) => void;
 }
 
-const SerialCard = (props: IProps) => {
+const SerialCard = (props: SerialCardProps) => {
 
     const {
         episodes,

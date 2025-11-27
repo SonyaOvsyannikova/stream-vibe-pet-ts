@@ -1,12 +1,12 @@
 import {SelectedEpisode, IResponseApiMovie} from "@/shared/types";
 
 
-interface IProps {
+type PlayerMovieProps = {
     selectedEpisodes: SelectedEpisode
     movieData: IResponseApiMovie
 }
 
-const PlayerMovie = (props: IProps) => {
+const PlayerMovie = (props: PlayerMovieProps) => {
 
     const {
         selectedEpisodes,

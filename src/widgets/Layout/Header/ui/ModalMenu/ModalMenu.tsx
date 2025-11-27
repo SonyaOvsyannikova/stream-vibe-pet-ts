@@ -1,16 +1,16 @@
 import {ReactNode} from "react";
 
-interface Pages {
+type Pages = {
     label: string;
     path: string;
 }
-interface Props {
+type ModalMenuProps = {
     pages: Pages[];
     onClose: () => void,
 
 }
 
-const ModalMenu = (props: Props) => {
+const ModalMenu = (props: ModalMenuProps) => {
 
     const {
         pages,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-interface IModalType {
+type useModalType = {
     openModal: (type: keyof typeof modalType) => void;
     closeModal: () => void;
     activeModal: keyof typeof modalType | null;
@@ -15,7 +15,7 @@ const stateClasses = {
     isLocked: 'isLocked',
 }
 
-const useModal = (): IModalType => {
+const useModal = (): useModalType => {
     const [activeModal, setActiveModal] = useState<keyof typeof modalType| null>(null);
 
     const closeModal = (): void => {

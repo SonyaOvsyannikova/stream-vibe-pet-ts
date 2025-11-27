@@ -1,0 +1,20 @@
+.tabContainer {
+  background-color: var(--color-black);
+  border: var(--border);
+  padding: fluid-to-laptop(10,8);
+  border-radius: var(--border-radius-m);
+}
+.tabButton {
+  background-color: var(--color-grey-12);
+  color: var(--color-white);
+  border-radius: var(--border-radius-s);
+  padding: fluid(14,12) fluid(24,20);
+  border: none !important;
+
+}
+.disActiveTabButton {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: fluid(14,12) fluid(24,20);
+  border: none !important;
+}

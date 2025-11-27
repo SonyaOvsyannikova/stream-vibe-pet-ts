@@ -4,7 +4,7 @@ import ButtonIcon from "@/shared/ui/ButtonIcon";
 import SearchIcon from "@/assets/icons/searchIcon.svg?react";
 import Input from "@/shared/ui/Input";
 
-interface IProps {
+type SearchInputProps = {
     inputRef: Ref<HTMLInputElement>;
     onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
     onSearchClick?: () => void;
@@ -12,7 +12,7 @@ interface IProps {
     value: string
 }
 
-const SearchInput = (props: IProps) => {
+const SearchInput = (props: SearchInputProps) => {
 
    const {
        inputRef,

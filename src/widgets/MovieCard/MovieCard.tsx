@@ -35,7 +35,7 @@ import { Swiper as SwiperType } from 'swiper';
 import FreeTrialPromo from "src/widgets/Layout/FreeTrialPromo";
 
 
-interface IProps {
+type MovieCardProps = {
     movieData: IResponseApiMovie,
     seasons: IResponseApiSeasons[],
     reviews: IResponseApiReview[],
@@ -43,11 +43,12 @@ interface IProps {
     setIsOpenPlayer: (isOpen: boolean) => void,
     onPlayClick?: (episode?: IResponseApiEpisodeData, index?: number) => void;
     setSelectedEpisodes: (episodes: SelectedEpisode) => void
-    selectedEpisodes: SelectedEpisode
+    selectedEpisodes: SelectedEpisode,
+    slidesPerView?: number,
 }
 
 
-const MovieCard = (props: IProps) => {
+const MovieCard = (props: MovieCardProps) => {
 
     const {
         movieData,
@@ -57,7 +58,8 @@ const MovieCard = (props: IProps) => {
         setIsOpenPlayer,
         selectedEpisodes,
         setSelectedEpisodes,
-        onPlayClick
+        onPlayClick,
+        slidesPerView = 2
          } = props;
 
 
@@ -95,7 +97,7 @@ const MovieCard = (props: IProps) => {
 
 
     return (
-        <div className='container'>
+        <div>
             <div className={cl.movieContent}>
                 <div className={cl.movieInfo}>
                         {movieData?.type === 'tv-series' ? (
@@ -106,11 +108,13 @@ const MovieCard = (props: IProps) => {
                                     .reverse()
                                     .map(season => (
                                         <Accordeon
+                                            detailsClassName={cl.detailsStyle}
                                             key={season.id}
                                             summary={
                                                 <div className={cl.summaryHeader}>
                                                     <div className={cl.summaryTitle}>
-                                                        <h5 className={cl.seasonTitle}>{season.number < 10 ? `Season 0${season.number}` : `Season ${season.number}`}</h5>
+                                                        <h5 className={cl.seasonTitle}>
+                                                            {season.number < 10 ? `Season 0${season.number}` : `Season ${season.number}`}</h5>
                                                         <p className={cl.seasonEpisodes}>Episodes: {season.episodesCount}</p>
                                                     </div>
                                                     <div className={cl.arrow}>
@@ -189,7 +193,8 @@ const MovieCard = (props: IProps) => {
                         </div>
                         <Slider
                             onSwiper={setSlider}
-                            onSlideChange={handleSlideChange}>
+                            onSlideChange={handleSlideChange}
+                            slidesPerView={2}>
                             {addReviews?.map((addReview, index) => (
                                 <SwiperSlide
                                     className={cl.reviewCardSection}

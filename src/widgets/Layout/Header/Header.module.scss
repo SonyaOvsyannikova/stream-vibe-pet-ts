@@ -6,6 +6,8 @@
   column-gap: 16px;
   padding-top: fluid-to-laptop(30,24);
   padding-bottom: 50px; //временно, убрать потом
+  z-index: 10;
+  position: relative;
 
   @include mobile {
     display: flex;

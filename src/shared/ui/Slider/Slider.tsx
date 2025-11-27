@@ -7,24 +7,26 @@ import 'swiper/css/navigation';
 import cl from "@/shared/ui/Slider/Slider.module.scss";
 import { ReactNode } from "react";
 
-interface IProps {
+type SliderProps = {
     children: ReactNode;
     onSwiper?: (swiper: SwiperType) => void
     onSlideChange?: (activeIndex: number) => void
+    slidesPerView: number
 }
-const Slider = (props: IProps) => {
+const Slider = (props: SliderProps) => {
 
     const {
         children,
         onSwiper,
-        onSlideChange
+        onSlideChange,
+        slidesPerView = 2
     } = props;
 
     return (
         <>
             <Swiper
                 modules={[Navigation, Pagination]}
-                slidesPerView={2}
+                slidesPerView={slidesPerView}
                 spaceBetween={20}
                 navigation={{
                     prevEl: `.${cl.prevButton}`,

@@ -25,7 +25,21 @@
   display: block;
   border-radius: var(--border-radius-l);
 }
-.heroContainer::after {
+.heroPoster::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 0%, #141414 100%);
+  pointer-events: none;
+  z-index: 11;
+}
+.heroWrapper {
+  position: relative;
+}
+.heroWrapper::after {
   content: '';
   position: absolute;
   top: 0;
@@ -78,4 +92,82 @@
 }
 .likeButtonActive {
   color: var(--color-red-45);
+}
+.heroContentHomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-110px);
+  position: relative;
+  z-index: 10;
+}
+.playIconHeroSection {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  column-gap: 4px;
+}
+.heroHeaderHomePage {
+  width: fluid(1096, 390);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+.heroSlider {
+  width: 100%;
+  position: relative;
+}
+.heroContainerHome {
+  margin-top: -150px;
+}
+
+.heroSliderImg {
+  width: 100%;
+  position: relative;
+}
+.gradientOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 0%, #141414 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.heroSliderPagination {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  z-index: 10;
+  width: 100%;
+  padding: fluid-to-laptop(20, 16) fluid-to-laptop(50, 20)
+}
+.buttonArrow {
+  display: flex;
+  align-items: center;
+
+}
+.buttonIcon {
+  border: var(--border);
+  border-radius: var(--border-radius-s);
+  padding: fluid-to-laptop(20,12);
+  background-color: var(--color-grey-06);
+}
+.contentOverlay {
+  position: absolute;
+  bottom: 80px; /* Поднять выше от нижнего края */
+  left: 0;
+  right: 0;
+  padding: 0 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }

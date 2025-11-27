@@ -1,17 +1,17 @@
 import cl from './HeaderList.module.scss'
 import React from "react";
 
-interface Pages {
+type Pages = {
     label: string,
     path: string,
 }
 
-interface Props {
+type HeaderListProps = {
     pages: Pages[]
 }
 
 
-const HeaderList = (props: Props) => {
+const HeaderList = (props: HeaderListProps) => {
 
     const {
         pages

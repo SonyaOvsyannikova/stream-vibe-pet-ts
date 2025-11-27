@@ -1,19 +1,20 @@
 import cl from '@/shared/ui/MainButton/MainButton.module.scss'
-import React, {ChangeEvent} from "react";
+import { ReactNode, MouseEvent } from "react";
 
-interface IProps {
-    label: string | React.ReactNode;
-    onClick: (e: React.MouseEvent) => void
+interface MainButtonProps {
+    label: string | ReactNode;
+    onClick: (e: MouseEvent) => void
     className?: string
 }
 
-const MainButton = (props: IProps) => {
+const MainButton = (props: MainButtonProps) => {
 
     const {
         label,
         onClick,
         className,
     } = props;
+
     return (
         <button
         className={`${cl.mainButton} ${className || ''}`}

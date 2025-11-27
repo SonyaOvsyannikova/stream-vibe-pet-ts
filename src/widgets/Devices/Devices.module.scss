@@ -1,0 +1,20 @@
+.devicesBody{
+  --deviceMenu: 3;
+  display: grid;
+  grid-template-columns: repeat(var(--deviceMenu), 1fr);
+  gap: fluid-to-laptop(30,20) fluid(30, 10);
+
+  @include tablet {
+    --deviceMenu: 2;
+  }
+  @include mobile {
+    --deviceMenu: 1;
+  }
+}
+.deviceSection {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(80,40);
+  margin-top: fluid(75, 40);
+  margin-bottom: fluid(75, 40);
+}

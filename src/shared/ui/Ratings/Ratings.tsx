@@ -2,12 +2,12 @@ import Star from '@/assets/icons/starRaing.svg?react'
 import { useState} from "react";
 import cl from './Ratings.module.scss'
 
-interface IProps {
+type RatingsProps = {
     ratingValue: number;
 }
 const TOTAL_STAR = 10;
 
-const Ratings = (props: IProps) => {
+const Ratings = (props: RatingsProps) => {
 
     const {
         ratingValue

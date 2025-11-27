@@ -1,0 +1,12 @@
+.planSection {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(80,40);
+}
+
+.planSectionHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

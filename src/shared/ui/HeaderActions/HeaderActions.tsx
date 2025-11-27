@@ -5,7 +5,7 @@ import SearchIcon from "@/assets/icons/searchIcon.svg?react";
 import React, {JSX, useState} from "react";
 import SearchWithSuggestions from "@/features/SearchWithSuggestions";
 
-const HeaderActions = ():JSX.Element => {
+const HeaderActions = () => {
 
     const [searchVisible, setSearchVisible] = useState<boolean>(false);
 

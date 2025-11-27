@@ -2,14 +2,14 @@ import cl from './ButtonIcon.module.scss'
 import clsx from 'clsx';
 import React from "react";
 
-interface IProps{
+type ButtonIconProps = {
     label?: React.ReactNode | string,
-    onClick?: () => void,
+    onClick?: (e: React.MouseEvent) => void,
     className?: string | undefined,
     children?: React.ReactNode
 }
 
-const ButtonIcon = (props:IProps) => {
+const ButtonIcon = (props:ButtonIconProps) => {
 
     const {
         label,

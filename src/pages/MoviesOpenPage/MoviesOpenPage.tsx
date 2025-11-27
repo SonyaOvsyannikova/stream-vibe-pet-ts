@@ -106,7 +106,7 @@ const MoviesOpenPage = () => {
 
 
     return (
-        <div>
+        <div className='container'>
             {isOpenPlayer ?
                 <PlayerMovie
                     selectedEpisodes={selectedEpisodes}
@@ -114,6 +114,7 @@ const MoviesOpenPage = () => {
                     />
                 :
                 <Hero
+                variant={'default'}
                 movieData={movieData}
                 id={id}
                 seasons={seasons}

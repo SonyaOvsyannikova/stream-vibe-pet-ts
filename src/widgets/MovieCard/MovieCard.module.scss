@@ -228,3 +228,9 @@
   justify-content: center;
   align-items: center;
 }
+.detailsStyle {
+
+  border: var(--border);
+  border-radius: var(--border-radius-l);
+  background-color: var(--color-grey-06);
+}

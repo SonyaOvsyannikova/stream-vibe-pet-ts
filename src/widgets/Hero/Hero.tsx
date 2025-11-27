@@ -2,29 +2,50 @@ import AddIcon from "@/assets/icons/add.svg?react"
 import LikeIcon from "@/assets/icons/like.svg?react"
 import SoundIcon from "@/assets/icons/sound.svg?react"
 import PlayIcon from "@/assets/icons/play.svg?react"
+import ArrowRight from '@/assets/icons/arrowRight.svg?react'
+import ArrowLeft from '@/assets/icons/arrowLeft.svg?react'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import MainButton from "@/shared/ui/MainButton";
 import cl from './Hero.module.scss'
 import { useEffect, useState } from "react";
 import { IResponseApiMovie, IResponseApiSeasons, IResponseApiEpisodeData } from "@/shared/types";
+import clsx from "clsx";
+import Slider from "@/shared/ui/Slider";
+import { SwiperSlide } from "swiper/react";
+import {Swiper as SwiperType} from "swiper";
+import Pagination from "@/shared/ui/Pagination";
 
-interface Props {
-    movieData: IResponseApiMovie;
-    id: string;
+type HeroProps = {
+    movieData?: IResponseApiMovie;
+    id?: string;
     onPlayClick?: (episode?: IResponseApiEpisodeData, index?: number) => void;
-    seasons: IResponseApiSeasons[];
+    seasons?: IResponseApiSeasons[];
+    variant: 'default' | 'HomePage' | 'MoviesAndShowsPage' ;
+    classNamePosterHomePage?: string;
+    movieOrSeries?: IResponseApiMovie[];
 }
 
-const Hero = (props: Props) => {
+const Hero = (props: HeroProps) => {
 
     const {
         movieData,
         id,
         onPlayClick,
-        seasons
+        seasons,
+        variant,
+        classNamePosterHomePage,
+        movieOrSeries
     } = props
 
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
+    const [slider, setSlider] = useState<null | SwiperType>(null);
+    const [currentSlide, setCurrentSlide] = useState<number>(0);
+    let tablet = window.innerWidth
+
+    const handleSlideChange = (slideIndex: number):void => {
+        setCurrentSlide(slideIndex);
+        slider?.slideTo(slideIndex);
+    }
 
 
     const favoriteMovie = () => {
@@ -79,60 +100,202 @@ const Hero = (props: Props) => {
         }
     }
 
+
+
     return (
 
-        <div className='container'>
-            <div className={cl.heroContainer}>
-                {movieData && (
-                    <img
-                        src={movieData.backdrop?.url || '../public/content.png'}
-                        alt="poster"
-                        className={cl.heroPoster}
-                    />
-                )}
+        <div>
+            <div className={clsx(cl.heroContainer, {
+                [cl.heroContainerHome]: variant === 'HomePage'
+            })}>
+                <div className={cl.heroWrapper}>
+                    {movieData && (
+                        <img
+                            src={movieData.backdrop?.url || '../public/content.png'}
+                            alt="poster"
+                            className={clsx(cl.heroPoster, classNamePosterHomePage)}
+                        />
+                    )}
 
-                {movieData && (
-                    <div className={cl.heroContent}>
-                        <div className={`container ${cl.heroContentInner}`}>
-                            <div className={cl.heroContentHeader}>
-                                <h3 className={cl.heroPosterTitle}>{movieData.name}</h3>
-                                <p className={cl.heroPosterDescription}>{movieData.description}</p>
-                            </div>
-                            <div className={cl.heroButton}>
-                                <MainButton
-                                    onClick = {() => {
-                                       handlePlay()
-                                    }}
-                                    label={<div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            flexDirection: "row",
-                                            columnGap: "4px",
-                                        }}>
-                                        <PlayIcon />
-                                        <span>Play Now</span>
-                                    </div>} >
-                                </MainButton>
-                                <ButtonIcon
-                                    className={cl.HeroIconButton}
-                                    label={<AddIcon />}>
-                                </ButtonIcon>
+                </div>
 
-                                <ButtonIcon
-                                    onClick={favoriteMovie}
-                                    className={cl.HeroIconButton}
-                                    label={<LikeIcon className={isFavorite ? `${cl.likeButtonActive}` : `${cl.likeButton}` } />}>
-                                </ButtonIcon>
+                {
+                    (() => {
+                    switch (variant) {
+                        case 'HomePage':
+                            return (
+                                <div className={cl.heroContentHomePage}>
+                                    <div className={cl.heroHeaderHomePage}>
+                                        <h1 className={cl.heroTitleHomePage}>
+                                            The Best Streaming Experience
+                                        </h1>
+                                        <div className={cl.heroDescriptionHomePage}>
+                                            <p>StreamVibe is the best streaming experience for watching your favorite movies and shows on demand, anytime, anywhere. With StreamVibe, you can enjoy a wide variety of content, including the latest blockbusters, classic movies, popular TV shows, and more. You can also create your own watchlists, so you can easily find the content you want to watch.</p>
+                                        </div>
+                                    </div>
+                                    <MainButton
+                                        label={
+                                            <div className={cl.playIconHeroSection}>
+                                                <PlayIcon />
+                                                <p>Start Watching Now</p>
+                                            </div> }
+                                        onClick={() => {}}
+                                    />
+                                </div>
+                            )
+                        case 'MoviesAndShowsPage':
+                            return (
+                                <div className={cl.heroSlider}>
+                                        <Slider
+                                            onSwiper={setSlider}
+                                            onSlideChange={handleSlideChange}
+                                            slidesPerView={1}>
+                                            {movieOrSeries?.map((movie) => (
+                                                <SwiperSlide
+                                                    className={cl.heroSlider}
+                                                    style={{width: '100%', alignItems: 'center'}}
+                                                    key={movie?.id}>
 
-                                <ButtonIcon
-                                    className={cl.HeroIconButton}
-                                    label={<SoundIcon />}>
-                                </ButtonIcon>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                                                    <img
+                                                        className={cl.heroSliderImg}
+                                                        src={movie?.backdrop?.url} alt="poster" />
+                                                    <div>
+                                                        {tablet <= 1280 && (
+                                                            <div className={cl.gradientOverlay}></div>
+                                                        )}
+                                                        {tablet <= 1280 && tablet > 1024 && (
+                                                            <div className={cl.contentOverlay}>
+                                                                <div className={cl.heroContentHeader}>
+                                                                    <h3 className={cl.heroPosterTitle}>{movie?.name}</h3>
+                                                                    <p className={cl.heroPosterDescription}>{movie?.description}</p>
+                                                                </div>
+                                                                <div className={cl.heroButton}>
+                                                                    <MainButton
+                                                                        onClick = {() => {
+                                                                            handlePlay()
+                                                                        }}
+                                                                        label={<div className={cl.playIconHeroSection}>
+                                                                            <PlayIcon />
+                                                                            <span>Play Now</span>
+                                                                        </div>} >
+                                                                    </MainButton>
+                                                                    <ButtonIcon
+                                                                        className={cl.HeroIconButton}
+                                                                        label={<AddIcon />}>
+                                                                    </ButtonIcon>
+
+                                                                    <ButtonIcon
+                                                                        onClick={favoriteMovie}
+                                                                        className={cl.HeroIconButton}
+                                                                        label={<LikeIcon className={isFavorite ? `${cl.likeButtonActive}` : `${cl.likeButton}` } />}>
+                                                                    </ButtonIcon>
+
+                                                                    <ButtonIcon
+                                                                        className={cl.HeroIconButton}
+                                                                        label={<SoundIcon />}>
+                                                                    </ButtonIcon>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                        {tablet <= 1024 && (
+                                                            <div className={cl.contentOverlay}>
+                                                                <h3 className={cl.heroPosterTitle}>{movie?.name}</h3>
+                                                                <div className={cl.heroButton}>
+                                                                    <div>
+                                                                        <MainButton
+                                                                            onClick = {() => {
+                                                                                handlePlay()
+                                                                            }}
+                                                                            label={<div className={cl.playIconHeroSection}>
+                                                                                <PlayIcon />
+                                                                                <span>Play Now</span>
+                                                                            </div>} >
+                                                                        </MainButton>
+                                                                    </div>
+                                                                    <ButtonIcon
+                                                                        className={cl.HeroIconButton}
+                                                                        label={<AddIcon />}>
+                                                                    </ButtonIcon>
+
+                                                                    <ButtonIcon
+                                                                        onClick={favoriteMovie}
+                                                                        className={cl.HeroIconButton}
+                                                                        label={<LikeIcon className={isFavorite ? `${cl.likeButtonActive}` : `${cl.likeButton}` } />}>
+                                                                    </ButtonIcon>
+
+                                                                    <ButtonIcon
+                                                                        className={cl.HeroIconButton}
+                                                                        label={<SoundIcon />}>
+                                                                    </ButtonIcon>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </SwiperSlide>
+                                            ))}
+                                        </Slider>
+                                    {tablet >= 1024 && (
+                                        <div className={cl.heroSliderPagination}>
+                                            <ButtonIcon
+                                                className={cl.buttonIcon}
+                                                label={<ArrowLeft
+                                                    className={cl.buttonArrow}/>}
+                                                onClick={() => {slider.slidePrev()}}
+                                            ></ButtonIcon>
+                                            <Pagination
+                                                currentSlide={currentSlide}
+                                                totalSlides={movieOrSeries.length}
+                                                onSlideChange={handleSlideChange} />
+                                            <ButtonIcon
+                                                className={cl.buttonIcon}
+                                                label={<ArrowRight
+                                                    className={cl.buttonArrow}/>}
+                                                onClick={() =>  {
+                                                    slider.slideNext()
+                                                }}></ButtonIcon>
+                                        </div>
+                                    )}
+                                </div>
+                            )
+                        default:
+                            return (
+                                <div className={cl.heroContent}>
+                                    <div className={`container ${cl.heroContentInner}`}>
+                                        <div className={cl.heroContentHeader}>
+                                            <h3 className={cl.heroPosterTitle}>{movieData?.name}</h3>
+                                            <p className={cl.heroPosterDescription}>{movieData?.description}</p>
+                                        </div>
+                                        <div className={cl.heroButton}>
+                                            <MainButton
+                                                onClick = {() => {
+                                                    handlePlay()
+                                                }}
+                                                label={<div className={cl.playIconHeroSection}>
+                                                    <PlayIcon />
+                                                    <span>Play Now</span>
+                                                </div>} >
+                                            </MainButton>
+                                            <ButtonIcon
+                                                className={cl.HeroIconButton}
+                                                label={<AddIcon />}>
+                                            </ButtonIcon>
+
+                                            <ButtonIcon
+                                                onClick={favoriteMovie}
+                                                className={cl.HeroIconButton}
+                                                label={<LikeIcon className={isFavorite ? `${cl.likeButtonActive}` : `${cl.likeButton}` } />}>
+                                            </ButtonIcon>
+
+                                            <ButtonIcon
+                                                className={cl.HeroIconButton}
+                                                label={<SoundIcon />}>
+                                            </ButtonIcon>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                    }
+                })()}
             </div>
         </div>
     );

@@ -1,13 +1,13 @@
 import cl from './Modal.module.scss'
-import React, {ReactNode} from "react";
+import  { ReactNode } from "react";
 
-interface IProps {
+type ModalProps = {
     isOpen: boolean;
     children?: ReactNode;
     onClose: () => void;
 }
 
-const Modal = (props: IProps) => {
+const Modal = (props: ModalProps) => {
 
     const {
         isOpen,

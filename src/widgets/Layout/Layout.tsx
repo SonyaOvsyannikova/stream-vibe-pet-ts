@@ -14,8 +14,8 @@ const Layout = () => {
             <Header />
             <main>
                 <Outlet />
+                <FreeTrialPromo />
             </main>
-            <FreeTrialPromo />
             <Footer />
         </div>
     );

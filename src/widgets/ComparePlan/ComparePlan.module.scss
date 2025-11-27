@@ -1,0 +1,42 @@
+.planTable{
+  border: var(--border);
+}
+.planTableHead {
+  background-color: var(--color-grey-06);
+}
+.planTableHeaderRow {
+  color: var(--color-white);
+}
+.planTableBody {
+  padding: fluid-to-laptop(30,24);
+  border: var(--border);
+  color: var(--color-grey-light-60);
+}
+.planTableHeader {
+  padding: fluid-to-laptop(30,24);
+  border: var(--border);
+  color: var(--color-white);
+  font-weight: bold;
+  text-align: start;
+}
+.planTableHeaderPopular {
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+
+}
+.popularFlag {
+  border: var(--border);
+  background-color: var(--color-red-45);
+  border-radius: var(--border-radius-xxxs);
+  padding: 6px fluid-to-laptop(10,6);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.comparePlan {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(80, 40);
+  margin-top: fluid(75, 20);
+}

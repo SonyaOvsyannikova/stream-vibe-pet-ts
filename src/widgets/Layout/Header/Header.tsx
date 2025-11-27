@@ -7,20 +7,19 @@ import '@/shared/styles'
 import ModalMenu from "@/widgets/Layout/Header/ui/ModalMenu/ModalMenu.tsx";
 import HeaderList from "@/widgets/Layout/Header/ui/HeaderList";
 import HeaderActions from "@/shared/ui/HeaderActions/HeaderActions.tsx";
-import React from "react";
 
-const Header: React.FC = () => {
+const Header = () => {
 
 
-    interface Pages {
+    type Pages = {
         label: string;
         path: string;
     }
     let pagesItems: Pages[] = [
-        { label: 'Home', path: '/Home' },
+        { label: 'Home', path: '/home' },
         { label: 'Movies & Shows', path: '/MoviesAndShowsPage' },
-        { label: 'Support', path: '/SupportPage' },
-        { label: 'Subscriptions', path: '/SubscriptionPage' },
+        { label: 'Support', path: '/support' },
+        { label: 'Subscriptions', path: '/subscriptions' },
     ]
 
     const {

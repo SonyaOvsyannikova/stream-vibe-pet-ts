@@ -1,11 +1,11 @@
 import cl from './Pagination.module.scss'
 
-interface IProps {
+type PaginationProps = {
     currentSlide: number,
     totalSlides: number,
     onSlideChange: (currentSlide: number) => void,
 }
-const Pagination = (props: IProps) => {
+const Pagination = (props: PaginationProps) => {
 
     const {
         currentSlide = 0,

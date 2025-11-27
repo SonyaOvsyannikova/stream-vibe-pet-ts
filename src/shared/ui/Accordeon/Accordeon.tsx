@@ -1,21 +1,26 @@
 import cl from './Accordeon.module.scss'
 import {ReactNode} from "react";
 
-interface IProps {
+type AccordeonProps = {
     children: ReactNode,
     summary: ReactNode,
+    detailsClassName?: string
 }
-const Accordeon = (props: IProps) => {
+const Accordeon = (props: AccordeonProps) => {
 
     const {
         children,
         summary,
+        detailsClassName
     } = props;
 
 
     return (
         <div className={cl.accordeon}>
-            <details name='faq' className={cl.detailsStyle} open={true}>
+            <details
+                name='faq'
+                className={detailsClassName}
+                open={true}>
                 <summary className={cl.summaryStyle}>
                     {summary}
                 </summary>

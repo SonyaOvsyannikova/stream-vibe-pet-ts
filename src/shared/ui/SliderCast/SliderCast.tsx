@@ -7,11 +7,11 @@ import 'swiper/css/navigation';
 import cl from './SliderCast.module.scss'
 import { ReactNode } from "react";
 
-interface IProps {
+type SliderCastProps = {
     children: ReactNode;
     onSwiper?: (swiper: SwiperType) => void
 }
-const SliderCast = (props: IProps) => {
+const SliderCast = (props: SliderCastProps) => {
     const {
         children,
         onSwiper,

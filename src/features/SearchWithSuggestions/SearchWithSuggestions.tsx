@@ -6,23 +6,23 @@ import SearchInput from "@/shared/ui/SearchInput";
 import { Link } from "react-router-dom";
 import {useOutsideClick} from "@/shared/hooks/useOutsideClick.ts";
 
-interface IProps {
+type SearchWithSuggestionsProps = {
     onClose: () => void;
 }
-interface IMovie {
+type TMovie = {
     id: number,
     name: string,
     year: string,
     type: string,
     alternativeName: string,
-    poster: IPoster,
-    rating: IRating,
+    poster: TPoster,
+    rating: TRating,
 }
-interface IPoster {
+type TPoster = {
     previewUrl: string,
     url: string,
 }
-interface IRating {
+type TRating = {
     await?: number,
     filmCritics?: number,
     imdb?: number,
@@ -30,7 +30,7 @@ interface IRating {
     russianFilmCritics?: number
 }
 
-const SearchWithSuggestions = (props: IProps) => {
+const SearchWithSuggestions = (props: SearchWithSuggestionsProps) => {
 
     const {
         onClose,
@@ -44,8 +44,8 @@ const SearchWithSuggestions = (props: IProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [value, setValue] = useState<string>("");
-    const [allMovies, setAllMovies] = useState<IMovie[]>([]);
-    const [searchedMovies, setSearchedMovies] = useState<IMovie[]>([]);
+    const [allMovies, setAllMovies] = useState<TMovie[]>([]);
+    const [searchedMovies, setSearchedMovies] = useState<TMovie[]>([]);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
