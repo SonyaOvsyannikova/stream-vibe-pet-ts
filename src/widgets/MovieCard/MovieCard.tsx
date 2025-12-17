@@ -191,20 +191,29 @@ const MovieCard = (props: MovieCardProps) => {
                                 </button>
                             </div>
                         </div>
+                        {/*<Slider*/}
+                        {/*    onSwiper={setSlider}*/}
+                        {/*    onSlideChange={handleSlideChange}*/}
+                        {/*    slidesPerView={2}>*/}
+                        {/*    {addReviews?.map((addReview, index) => (*/}
+                        {/*        <SwiperSlide*/}
+                        {/*            className={cl.reviewCardSection}*/}
+                        {/*            key={addReview.id}>*/}
+                        {/*            <ReviewCard*/}
+                        {/*                review={addReview}*/}
+                        {/*                >*/}
+                        {/*            </ReviewCard>*/}
+                        {/*        </SwiperSlide>*/}
+                        {/*    ))}*/}
+                        {/*</Slider>*/}
                         <Slider
                             onSwiper={setSlider}
                             onSlideChange={handleSlideChange}
-                            slidesPerView={2}>
-                            {addReviews?.map((addReview, index) => (
-                                <SwiperSlide
-                                    className={cl.reviewCardSection}
-                                    key={addReview.id}>
-                                    <ReviewCard
-                                        review={addReview}
-                                        >
-                                    </ReviewCard>
-                                </SwiperSlide>
-                            ))}
+                            slidesPerView={2}
+                            items={addReviews}
+                            renderItem={(review, index) => (
+                                <ReviewCard review={review} key={index} />
+                            )}>
                         </Slider>
                         <div className={cl.paginationMovieCard}>
                             <ButtonIcon
@@ -292,6 +301,7 @@ const MovieCard = (props: MovieCardProps) => {
                                         </h6>
                                         <div className={cl.raitingTagBody}>
                                             <Ratings
+                                                totalStars = {10}
                                                 ratingValue={value}/>
                                            <h6>{value.toFixed(1)}</h6>
                                         </div>

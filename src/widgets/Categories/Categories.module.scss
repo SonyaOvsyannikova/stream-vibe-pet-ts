@@ -2,11 +2,18 @@
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-
+}
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .categorySection {
   margin-top: fluid(75, 40);
   margin-bottom: fluid(75, 40);
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(80, 40);
 }
 h3{
   margin: 0;
@@ -21,6 +28,10 @@ h3{
   flex-direction: row;
   column-gap: fluid-to-laptop(16,12);
   align-items: center;
+  @include tablet {
+    border: none;
+    background-color: inherit;
+  }
 }
 .categoriesHeader {
   display: flex;
@@ -45,6 +56,8 @@ h3{
   display: flex;
   align-items: center;
 }
-//.sliderCategory {
-//  height: fluid(342, 201);
-//}
+.paginationForTablet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,35 +1,32 @@
-import { IResponseApiMovie } from "@/shared/types";
 import cl from './CategoriesCard.module.scss'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import ArrowRight from '@/assets/icons/arrowRight.svg?react'
-
-type CategoriesCardProps = {
-    movies: IResponseApiMovie[];
-    genres: string;
-}
+import { Movie } from '@/shared/hooks/useMovies.ts'
 
 
-const CategoriesCard = (props: CategoriesCardProps) => {
+
+const CategoriesCard = (props) => {
 
     const {
-        movies,
-        genres,
+        group,
     } = props
 
     return (
         <div className={cl.moviesCard}>
             <div className={cl.sectionPreviewUrl}>
-                {movies.map((movie) => (
-                    <img
-                        className={cl.imgCategoriesMovies}
-                        key={movie.id} src = {movie?.poster?.previewUrl} alt = {movie?.name} />
-                ))}
+                {group.movies.map((movieWrapper) => {
+                    const movies = movieWrapper.movie
+                    return (
+                        <img className={cl.imgCategories}
+                            src={movies.poster?.url} alt={movies.name} />
+                    )
+                })}
             </div>
             <div className={cl.movieCardBody}>
-                <p>{genres}</p>
+                <p>{group.name}</p>
                 <ButtonIcon
                 label={
-                    <ArrowRight />
+                    <ArrowRight className = {cl.arrowButton}  />
                 }></ButtonIcon>
             </div>
         </div>

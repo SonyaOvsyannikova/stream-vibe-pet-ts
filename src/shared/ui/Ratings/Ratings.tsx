@@ -1,22 +1,31 @@
 import Star from '@/assets/icons/starRaing.svg?react'
 import { useState} from "react";
 import cl from './Ratings.module.scss'
+import clsx from "clsx";
 
 type RatingsProps = {
     ratingValue: number;
+    className?: string;
+    classNameStars?: string;
+    totalStars: number;
 }
-const TOTAL_STAR = 10;
+
 
 const Ratings = (props: RatingsProps) => {
 
     const {
-        ratingValue
+        ratingValue,
+        className,
+        totalStars = 5,
+        classNameStars
     } = props;
 
+    const normalizedRating = (ratingValue / 10) * totalStars;
+
     return (
-        <div className={cl.rating}>
-            {Array.from({length: TOTAL_STAR }).map((_, i: number) => {
-                const starFillPercentage: number = Math.min(Math.max(ratingValue - i, 0), 1) * 100;
+        <div className={clsx(cl.rating, className)}>
+            {Array.from({length: totalStars }).map((_, i: number) => {
+                const starFillPercentage: number = Math.min(Math.max(normalizedRating - i, 0), 1) * 100;
                 const clipPathValue: number = 100 - starFillPercentage;
                 return (
                     <div key={i} style={{
@@ -26,9 +35,9 @@ const Ratings = (props: RatingsProps) => {
                             position: 'absolute',
                             clipPath: `inset(0 ${clipPathValue}% 0 0)`
                         }}>
-                            <Star className={cl.ratingsColor}/>
+                            <Star className={clsx(cl.ratingsColor, classNameStars)}/>
                         </div>
-                        <Star className = {cl.ratingsColorBase}/>
+                        <Star className = {clsx(cl.ratingsColorBase, classNameStars)}/>
                     </div>
                 )
             })}

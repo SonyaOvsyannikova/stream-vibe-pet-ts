@@ -70,7 +70,10 @@ const Questions = () => {
                                             </h4>
                                             <h4 className={cl.questionsCardTitle}>{question.title}</h4>
                                         </div>
-                                        <span className={cl.openCross}></span>
+                                        <div style = {{padding: '10px', alignItems: 'center'}}>
+                                            <span className={cl.openCross}></span>
+                                        </div>
+
                                     </div>
                                 }>
                                 <p className={cl.questionCardDescription}>{question.description}</p>

@@ -21,9 +21,26 @@
 
 .heroPoster {
   width: 100%;
-  height: auto;
   display: block;
   border-radius: var(--border-radius-l);
+  position: relative;
+  object-fit: cover;
+  height: fluid(860, 500);
+}
+.heroPosterButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  width: fluid-to-laptop(470,300);
+  @include tablet {
+    width: 200px;
+    transform: translate(-50%, -45%);
+  }
 }
 .heroPoster::after{
   content: '';
@@ -36,6 +53,7 @@
   pointer-events: none;
   z-index: 11;
 }
+
 .heroWrapper {
   position: relative;
 }
@@ -98,9 +116,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translateY(-110px);
+  transform: translateY(-60px);
   position: relative;
   z-index: 10;
+  @include tablet {
+    transform: translateY(-90px);
+  }
+}
+.heroTitleHomePage {
+  margin: 0;
+  padding: 0;
 }
 .playIconHeroSection {
   display: flex;
@@ -113,7 +138,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-
 }
 .heroSlider {
   width: 100%;

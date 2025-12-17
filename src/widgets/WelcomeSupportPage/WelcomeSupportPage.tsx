@@ -4,7 +4,6 @@ import MainButton from "@/shared/ui/MainButton";
 import 'react-phone-number-input/style.css'
 import  {  getCountries ,  getCountryCallingCode, Country  }  from  'react-phone-number-input'
 import ReactCountryFlag from "react-country-flag"
-import '@/app/flag.module.scss'
 import parsePhoneNumber, { AsYouType } from 'libphonenumber-js'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import CheckMark from '@/assets/icons/checkMark.svg?react'

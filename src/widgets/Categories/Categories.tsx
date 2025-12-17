@@ -1,62 +1,116 @@
 import { IResponseApiMovie } from "@/shared/types";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
-import { useState } from "react";
+import {ReactNode, useEffect, useMemo, useState} from "react";
 import Slider from "@/shared/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
 import cl from './Categories.module.scss'
-import { GroupMovie, useMovies } from "@/shared/hooks/useMovies.ts";
 import PaginationPanel from "@/shared/ui/PaginationPanel";
 import {useSliderControl} from "@/shared/hooks/useSliderControl.ts";
+import CategoriesDescription from "@/shared/ui/CategoriesDescription/CategoriesDescription.tsx";
+import { GroupedMovies } from "@/shared/hooks/useMovies.ts";
 
-type CategoriesProps = {
-    groupedMovies: GroupMovie
-    movieDataArray?: IResponseApiMovie[]
+type CategoriesProps<T> = {
+    groupedMovies?: GroupedMovies,
+    title?: string;
+    description?: string;
+    className?: string;
+    slidesPerView?: number;
+    breakpoints?: {
+        [breakpoint: number]: {
+            slidesPerView?: number,
+            spaceBetween?: number;
+        }
+    },
+    items:T[],
+    renderItem: (item: T, index: number) => ReactNode;
+    totalSlides?: number;
+    sliderClassName?: string;
+    spaceBetween?: number;
 }
 
-const Categories = (props: CategoriesProps) => {
+
+const Categories = <T,>(props: CategoriesProps<T>) => {
+
 
     const {
-        groupedMovies,
-        movieDataArray
+        title,
+        description,
+        className,
+        slidesPerView,
+        items = [],
+        renderItem,
+        totalSlides = items.length,
+        breakpoints,
+        spaceBetween
     } = props;
 
     const { slider, setSlider, currentSlide, handleSlideChange } = useSliderControl()
+    const [isTablet, setIsTablet] = useState<boolean>(false)
 
-    const genresEntries = Object.entries(groupedMovies)
+    useEffect(() => {
+        const size = () => {
+            setIsTablet(window.innerWidth < 1024)
+        }
+        size()
+        window.addEventListener('resize', size)
+        return ()=> {
+            window.removeEventListener('resize', size)
+        }
+    })
 
     return (
-        <div className={cl.categorySection}>
-            <div className={cl.categoriesHeader}>
-                <div className={cl.categoryTitle}>
-                    <h3>Explore our wide variety of categories</h3>
-                    <p>Whether you're looking for a comedy to make you laugh, a drama to make you think, or a documentary to learn something new</p>
-                </div>
-                <div className={cl.paginationAndNavigation}>
-                   <PaginationPanel
-                       groupedMovies={groupedMovies}
-                       slider={slider}
-                       onSlideChange={handleSlideChange}
-                       currentSlide={currentSlide}
-                       totalSlide = {genresEntries.length}/>
-                </div>
-            </div>
-            <div className={cl.sliderCategory}>
-                <Slider
-                    onSwiper={setSlider}
-                    onSlideChange={handleSlideChange}
-                    slidesPerView={5}>
-                    {Object.entries(groupedMovies).map(([genres, movies]) => (
-                        <SwiperSlide
-                            className={cl.categorieCardSlider}
-                            key={genres}>
-                            <CategoriesCard
-                                movies={movies}
-                                genres={genres}/>
-                        </SwiperSlide>
-                    ))}
-                </Slider>
-            </div>
+        <div className={`${cl.categorySection} ${className || ''}`}>
+            {!isTablet ? (
+                <>
+                    <div className={cl.categoryHeader}>
+                        <CategoriesDescription labelHeader={title} labelDescription={description} />
+                        <PaginationPanel
+                            slider={slider}
+                            onSlideChange={handleSlideChange}
+                            currentSlide={currentSlide}
+                            totalSlide={items.length}
+                        />
+                    </div>
+                    <div className={cl.sliderCategory}>
+                        <Slider
+                            spaceBetween = {spaceBetween}
+                            onSwiper={setSlider}
+                            onSlideChange={handleSlideChange}
+                            slidesPerView={slidesPerView}
+                            items={items}
+                            renderItem={renderItem}
+                            breakpoints={breakpoints}
+                        />
+                    </div>
+                </>
+            ) : (
+                    <>
+                        <div className={cl.categoryHeader}>
+                            <CategoriesDescription labelHeader={title} labelDescription={description} />
+                        </div>
+                        <div className={cl.sliderCategory}>
+                            <Slider
+                                onSwiper={setSlider}
+                                onSlideChange={handleSlideChange}
+                                slidesPerView={slidesPerView}
+                                items={items}
+                                renderItem={renderItem}
+                                breakpoints={breakpoints}
+                            />
+                        </div>
+                        <div className={cl.paginationForTablet}>
+                            <PaginationPanel
+                                slider={slider}
+                                onSlideChange={handleSlideChange}
+                                currentSlide={currentSlide}
+                                totalSlide={items.length}
+                            />
+                        </div>
+                    </>
+                )
+            }
+
         </div>
 
     );

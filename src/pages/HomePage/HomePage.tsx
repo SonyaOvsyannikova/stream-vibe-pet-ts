@@ -7,55 +7,47 @@ import Devices from "@/widgets/Devices/Devices.tsx";
 import Questions from "@/widgets/Questions";
 import Plan from "@/widgets/Plan/Plan.tsx";
 import Hero from "@/widgets/Hero";
-import {useMovies} from "@/shared/hooks/useMovies.ts";
+import {Movie, useMovies} from "@/shared/hooks/useMovies.ts";
+import CategoriesDescription from "@/shared/ui/CategoriesDescription/CategoriesDescription.tsx";
+import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
 
 
 
 const HomePage = () => {
 
-   const { movieData, movieDataArray, setMovieDataArray, setMovieData, groupedMovies } = useMovies()
-
-
-    useEffect(() => {
-        const fetchMovie = async () => {
-            try {
-                const response = await kinopoiskAPI.getPopularMovies({
-                    limit: 250,
-                    top: 250,
-                    rating: {
-                        kp: 6
-                    }
-                })
-                setMovieDataArray(response.docs)
-                if (response.docs.length > 0) {
-                    setMovieData(response.docs[0])
-                }
-                // console.log(response.docs)
-                //
-                // console.log("Raw movies from API:", response.docs.length);
-                // console.log("Movies after filtering and grouping:", Object.keys(groupedMovies).length);
-            }
-            catch(e) {
-                console.error(e)
-            }
-        }
-        fetchMovie()
-    }, [])
-
-
+    const {
+        groupedMovies
+    } = useMovies('')
 
     return (
         <>
                 <Hero
-                    movieData={movieData}
                     variant={'HomePage'}
                     classNamePosterHomePage={cl.posterHomePage}
                 />
             <div  className='container'>
-                <Categories
-                    groupedMovies={groupedMovies}
-                    movieDataArray={movieDataArray}
-                />
+                <div>
+                    <Categories
+                        title = {'Explore our wide variety of categories'}
+                        description={'Whether you\'re looking for a comedy to make you laugh, a drama to make you think, or a documentary to learn something new'}
+                        slidesPerView = {5}
+                        breakpoints={{
+                            320: {
+                                slidesPerView: 2,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                            },
+                            1024: {
+                                slidesPerView: 5,
+                            },
+                        }}
+                        items={groupedMovies}
+                        renderItem={(collection, index) => (
+                            <CategoriesCard key={collection.id} group={collection} />
+                        )}
+                    />
+                </div>
                 <Devices />
                 <Questions />
                 <Plan />

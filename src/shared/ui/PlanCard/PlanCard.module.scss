@@ -16,8 +16,12 @@
   border: var(--border);
   padding: fluid(50,24);
   border-radius:fluid(12, 10);
-  //height: fluid(425, 275);
-  //width: fluid(512, 358);
+  @include tablet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .planCardTitle {
   @include fluid-text(24, 18);
@@ -32,6 +36,11 @@
   display: flex;
   flex-direction: row;
   column-gap: 20px;
+  @include tablet {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    row-gap: 20px;
+  }
 }
 .planCardPrice {
   display: flex;

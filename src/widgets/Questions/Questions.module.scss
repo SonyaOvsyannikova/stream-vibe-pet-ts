@@ -21,7 +21,6 @@
 }
 .questionsCardSummary {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   column-gap: fluid(24,12);
@@ -31,9 +30,13 @@
 }
 .questionsHeader {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  @include tablet {
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: start;
+  }
 }
 .questionsCardSummaryHeader {
   display: flex;
@@ -66,23 +69,35 @@
 
 }
 .openCross {
-  width: 20px;
+  width: fluid(20, 10);
   height: 3px;
   border-radius: var(--border-radius-s);
   background-color: var(--color-white);
   position: relative;
+
+  &::after,
+  &::before{
+    content: "";
+    position: absolute;
+    width: fluid(20, 15);
+    height: 3px;
+    border-radius: var(--border-radius-s);
+    background-color: var(--color-white);
+    top: 0;
+    left: 0;
+    transition-duration: var(--transition-duration);
+  }
+  &::before {
+    transform: rotate(0deg);
+  }
+
+  &::after {
+    transform: rotate(90deg);
+  }
+
 }
-.openCross::after {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 3px;
-  border-radius: var(--border-radius-s);
-  background-color: var(--color-white);
-  transform: rotate(90deg);
-  inset: 0;
-  transition-duration: var(--transition-duration);
-}
+
+
 :global(details[open]) .openCross::after {
   transform: rotate(0deg);
   transition-duration: var(--transition-duration);

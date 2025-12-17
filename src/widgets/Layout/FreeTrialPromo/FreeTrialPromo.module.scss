@@ -9,7 +9,7 @@
           rgba(20, 15, 15, 0.97) 16%,
           rgba(34, 14, 14, 0.91) 28%,
           rgba(229, 0, 0, 0.2) 100%),
-  url("@/assets/images/FreeTrial.png") center center no-repeat;
+  url("@/assets/images/FreeTrial.svg") center center no-repeat;
 
   height: fluid-to-laptop(313, 236);
   padding: fluid-to-laptop(100,80) fluid-to-laptop(80, 60);
@@ -17,6 +17,10 @@
   @include mobile {
     height: 344px;
     padding: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   margin-top: fluid(150, 80);
 }
@@ -29,12 +33,22 @@ h2 {
   display: flex;
   flex-direction: column;
   row-gap: fluid-to-laptop(14, 10);
-
   @include mobile {
     row-gap: 10px;
+    align-items: center;
+    justify-content: center;
   }
 }
 .freeTrialPromoButton {
   display: inline-flex;
   align-items: center;
+}
+.freeTrialButton{
+  width: fluid-to-laptop(188, 149);
+  padding: fluid-to-laptop(18,14) fluid-to-laptop(24, 20);
+  white-space: nowrap;
+  @include mobile {
+    padding: 14px 20px;
+
+  }
 }

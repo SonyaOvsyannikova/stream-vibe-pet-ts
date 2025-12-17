@@ -3,58 +3,51 @@ import { IResponseApiMovie } from "@/shared/types";
 import { useEffect, useState } from "react";
 import { kinopoiskAPI } from "@/shared/api/сlient.ts";
 import ShowsPageMovie from "@/widgets/ShowsPageMovie/ShowsPageMovie.tsx";
-import {useMovies} from "@/shared/hooks/useMovies.ts";
-
+import { useMovies } from "@/shared/hooks/useMovies.ts";
+import useMoviesList  from "@/shared/hooks/useMoviesList.ts";
 
 
 
 const MoviesAndShowsPage = () => {
 
+    const  { groupedMovies, groupedMoviesLength }  = useMovies('')
+    const { moviesTop } = useMoviesList();
 
-    const { groupedMovies, movieDataArray, setMovieDataArray } = useMovies()
-
-    const [movieOrSeries, setMovieOrSeries] = useState<IResponseApiMovie[]>([])
-    const [movies, setMovies] = useState<IResponseApiMovie[]>([])
+    const [movieOrSeriesByHero, setMovieOrSeriesByHero] = useState<IResponseApiMovie[]>([])
 
 
     useEffect(() => {
-        getMoviesOrSeriesForHero()
-    }, [])
-    const getMoviesOrSeriesForHero = async () => {
+        getMoviesOrSeriesByHero()
+    }, []);
+
+    const getMoviesOrSeriesByHero = async () => {
         try {
-            const response = await kinopoiskAPI.getPopularMovies({
-                limit: 150,
+            const response = await kinopoiskAPI.getSortedMoviesByBackdrop({
+                limit: 6,
+                sortField: 'top10',
+                sortType: -1,
             })
-            const moviesWithBackdrop = response.docs.filter(movie =>
-                movie.backdrop?.url
-            );
-            setMovieOrSeries(moviesWithBackdrop);
-            console.log(moviesWithBackdrop);
-
-            setMovieDataArray(response.docs)
-
-            // const allMovies = response.docs
-            // const moviesWithBackdropTypeMovie = response.docs.filter(movie =>
-            //     movie.type === "movie" && (movie.poster?.previewUrl || movie.backdrop?.url)
-            // );
-            // setMovieDataArray(allMovies)
-
-
+            setMovieOrSeriesByHero(response.docs)
+            console.log(response.docs)
+            return response;
         }
         catch(e) {
-            console.error(e);
+            console.log(e)
         }
     }
+
 
     return (
         <div className="container">
             <Hero
                 variant="MoviesAndShowsPage"
-                movieOrSeries={movieOrSeries}
+                movieOrSeries={movieOrSeriesByHero}
             />
             <ShowsPageMovie
             groupedMovies={groupedMovies}
-            movieDataArray={movies}/>
+            groupedLength={groupedMoviesLength}
+            moviesTop = {moviesTop}
+            />
         </div>
     );
 };

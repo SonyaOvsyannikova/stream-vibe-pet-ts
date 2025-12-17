@@ -1,0 +1,31 @@
+.ShowPageSeries {
+  border: var(--border);
+  padding: fluid(50, 40);
+  border-radius: var(--border-radius-m);
+  position: relative;
+  @include tablet {
+    border: none;
+  }
+}
+.showsLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: fluid-to-laptop(50, 40);
+  transform: translateY(-50%);
+  width: fluid-to-laptop(116, 95);
+  height: fluid-to-laptop(50, 40);
+  background-color: var(--color-red-45);
+  border-radius: var(--border-radius-xs);
+  @include tablet {
+    display: none;
+  }
+}
+.ShowPageMovie {
+  border: var(--border);
+  padding: fluid(50, 40);
+  border-radius: var(--border-radius-m);
+  position: relative;
+}

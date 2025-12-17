@@ -1,9 +1,14 @@
-import { JSX } from "react";
+type LogoProps = {
+    className?: string;
+}
+const Logo = (props: LogoProps) => {
 
-const Logo = (): JSX.Element => {
-
+    const {
+        className
+    } = props
     return (
-        <a href="/public">
+        <a className={className}
+            href="/public">
             <img
             src='../public/LogoHeader.png'
             alt='Logo'

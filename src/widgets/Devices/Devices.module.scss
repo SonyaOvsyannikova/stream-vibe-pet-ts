@@ -1,11 +1,21 @@
 .devicesBody{
+
   --deviceMenu: 3;
   display: grid;
   grid-template-columns: repeat(var(--deviceMenu), 1fr);
   gap: fluid-to-laptop(30,20) fluid(30, 10);
 
-  @include tablet {
+
+  //@include tablet-above {
+  //  --deviceMenu: 2;
+  //}
+
+  @include laptop {
     --deviceMenu: 2;
+  }
+
+  @include tablet {
+    --deviceMenu: 1;
   }
   @include mobile {
     --deviceMenu: 1;
@@ -17,4 +27,6 @@
   row-gap: fluid(80,40);
   margin-top: fluid(75, 40);
   margin-bottom: fluid(75, 40);
+  align-items: center;
+  justify-content: center;
 }

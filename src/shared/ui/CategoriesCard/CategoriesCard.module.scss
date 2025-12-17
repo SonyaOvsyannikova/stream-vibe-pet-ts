@@ -1,8 +1,9 @@
 .imgCategoriesMovies {
-  height: 123px;
-  width: 116px;
   border-radius: var(--border-radius-s);
   background: linear-gradient(0deg, rgb(26, 26, 26, 0) 0%, rgb(26, 26, 26, 1) 100%);
+}
+.imgCategories {
+  height: 100%;
 }
 .sectionPreviewUrl {
   display: grid;
@@ -12,6 +13,7 @@
   row-gap: 5px;
   align-items: center;
   position: relative;
+  height: auto;
 }
 .sectionPreviewUrl::after{
   content: "";
@@ -30,8 +32,16 @@
   padding: fluid(30,20);
   border-radius: var(--border-radius-m);
   background-color: var(--color-grey-10);
+  display: flex;
+  flex-direction: column;
 }
 .movieCardBody {
   display: flex;
   justify-content: space-between;
+  padding: 5px 0;
+  max-height: 42px;
+}
+.arrowButton {
+  width: 20px;
+  height: fluid(24,20);
 }

@@ -44,10 +44,12 @@ const Header = () => {
                             />
                     </Modal>
                 )}
-                <Logo />
+                <Logo className={cl.logo} />
                 <HeaderList
                     pages = {pagesItems}/>
-                <HeaderActions />
+                <div className={cl.headerActions}>
+                    <HeaderActions />
+                </div>
                 <BurgerButton
                     onClick={
                     ()=> openModal(modalType.menu)}

@@ -1,4 +1,4 @@
-export interface IResponseApiMovie {
+export type IResponseApiMovie = {
     id: number
     name?: string
     alternativeName?: string
@@ -12,30 +12,42 @@ export interface IResponseApiMovie {
     description?: string
     logo?: Logo
     poster: Backdrop
+    docs: Docs[]
 }
-interface Person {
+type Docs = {
+    id?:number,
+    genres?: Genre[],
+    poster?: Backdrop,
+    rating?: Rating,
+    year?: number,
+    name?: string,
+    alterNativeName?: string,
+    backdrop?: Backdrop,
+
+}
+type Person = {
     id: number
     name?: string
     profession?: string
     photo?: string
 
 }
-export interface Name {
+export type Name = {
     name: string
     language?: string
     type?: string | null
 }
-export interface Rating {
+export type Rating = {
     await?: number | null
     kp?: number | null
     imdb?: number | null
     filmCritics?: null | number
     russianFilmCritics?: null | number,
 }
-interface Genre {
+type Genre = {
     name?: string
 }
-interface Backdrop {
+type Backdrop = {
     previewUrl: string
     url: string
 }

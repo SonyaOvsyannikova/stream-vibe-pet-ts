@@ -21,7 +21,14 @@
   }
 }
 .logo {
+  width: fluid(199, 116);
+  height: fluid(60, 35);
+}
+.headerActions {
 
+  @include tablet {
+    display: none;
+  }
 }
 
 

@@ -17,3 +17,25 @@
   display: inline-flex;
   column-gap: 3px;
 }
+.paginationButtonForTablet {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+.paginationForTablet {
+  border: var(--border);
+  width: 79px;
+  height: 5px;
+  background-color: var(--color-grey-20);
+  position: relative;
+}
+.paginationScrollbarThumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 5px;
+  border-radius: var(--border-radius-s);
+  background-color: var(--color-red-45);
+  pointer-events: none;
+}

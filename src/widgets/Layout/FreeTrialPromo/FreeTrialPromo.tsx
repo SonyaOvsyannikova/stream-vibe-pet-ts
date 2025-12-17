@@ -12,6 +12,7 @@ const FreeTrialPromo = () => {
             </div>
             <div className={cl.freeTrialPromoButton}>
                 <MainButton
+                    className={cl.freeTrialButton}
                     label={'Start a Free Trail'}
                     onClick={(e) => {
                         e.preventDefault()

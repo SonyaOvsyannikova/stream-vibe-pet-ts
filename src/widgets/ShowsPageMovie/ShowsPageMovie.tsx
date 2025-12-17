@@ -1,60 +1,69 @@
-import Categories from "@/widgets/Categories/Categories.tsx";
-import Slider from "@/shared/ui/Slider";
-import { useState } from "react";
-import {Swiper as SwiperType} from "swiper";
-import { SwiperSlide } from "swiper/react";
-import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
-import {IResponseApiMovie} from "@/shared/types";
-import {GroupMovie, useMovies} from "@/shared/hooks/useMovies.ts";
-import cl from "@/widgets/Categories/Categories.module.scss";
-import ButtonIcon from "@/shared/ui/ButtonIcon";
-import Pagination from "@/shared/ui/Pagination";
-import PaginationPanel from "@/shared/ui/PaginationPanel";
-import {useSliderControl} from "@/shared/hooks/useSliderControl.ts";
+import {memo, use, useEffect, useMemo, useState} from "react";
+import {GroupedMovies, Movie, MovieCollection} from '@/shared/hooks/useMovies'
+import  { MovieData } from '@/shared/hooks/useMoviesList'
+import cl from './ShowsPageMovie.module.scss'
+import ShowsWidget from "@/widgets/ShowsWidget";
+import MoviesWidget from "@/widgets/MoviesWidget";
+import Tab from "@/shared/ui/Tab/Tab.tsx";
 
 
 type ShowsPageMovieProps = {
-    groupedMovies: GroupMovie
-    movieDataArray?: IResponseApiMovie[]
+    groupedMovies: MovieCollection[],
+    groupedLength: number,
+    moviesTop: MovieData[],
 }
 
-const ShowsPageMovie = (props: ShowsPageMovieProps) => {
+const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
 
-    const { groupedMovies, movieDataArray } = props;
+    const [activeTab, setActiveTab] = useState<number>(1)
+    const [isTablet, setIsTablet] = useState<boolean>(false)
 
-    const { slider, currentSlide, handleSlideChange, setSlider } = useSliderControl()
+    const {
+        groupedMovies,
+        groupedLength,
+        moviesTop
+    } = props;
+
+    useEffect(() => {
+        const handleSize = () => {
+            setIsTablet(window.innerWidth < 1024)
+        }
+        handleSize()
+        window.addEventListener('resize', handleSize)
+        return () => window.removeEventListener('resize', handleSize)
+    }, [])
+
 
     return (
-        <div>
-           <div>
-               <div>
-                   <h3>Our Genres</h3>
-                   <PaginationPanel
-                       slider={slider}
-                       currentSlide={currentSlide}
-                       onSlideChange={handleSlideChange}
-                       totalSlide={Object.entries(groupedMovies).length}
-                       groupedMovies={groupedMovies}
-                   />
-               </div>
-               <Slider
-                   onSwiper={setSlider}
-                   onSlideChange={handleSlideChange}
-                   slidesPerView={5}
-               >
-                   {Object.entries(groupedMovies).map(([genres, movies]) => (
-                       <SwiperSlide
-                           className={cl.categorieCardSlider}
-                           key={genres}>
-                           <CategoriesCard
-                               movies={movies}
-                               genres={genres}/>
-                       </SwiperSlide>
-                   ))}
-               </Slider>
-           </div>
+        <div className={cl.moviePage}>
+            {isTablet && (
+                <Tab classNameForTab={cl.moviePageTab}
+                     classNameForButton = {cl.moviePageButton}
+                    labels={[{id: 1, label: 'Movies'}, {id: 2, label: 'Shows'}]} onChange={(id) => {
+                    setActiveTab(id)
+                }} />
+            )}
+            {!isTablet ? (
+                <>
+                    <MoviesWidget groupedMovies={groupedMovies} groupedLength={groupedLength} moviesTop={moviesTop} />
+                    <ShowsWidget groupedMovies={groupedMovies}/>
+                </>
+                ) : (
+                <>
+                    {(activeTab === 1) ? (
+                        <>
+                            <MoviesWidget groupedMovies={groupedMovies} groupedLength={groupedLength} moviesTop={moviesTop} />
+                        </>
+                    ): (
+                        <>
+                            <ShowsWidget groupedMovies={groupedMovies}/>
+                        </>
+                    )}
+                </>
+            ) }
+
         </div>
     );
-};
+});
 
 export default ShowsPageMovie;

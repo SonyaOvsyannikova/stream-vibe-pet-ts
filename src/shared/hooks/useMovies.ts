@@ -1,112 +1,85 @@
-import {useMemo, useState} from "react";
-import { IResponseApiMovie } from "@/shared/types";
+import {kinopoiskAPI} from "@/shared/api/сlient.ts";
+import {useEffect, useState} from "react";
 
-export type GroupMovie = {
-    [key: string]: IResponseApiMovie[]
+export type Movie = {
+    id?: number,
+    name?: string,
+    year?: number,
+    rating?: {
+        kp: number,
+        imdb: number,
+        await: number,
+    },
+    poster?: {
+        url: string,
+        previewUrl: string,
+    },
+    premiere?: {
+        world: Date,
+    }
 }
 
-const genreArray: Array<string> = ['фантастика', 'приключения', 'комедия', 'драма', 'ужасы',
-    'боевик', 'мультфильм', 'фэнтэзи', 'мелодрама', 'музыка', 'реальное ТВ', 'документальный', 'короткометражка', 'криминал', 'спорт' ]
+export type MovieCollection = {
+    id: string,
+    name: string,
+    slug: string,
+    movies: Movie[],
+}
+export type GroupedMovies = MovieCollection[]
 
-export const useMovies = () => {
+export const useMovies = (slug: string) => {
 
-    const [movieData, setMovieData] = useState<null | IResponseApiMovie>(null)
-    const [movieDataArray, setMovieDataArray] = useState<null | IResponseApiMovie[]>(null)
+    const [groupedMovies, setGroupedMovies] = useState<GroupedMovies>([])
 
+    useEffect(() => {
 
-    const filterMovieWithPreview = (movies: IResponseApiMovie[]) => {
-        return movies.filter(movie =>
-            movie?.poster?.previewUrl
-            || movie?.backdrop?.previewUrl
-            && movie.name
-            && (movie?.rating?.kp ?? 0) > 6
-        )
-    }
-
-    // const moviesByFirstGenre = (movies: IResponseApiMovie[]) => {
-    //     const grouped: {[key: string]: any[]} = {}
-    //
-    //     movies.forEach(movie => {
-    //         const firstGenre = movie?.genres?.[0]?.name
-    //
-    //         if(firstGenre && genreArray.includes(firstGenre)) {
-    //             if(!grouped[firstGenre]) {
-    //                 grouped[firstGenre] = [];
-    //             }
-    //             grouped[firstGenre].push(movie);
-    //         }
-    //     })
-    //     Object.keys(grouped).forEach((key) => {
-    //         grouped[key] = grouped[key].slice(0,4)
-    //     })
-    //     return grouped
-    // }
-    //
-    //
-    //
-    // const groupedMovies = useMemo(() => {
-    //     if(!movieDataArray) return {}
-    //         try {
-    //             const dataMoviewWithPreview = filterMovieWithPreview(movieDataArray)
-    //             console.log(dataMoviewWithPreview)
-    //             const groupedMoviesV = moviesByFirstGenre(dataMoviewWithPreview)
-    //             console.log(groupedMoviesV)
-    //             return groupedMoviesV
-    //         } catch (error) {
-    //             console.log(error)
-    //             return {}
-    //         }
-    //
-    // }, [movieDataArray]);
-
-    const groupMoviesByAllGenres = (movies: IResponseApiMovie[]): GroupMovie => {
-        const groupMovie: GroupMovie = {}
-
-        if(!movies || !Array.isArray(movies)) { return groupMovie}
-
-        movies.forEach(movie => {
-            if(!movie.genres || !Array.isArray(movie.genres)) { return }
-
-            const matchingMovies = movie.genres.filter(genre =>
-                genre?.name && genreArray.includes(genre.name.toLowerCase())
-            );
-
-            matchingMovies.forEach(genre => {
-                const genreName = genre.name
-
-                if(!groupMovie[genreName]) {
-                    groupMovie[genreName] = []
-                }
-
-                const movieExists = groupMovie[genreName].some(m => m.id === movie.id)
-
-                if(!movieExists && groupMovie[genreName].length < 4) {
-                    groupMovie[genreName].push(movie)
-                }
-            })
-        })
-        return groupMovie
-    }
-
-    const groupedMovies = useMemo(() => {
-        if(!movieDataArray) return {}
-        try {
-            const filtredMovies = filterMovieWithPreview(movieDataArray)
-            return groupMoviesByAllGenres(filtredMovies)
+        const genreSlugs = {
+            ww2: { slug: 'theme_ww2', name: 'Война' },
+            comics: { slug: 'theme_comics', name: 'Комиксы' },
+            kidsFilms: { slug: 'theme_kids_films', name: 'Детское кино' },
+            romanticComedy: { slug: 'theme_romantic_comedy', name: 'Ромком' },
+            actionComedy: { slug: 'theme_action_comdey', name: 'Экшен-комедии' },
+            kidsAnimation: { slug: 'theme_kids_animation', name: 'Мультфильмы' },
+            familyComedy: { slug: 'theme_family_comedy', name: 'Семейное кино' },
+            space: { slug: 'theme_space', name: 'Космос' },
+            zombie: { slug: 'theme_zombie', name: 'Зомби' },
+            love: { slug: 'theme_love', name: 'Мелодрамы' },
         }
-        catch (error) {
-            console.log(error)
-            return {}
+
+        const getMovieByGenres = async () => {
+
+           const promises = Object.entries(genreSlugs).map(([key, genre]) => {
+
+               return kinopoiskAPI.getSortedMoviesWithParametersSlug(genre.slug, {
+                   limit: 4,
+                   // sortField: "top250",
+                   sortType: -1,
+               })
+               .then(response => ({
+                   id: key,
+                   name: genre.name,
+                   slug: genre.slug,
+                   movies: response.docs || []
+               }))
+               .catch(error => {
+                   console.log(`Ошибка ${genre.slug}:`, error)
+                   return {
+                       id: key,
+                       name: genre.name,
+                       slug: genre.slug,
+                       movies: []
+                   };
+               })
+           })
+            const collections = await Promise.all(promises);
+            setGroupedMovies(collections)
+            console.log(groupedMovies)
         }
-    }, [])
+         getMovieByGenres()
+    }, [slug])
 
     return {
-        movieData,
-        setMovieData,
-        genreArray,
-        movieDataArray,
-        setMovieDataArray,
-        filterMovieWithPreview,
-        groupedMovies
+        groupedMovies,
+        groupedMoviesLength: groupedMovies.length
     }
 }
