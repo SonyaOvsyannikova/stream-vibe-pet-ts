@@ -1,4 +1,3 @@
-public/planet_one.mp4 filter=lfs diff=lfs merge=lfs -text
 src/assets/images/FreeTrial.svg filter=lfs diff=lfs merge=lfs -text
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-*.svg filter=lfs diff=lfs merge=lfs -text
+public/planet_two.mp4 filter=lfs diff=lfs merge=lfs -text
+public/planet.mp4 filter=lfs diff=lfs merge=lfs -text
