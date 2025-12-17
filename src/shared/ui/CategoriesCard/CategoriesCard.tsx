@@ -1,11 +1,13 @@
 import cl from './CategoriesCard.module.scss'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import ArrowRight from '@/assets/icons/arrowRight.svg?react'
-import { Movie } from '@/shared/hooks/useMovies.ts'
+import { MovieCollection} from '@/shared/hooks/useMovies.ts'
 
+type CategoriesCardProps = {
+    group?: MovieCollection
+}
 
-
-const CategoriesCard = (props) => {
+const CategoriesCard = (props: CategoriesCardProps ) => {
 
     const {
         group,
@@ -21,6 +23,7 @@ const CategoriesCard = (props) => {
                             src={movies.poster?.url} alt={movies.name} />
                     )
                 })}
+
             </div>
             <div className={cl.movieCardBody}>
                 <p>{group.name}</p>

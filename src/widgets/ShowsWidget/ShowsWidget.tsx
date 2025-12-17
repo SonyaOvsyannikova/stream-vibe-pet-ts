@@ -86,7 +86,7 @@ const ShowsWidget = (props: ShowsWidgetProps) => {
         <div className={cl.ShowPageSeries}>
             <span className={cl.showsLabel}>Shows</span>
             <div>
-                <Categories<MovieCollection>
+                <Categories
                     className={cl.categorySection}
                     title="Our Genres"
                     items={groupedMovies}

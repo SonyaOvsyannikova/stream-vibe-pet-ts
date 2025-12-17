@@ -16,6 +16,13 @@ export type Movie = {
     },
     premiere?: {
         world: Date,
+    },
+    movie?: {
+        name?: string,
+        poster?: {
+            url: string,
+            previewUrl: string,
+        }
     }
 }
 
