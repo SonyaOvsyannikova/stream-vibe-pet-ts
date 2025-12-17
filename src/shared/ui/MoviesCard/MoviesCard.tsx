@@ -36,19 +36,16 @@ const formatNumberRu = (value: number): string => {
 
     return `${firstThree}${suffix}`;
 };
-const getDurationHM = (movieData?: {
-    seriesLength?: number | null;
-    seasonsInfo?: { }[] | null;
-}) => {
+const getDurationHM = (movieData?: Movie) => {
     const seriesLength = movieData?.seriesLength ?? 0;
-    const seasonsCount = movieData?.seasonsInfo?.length ?? 0;
-    let result = 0
-    // const episodeCount = movieData?.seasonsInfo.map(season => {
-    //     return result += season?.episodesCount
-    //     console.log(result)
-    // });
+    const regularSeasons = movieData?.seasonsInfo?.filter(season => season?.number != 0) || [];
 
-    const totalMinutes = seriesLength * seasonsCount;
+
+    const episodes = regularSeasons?.reduce((sum, season) => {
+        return sum + season.episodesCount
+    }, 0) ?? 0;
+
+    const totalMinutes = seriesLength * episodes;
 
     const hours = Math.floor(totalMinutes / 60);
     const minutes = Math.floor(totalMinutes % 60);

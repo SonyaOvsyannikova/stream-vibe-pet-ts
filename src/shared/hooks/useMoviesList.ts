@@ -29,7 +29,8 @@ export type Movie = {
         kp?: number;
     },
     seriesLength?: number;
-    episodesCount?: number;
+
+
 }
 export type SeasonInfo = {
     number?:number,

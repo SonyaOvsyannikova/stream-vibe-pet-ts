@@ -1,9 +1,5 @@
-import { IResponseApiMovie } from "@/shared/types";
-import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
 import {ReactNode, useEffect, useMemo, useState} from "react";
 import Slider from "@/shared/ui/Slider";
-import { SwiperSlide } from "swiper/react";
-import { Swiper as SwiperType } from "swiper";
 import cl from './Categories.module.scss'
 import PaginationPanel from "@/shared/ui/PaginationPanel";
 import {useSliderControl} from "@/shared/hooks/useSliderControl.ts";
