@@ -293,7 +293,7 @@ const MovieCard = (props: MovieCardProps) => {
                             <p className={cl.infoLabel}>Ratings </p>
                         </div>
                         <div className={cl.sectionList}>
-                            {movieData?.rating && Object.entries(movieData.rating).filter(([key]:[keyof Rating, string | null | undefined]) => key === 'imdb' || key === 'kp')
+                            {movieData?.rating && Object.entries(movieData.rating).filter(([key]) => key === 'imdb' || key === 'kp')
                                 .map(([key, value]:[keyof Rating, number]) => (
                                     <div className={cl.raitingTag}>
                                         <h6 key={key}>

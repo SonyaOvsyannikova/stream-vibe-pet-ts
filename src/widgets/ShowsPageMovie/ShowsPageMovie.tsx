@@ -44,10 +44,10 @@ const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
                 }} />
             )}
             {!isTablet ? (
-                <>
+                <div className = {cl.moviePageTablet}>
                     <MoviesWidget groupedMovies={groupedMovies} groupedLength={groupedLength} moviesTop={moviesTop} />
                     <ShowsWidget groupedMovies={groupedMovies}/>
-                </>
+                </div>
                 ) : (
                 <>
                     {(activeTab === 1) ? (
