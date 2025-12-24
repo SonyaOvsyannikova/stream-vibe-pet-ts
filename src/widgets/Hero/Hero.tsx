@@ -13,8 +13,11 @@ import clsx from "clsx";
 import Slider from "@/shared/ui/Slider";
 import { SwiperSlide } from "swiper/react";
 import {Swiper as SwiperType} from "swiper";
-import Pagination from "@/shared/ui/Pagination";
 import PlayButton from '@/assets/icons/playButtonOnHero.svg?react'
+import { kinopoiskAPI } from "@/shared/api/сlient.ts";
+import { useQuery } from "@tanstack/react-query"
+import { MovieData, SeasonInfo} from "@/shared/hooks/useMoviesList.ts";
+
 
 type HeroProps = {
     movieData?: IResponseApiMovie;
@@ -26,6 +29,41 @@ type HeroProps = {
     movieOrSeries?: IResponseApiMovie[];
 }
 
+export type MovieWithCategory = {
+    position?: number;
+    positionDiff?: number;
+    movie?: Movie;
+    rating?: number;
+    votes?: number;
+    details?: Movie | null;
+    category?: {
+        slug: string;
+        name: string;
+    };
+};
+export type Movie = {
+    id?: number;
+    name?: string;
+    year?: number;
+    poster?: {
+        url: string;
+        previewUrl: string;
+    },
+    movieLength?: number;
+    rating?: {
+        kp: number;
+    },
+    premiere?: {
+        world: Date,
+    }
+    seasonsInfo?: Array<SeasonInfo>,
+    votes?: {
+        kp?: number;
+    },
+    seriesLength?: number;
+
+}
+
 const Hero = (props: HeroProps) => {
 
     const {
@@ -35,8 +73,17 @@ const Hero = (props: HeroProps) => {
         seasons,
         variant,
         classNamePosterHomePage,
-        movieOrSeries
+
     } = props
+
+
+    const { data: movieOrSeries, isLoading, isError } = useQuery<IResponseApiMovie[]>({
+        queryKey: ['movieOrSeriesByHero'],
+        queryFn: () => {
+            return kinopoiskAPI.getMoviesSortedByBackdropAndTopMovies()
+        }
+    })
+
 
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
     const [slider, setSlider] = useState<null | SwiperType>(null);
@@ -153,12 +200,29 @@ const Hero = (props: HeroProps) => {
                         case 'MoviesAndShowsPage':
                             return (
                                 <div className={cl.heroSlider}>
+                                    {isLoading && (
+                                        <> Идет Загрузка...</>
+                                    )}
+                                    {isError && (
+                                        <>Ошибка данных</>
+                                    )}
                                         <Slider
                                             onSwiper={setSlider}
                                             onSlideChange={handleSlideChange}
                                             slidesPerView={1}
-                                        items={movieOrSeries}
-                                        renderItem={(movie, index) => (
+                                            navigation={{
+                                                prevEl: '.slider-prev',
+                                                nextEl: `.slider-next`,
+                                            }}
+                                            pagination={{
+                                                el: '.custom-swiper-pagination',
+                                                type: 'bullets',
+                                                clickable: true,
+                                                bulletClass: 'swiper-pagination-bullet',
+                                                bulletActiveClass:'swiper-pagination-bullet-active'
+                                            }}
+                                            items={movieOrSeries}
+                                            renderItem={(movie, index) => (
                                             <div>
                                                 <img
                                                     className={cl.heroSliderImg}
@@ -240,24 +304,21 @@ const Hero = (props: HeroProps) => {
                                         </Slider>
                                     {tablet >= 1024 && (
                                         <div className={cl.heroSliderPagination}>
-                                            <ButtonIcon
-                                                className={cl.buttonIcon}
-                                                label={<ArrowLeft
-                                                    className={cl.buttonArrow}/>}
-                                                onClick={() => {slider.slidePrev()}}
-                                            ></ButtonIcon>
-                                            <Pagination
-                                                currentSlide={currentSlide}
-                                                totalSlides={movieOrSeries.length}
-                                                onSlideChange={handleSlideChange} />
-                                            <ButtonIcon
-                                                className={cl.buttonIcon}
-                                                label={<ArrowRight
-                                                    className={cl.buttonArrow}/>}
-                                                onClick={() =>  {
-                                                    slider.slideNext()
-                                                }}></ButtonIcon>
+                                            <div className="slider-prev" >
+                                                <ButtonIcon
+                                                    className={cl.buttonNavigation}
+                                                    label={<ArrowLeft className={cl.buttonNavigationArrowLeft}/>}
+                                                />
+                                            </div>
+                                            <div className={'custom-swiper-pagination'}></div>
+                                            <div className="slider-next" >
+                                                <ButtonIcon
+                                                    className={cl.buttonNavigation}
+                                                    label={<ArrowRight className={cl.buttonNavigationArrow}/>}
+                                                />
+                                            </div>
                                         </div>
+
                                     )}
                                 </div>
                             )
@@ -309,7 +370,6 @@ const Hero = (props: HeroProps) => {
                                         </div>
                                     </div>
                                 </div>
-
                             )
                     }
                 })()}

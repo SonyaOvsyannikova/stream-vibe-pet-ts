@@ -1,6 +1,6 @@
 import {memo, use, useEffect, useMemo, useState} from "react";
-import {GroupedMovies, Movie, MovieCollection} from '@/shared/hooks/useMovies'
-import  { MovieData } from '@/shared/hooks/useMoviesList'
+import { MovieCollection } from '@/shared/hooks/useMovies'
+import  { MovieWithCategory } from '@/shared/hooks/useMoviesList'
 import cl from './ShowsPageMovie.module.scss'
 import ShowsWidget from "@/widgets/ShowsWidget";
 import MoviesWidget from "@/widgets/MoviesWidget";
@@ -10,7 +10,7 @@ import Tab from "@/shared/ui/Tab/Tab.tsx";
 type ShowsPageMovieProps = {
     groupedMovies: MovieCollection[],
     groupedLength: number,
-    moviesTop: MovieData[],
+    moviesTop: MovieWithCategory[],
 }
 
 const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
@@ -23,6 +23,7 @@ const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
         groupedLength,
         moviesTop
     } = props;
+
 
     useEffect(() => {
         const handleSize = () => {

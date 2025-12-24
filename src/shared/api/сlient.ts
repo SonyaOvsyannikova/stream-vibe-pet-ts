@@ -1,6 +1,7 @@
 import axios from "axios";
 
 
+
 const axiosInstance = axios.create({
     baseURL: 'https://api.poiskkino.dev/v1.4/',
     headers: {
@@ -27,9 +28,15 @@ type optionsMovies = {
     genres?: Array<Genres>,
     backdrop?: Backdrop,
     slug?: string,
+    lists?: string[],
+
+
 }
 type listOptions = {
     signal?: AbortSignal,
+
+    moviesCount?: number,
+    year?: number,
 
     docs?: Docs[],
     total?: number,
@@ -39,6 +46,7 @@ type listOptions = {
     sortField?: string,
     selectFields?: string,
     sortType?: number,
+    next?: string,
 }
 
 // type ListOptions = {
@@ -90,14 +98,10 @@ type Poster = {
 }
 
 export const kinopoiskAPI = {
-
     getPopularMovies: async (options: optionsMovies = {}) => {
         try {
             const params: any = {
                 limit: options.limit,
-                sortField: options.sortField,
-                sortType: options.sortType,
-
             }
 
             const response = await axiosInstance.get('/movie', {
@@ -116,7 +120,8 @@ export const kinopoiskAPI = {
                    sortField: options.sortField,
                    sortType: options.sortType,
                    limit: options.limit,
-
+                   next: options.next,
+                   total: options.total,
                },
                signal: options.signal,
            })
@@ -126,20 +131,24 @@ export const kinopoiskAPI = {
            console.log(error)
        }
     },
-    getSortedMoviesWithParametersSlug1: async (options: listOptions = {}) => {
-        try {
-            const response = await axiosInstance.get(`/list`, {
-                params: {
-                    limit: options.limit,
-                },
-                signal: options.signal,
-            })
-            return response.data
-        }
-        catch (error) {
-            console.log(error)
-        }
-    },
+
+    // getSortedMoviesWithParametersSlug1: async (options: listOptions = {}) => {
+    //     try {
+    //         const params = {
+    //
+    //         }
+    //         const response = await axiosInstance.get(`/list`, {
+    //             params: {
+    //                 limit: options.limit,
+    //             },
+    //             signal: options.signal,
+    //         })
+    //         return response.data
+    //     }
+    //     catch (error) {
+    //         console.log(error)
+    //     }
+    // },
     getTopMovies: async (slug: string, options: listOptions = {}) => {
         try {
             const response = await axiosInstanceForSlug.get(`/list/${slug}`, {
@@ -174,6 +183,26 @@ export const kinopoiskAPI = {
             console.log(error)
         }
     },
+    getMoviesSortedByBackdropAndTopMovies: async (options: optionsMovies = {}) => {
+        try {
+            const params: any = {
+                limit: 6,
+                sortField: 'top10',
+                sortType: 1,
+                'backdrop.url': options.backdrop,
+            }
+
+            const response = await axiosInstance.get('/movie', {
+                params,
+                signal: options.signal});
+            return response.data
+        }
+        catch (error) {
+            console.error('Error fetching top movies for hero:', error);
+            throw error;
+        }
+    },
+
     getSearchMovies: async (searchQuery: string, options: {
         signal?: AbortSignal,
         limit?: number,

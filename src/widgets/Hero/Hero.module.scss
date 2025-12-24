@@ -195,3 +195,30 @@
   flex-direction: column;
   gap: 24px;
 }
+.custom-swiper-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px; /* Уменьшаем расстояние между буллетами */
+  min-height: 20px;
+}
+:global(.swiper-pagination-bullet) {
+  width: fluid-to-laptop(16, 14);
+  height: 4px;
+  border-radius: 4px;
+  background: var(--color-grey-20);
+  opacity: 1;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-red-45);
+    width: 23px;
+  }
+}
+
+:global(.swiper-pagination-bullet-active ) {
+  background: var(--color-red-45) !important;
+  width: fluid-to-laptop(23,18);
+}

@@ -1,32 +1,37 @@
 import cl from './CategoriesCard.module.scss'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import ArrowRight from '@/assets/icons/arrowRight.svg?react'
-import { MovieCollection} from '@/shared/hooks/useMovies.ts'
+import { MovieCollection, Movie} from '@/shared/hooks/useMovies.ts'
+import logo from "@/shared/ui/Logo";
 
 type CategoriesCardProps = {
-    group?: MovieCollection
+    group?: Movie[],
+    collection?: MovieCollection,
+    variant?: 'Our Genres' | 'Popular Top 10 In Genres'
 }
 
 const CategoriesCard = (props: CategoriesCardProps ) => {
 
     const {
         group,
+        collection,
+        variant,
     } = props
 
     return (
         <div className={cl.moviesCard}>
             <div className={cl.sectionPreviewUrl}>
-                {group.movies.map((movieWrapper) => {
-                    const movies = movieWrapper.movie
-                    return (
-                        <img className={cl.imgCategories}
-                            src={movies.poster?.url} alt={movies.name} />
-                    )
-                })}
-
+                {group.map((item) => (
+                    <img src = {item?.poster?.previewUrl} alt={item.name} className={cl.imgCategories} />
+                ))}
             </div>
             <div className={cl.movieCardBody}>
-                <p>{group.name}</p>
+                <div>
+                    { variant === 'Popular Top 10 In Genres' && (
+                        <label className={cl.labelTopInGenres}>Top 10 In</label>
+                    )}
+                    <p className={cl.descriptionCardBody}>{collection?.name}</p>
+                </div>
                 <ButtonIcon
                 label={
                     <ArrowRight className = {cl.arrowButton}  />

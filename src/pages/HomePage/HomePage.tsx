@@ -7,9 +7,10 @@ import Devices from "@/widgets/Devices/Devices.tsx";
 import Questions from "@/widgets/Questions";
 import Plan from "@/widgets/Plan/Plan.tsx";
 import Hero from "@/widgets/Hero";
-import {Movie, useMovies} from "@/shared/hooks/useMovies.ts";
+import {Movie, MovieCollection, useMovies} from "@/shared/hooks/useMovies.ts";
 import CategoriesDescription from "@/shared/ui/CategoriesDescription/CategoriesDescription.tsx";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
+import logo from "@/shared/ui/Logo";
 
 
 
@@ -17,7 +18,7 @@ const HomePage = () => {
 
     const {
         groupedMovies
-    } = useMovies('')
+    } = useMovies()
 
     return (
         <>
@@ -44,7 +45,7 @@ const HomePage = () => {
                         }}
                         items={groupedMovies}
                         renderItem={(collection, index) => (
-                            <CategoriesCard key={collection.id} group={collection} />
+                            <CategoriesCard key={collection.id} collection={collection} group={collection.movies} />
                         )}
                     />
                 </div>

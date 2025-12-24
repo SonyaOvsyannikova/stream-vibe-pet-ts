@@ -211,30 +211,34 @@ const MovieCard = (props: MovieCardProps) => {
                             onSlideChange={handleSlideChange}
                             slidesPerView={2}
                             items={addReviews}
+                            navigation={{
+                                prevEl: '.slider-prev',
+                                nextEl: `.slider-next`,
+                            }}
+                            pagination={{
+                                el: '.custom-swiper-pagination',
+                                type: 'bullets',
+                                clickable: true,
+                                bulletClass: 'swiper-pagination-bullet',
+                                bulletActiveClass:'swiper-pagination-bullet-active'
+                            }}
                             renderItem={(review, index) => (
                                 <ReviewCard review={review} key={index} />
-                            )}>
-                        </Slider>
+                            )}/>
                         <div className={cl.paginationMovieCard}>
-                            <ButtonIcon
-                                label={<ArrowLeft />}
-                                className={cl.prevButton}
-                                onClick={() => {
-                                    slider.slidePrev()
-                                }}></ButtonIcon>
-                            {reviews.length > 0 && (
-                                <Pagination
-                                    currentSlide={currentSlide}
-                                    totalSlides={reviews.length}
-                                    onSlideChange={handleSlideChange}
+                            <div className="slider-prev" >
+                                <ButtonIcon
+                                    className={cl.buttonNavigation}
+                                    label={<ArrowRight className={cl.buttonNavigationArrowLeft}/>}
                                 />
-                            )}
-                            <ButtonIcon
-                                label={<ArrowRight />}
-                                className={cl.prevButton}
-                                onClick={() => {
-                                    slider.slideNext()
-                                }}></ButtonIcon>
+                            </div>
+                            <div className={'custom-swiper-pagination'}></div>
+                            <div className="slider-next" >
+                                <ButtonIcon
+                                    className={cl.buttonNavigation}
+                                    label={<ArrowRight className={cl.buttonNavigationArrow}/>}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

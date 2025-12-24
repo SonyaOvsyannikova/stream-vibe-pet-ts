@@ -1,6 +1,5 @@
-import {kinopoiskAPI} from "@/shared/api/сlient.ts";
-import {useEffect, useState} from "react";
-import {useQuery} from "@tanstack/react-query";
+import { kinopoiskAPI } from "@/shared/api/сlient.ts";
+import { useQueries } from "@tanstack/react-query";
 
 
 export type MovieData = {
@@ -8,6 +7,10 @@ export type MovieData = {
     position?: number;
     positionDiff?: number;
     details?: Movie;
+    category: {
+        name: string;
+        slug: string;
+    }
 }
 export type Movie = {
     id?: number;
@@ -30,47 +33,92 @@ export type Movie = {
     },
     seriesLength?: number;
 
-
 }
 export type SeasonInfo = {
     number?:number,
     episodesCount?:number,
 }
 
-const fetchMovies  = async (slug: string) => {
-    try {
-        const response = await kinopoiskAPI.getTopMovies(slug, {
-            sortField: "name",
-            limit: 10,
-            sortType: 1,
-        })
-
-        return response.docs || [];
-    }
-    catch (error) {
-        console.error(error)
-        throw new Error("Could not fetch movies info")
-    }
+export type MovieCollection = {
+    id?: string,
+    name?: string,
+    slug?: string,
+    movies?: Movie[],
+    nextMovies?: Movie[],
+    details?: Movie[],
 }
 
-const useMoviesList = () => {
+export type MovieWithCategory = {
+    position?: number;
+    positionDiff?: number;
+    movie?: Movie;
+    rating?: number;
+    votes?: number;
+    details?: Movie | null;
+    category?: {
+        slug: string;
+        name: string;
+    };
+};
 
-    const {data: moviesTop, isLoading: isMovieLoading } = useQuery<MovieData[]>({
-        queryKey: ['moviesTop'],
-        queryFn: () => fetchMovies('top250'),
+const filterMovies: {slug: string; name: string}[] = [
+    { slug:'top250', name: 'Топ 250 фильмов' },
+    { slug:'best_501', name: 'Лучшие 500 фильмов в истории' },
+    { slug:'planned-to-watch-films', name: 'Топ ожидаемых фильмов' },
+]
 
-        staleTime: 12 * 60 * 60 * 1000, // 12 часов данные "свежие"
-        gcTime: 24 * 60 * 60 * 1000,    // 24 часа хранить в кеше
+type useMoviesList = {
+    isLoading: boolean,
+    isError: boolean,
+    getTopMovies: () => MovieWithCategory[],
+    getBestMovies: () => MovieWithCategory[],
+    getPlannedMovies: () => MovieWithCategory[],
+}
 
-        refetchOnWindowFocus: false,    // не обновлять при фокусе окна
-        refetchOnMount: false,          // не обновлять при монтировании
-        refetchOnReconnect: false,      // не обновлять при reconnect
-    })
+const useMoviesList = ():useMoviesList => {
+
+    const queries = filterMovies.map((movie) => ({
+        queryKey: ['filteredMovies', movie.slug],
+        queryFn: async (): Promise<MovieWithCategory[]> => {
+            const response = await kinopoiskAPI.getSortedMoviesWithParametersSlug(movie.slug, {limit: 2})
+
+            const arrId: number[] = response.docs.map(item => item.movie.id)
+
+            const promises = arrId.map(id => {
+                return kinopoiskAPI.getMoviesId(id)
+                    .then((result) => result)
+                    .catch(() => null);
+            })
+
+            const combinedData: MovieWithCategory[] = response.docs.map((item: Movie, index: number) => {
+                return ({
+                        ...item,
+                        details: promises[index]
+                    })
+            })
+            return combinedData
+        }
+    }))
+
+    const results = useQueries({queries})
+
+
+    const filteredMovies = (categoryName: string): MovieWithCategory[] => {
+        const data = results.flatMap((result) => result.data || [])
+        return data.filter(item => item.category.name === categoryName)
+    }
+
+    const getTopMovies = () => filteredMovies('Топ 250 фильмов')
+    const getBestMovies = () => filteredMovies('Лучшие 500 фильмов в истории')
+    const getPlannedMovies = () => filteredMovies('Топ ожидаемых фильмов')
 
     return {
-        fetchMovies,
-        moviesTop,
-    };
+        isLoading: results.some((result) => {result.isLoading}),
+        isError: results.some((result) => {result.isError}),
+        getTopMovies,
+        getBestMovies,
+        getPlannedMovies,
+    }
 };
 
 export default useMoviesList;

@@ -1,11 +1,10 @@
 import Categories from "@/widgets/Categories/Categories.tsx";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
 import MoviesCard from "@/shared/ui/MoviesCard";
-import {MovieData} from "@/shared/hooks/useMoviesList.ts";
-import {useGetMoviesLoader} from "@/shared/hooks/useGetMoviesOrSeries.ts";
+import { useGetMoviesLoader } from "@/shared/hooks/useGetMoviesOrSeries.ts";
 import cl from './ShowsWidget.module.scss'
-import {MovieCollection} from "@/shared/hooks/useMovies.ts";
-import { useQuery } from "@tanstack/react-query";
+import { MovieCollection } from "@/shared/hooks/useMovies.ts";
+
 
 
 type ShowsWidgetProps = {
@@ -13,76 +12,32 @@ type ShowsWidgetProps = {
     sliderClassName?: string;
 }
 
-
-
 const ShowsWidget = (props: ShowsWidgetProps) => {
+
 
     const {
         groupedMovies,
         sliderClassName
     } = props;
 
-    const { loadMovies } = useGetMoviesLoader()
+    const {
+        getPopularSeries,
+        getGreatestSeries,
+        getTopSeries,
+        isLoading,
+        isError,
+        isSuccess
+    }  = useGetMoviesLoader();
 
-    // const fetchAll = async() => {
-    //
-    //     try {
-    //         const [popularSerial, newReleasedShow, mustWatchShows] = await Promise.all([
-    //             loadMovies("popular-series", 10),
-    //             loadMovies("series-top250", 10),
-    //             loadMovies("100_greatest_TVseries", 10),
-    //         ])
-    //         // setPopularSerial(popularSerial)
-    //         // setNewReleasedShow(newReleasedShow)
-    //         // setMustWatchShows(mustWatchShows)
-    //     }
-    //
-    //     catch(e) {
-    //         console.log(e)
-    //     }
-    // }
+    if (isLoading) {
+        return <div>Загрузка...</div>;
+    }
 
-    const { data: popularSerial, isLoading: isPopularSerialLoading } = useQuery<MovieData[]>({
-        queryKey: ['popularSerial'],
-        queryFn: () => loadMovies("popular-series", 10),
-        staleTime: 12 * 60 * 60 * 1000, // 12 часов
-        refetchOnWindowFocus: false,
-    })
-
-    const { data: newReleasedShow, isLoading: isReleasedShowLoading } = useQuery<MovieData[]>({
-        queryKey: ['releasedShow'],
-        queryFn: () => loadMovies("series-top250", 10),
-        staleTime: 12 * 60 * 60 * 1000, // 12 часов
-        refetchOnWindowFocus: false,
-    })
-    const { data: mustWatchShows, isLoading: isMustShowLoading } = useQuery<MovieData[]>({
-        queryKey: ['releasedShow'],
-        queryFn: () => loadMovies("100_greatest_TVseries", 10),
-        staleTime: 12 * 60 * 60 * 1000, // 12 часов
-        refetchOnWindowFocus: false,
-    })
-
-    console.log(mustWatchShows, popularSerial, newReleasedShow)
-
-    // const {data, isLoading: error } = useQueries([
-    //     queries: [
-    //         {
-    //             queryKey: ['releasedShow'],
-    //             queryFn: () => loadMovies("series-top250", 10)
-    //         },
-    //         {
-    //             queryKey: ['releasedShow'],
-    //             queryFn: () => loadMovies("series-top250", 10)
-    //         },
-    //         {
-    //             queryKey: ['releasedShow'],
-    //             queryFn: () => loadMovies("100_greatest_TVseries", 10)
-    //         }
-    //     ]
-    // ])
+    if (isError) {
+        return <div>Ошибка загрузки</div>;
+    }
 
     return (
-
         <div className={cl.ShowPageSeries}>
             <span className={cl.showsLabel}>Shows</span>
             <div>
@@ -91,7 +46,6 @@ const ShowsWidget = (props: ShowsWidgetProps) => {
                     title="Our Genres"
                     items={groupedMovies}
                     slidesPerView={5}
-
                     breakpoints={{
                         320: {
                             slidesPerView: 2,
@@ -107,7 +61,7 @@ const ShowsWidget = (props: ShowsWidgetProps) => {
                         },
                     }}
                     renderItem={(collection, index) => (
-                        <CategoriesCard key={collection.id} group={collection} />
+                        <CategoriesCard key={collection.id} collection={collection} group={collection.movies} />
                     )}
                 />
             </div>
@@ -115,9 +69,8 @@ const ShowsWidget = (props: ShowsWidgetProps) => {
                 <Categories
                     className={cl.categorySection}
                     title="Trending Shows Now"
-                    items={newReleasedShow}
+                    items={getPopularSeries()}
                     slidesPerView={4}
-
                     breakpoints={{
                         320: {
                             slidesPerView: 1.7,
@@ -142,7 +95,7 @@ const ShowsWidget = (props: ShowsWidgetProps) => {
                 <Categories
                     className={cl.categorySection}
                     title="New Released Shows"
-                    items={popularSerial}
+                    items={getGreatestSeries()}
                     slidesPerView={4}
                     breakpoints={{
                         320: {
@@ -168,7 +121,7 @@ const ShowsWidget = (props: ShowsWidgetProps) => {
                 <Categories
                     className={cl.categorySection}
                     title="Must - Watch Shows"
-                    items={mustWatchShows}
+                    items={getTopSeries()}
                     slidesPerView={4}
                     breakpoints={{
                         320: {

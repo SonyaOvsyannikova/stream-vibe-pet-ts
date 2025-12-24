@@ -28,10 +28,16 @@ h3{
   flex-direction: row;
   column-gap: fluid-to-laptop(16,12);
   align-items: center;
+  justify-content: center;
   @include tablet {
     border: none;
     background-color: inherit;
   }
+}
+.slider-prev {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .categoriesHeader {
   display: flex;
@@ -56,8 +62,40 @@ h3{
   display: flex;
   align-items: center;
 }
+.buttonNavigationArrowLeft {
+  rotate: 180deg;
+}
 .paginationForTablet {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.custom-swiper-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px; /* Уменьшаем расстояние между буллетами */
+  min-height: 20px;
+}
+:global(.swiper-pagination-bullet) {
+  width: fluid-to-laptop(16, 14);
+  height: 4px;
+  border-radius: 4px;
+  background: var(--color-grey-20);
+  opacity: 1;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-red-45);
+    width: 23px;
+  }
+}
+
+:global(.swiper-pagination-bullet-active ) {
+  background: var(--color-red-45) !important;
+  width: fluid-to-laptop(23,18);
+}
+
+

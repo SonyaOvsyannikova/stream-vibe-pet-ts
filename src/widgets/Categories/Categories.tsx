@@ -1,10 +1,15 @@
-import {ReactNode, useEffect, useMemo, useState} from "react";
+import {ReactNode, useEffect, useMemo, useRef, useState} from "react";
 import Slider from "@/shared/ui/Slider";
 import cl from './Categories.module.scss'
-import PaginationPanel from "@/shared/ui/PaginationPanel";
-import {useSliderControl} from "@/shared/hooks/useSliderControl.ts";
+import { useSliderControl } from "@/shared/hooks/useSliderControl.ts";
 import CategoriesDescription from "@/shared/ui/CategoriesDescription/CategoriesDescription.tsx";
 import { GroupedMovies } from "@/shared/hooks/useMovies.ts";
+import ButtonIcon from "@/shared/ui/ButtonIcon";
+import ArrowRight from '@/assets/icons/arrowRight.svg?react'
+import ArrowLeft from '@/assets/icons/arrowLeft.svg?react'
+import 'swiper/swiper.css'
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 type CategoriesProps<T> = {
     groupedMovies?: GroupedMovies,
@@ -26,6 +31,7 @@ type CategoriesProps<T> = {
 }
 
 
+
 const Categories = <T,>(props: CategoriesProps<T>) => {
 
 
@@ -38,8 +44,11 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
         renderItem,
         totalSlides = items.length,
         breakpoints,
-        spaceBetween
+        spaceBetween,
+        groupedMovies
     } = props;
+
+    console.log(groupedMovies)
 
     const { slider, setSlider, currentSlide, handleSlideChange } = useSliderControl()
     const [isTablet, setIsTablet] = useState<boolean>(false)
@@ -55,21 +64,34 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
         }
     })
 
+    // const prevRef = useRef(null);
+    // const nextRef = useRef(null);
+
     return (
         <div className={`${cl.categorySection} ${className || ''}`}>
             {!isTablet ? (
                 <>
                     <div className={cl.categoryHeader}>
-                        <CategoriesDescription labelHeader={title} labelDescription={description} />
-                        <PaginationPanel
-                            slider={slider}
-                            onSlideChange={handleSlideChange}
-                            currentSlide={currentSlide}
-                            totalSlide={items.length}
-                        />
+                        <CategoriesDescription labelHeader={title} labelDescription={description}/>
+                        <div className={cl.paginationAndNavigation}>
+                            <div className="slider-prev" >
+                                <ButtonIcon
+                                    className={cl.buttonNavigation}
+                                    label={<ArrowRight className={cl.buttonNavigationArrowLeft}/>}
+                                />
+                            </div>
+                            <div className={'custom-swiper-pagination'}></div>
+                            <div className="slider-next" >
+                                <ButtonIcon
+                                    className={cl.buttonNavigation}
+                                    label={<ArrowRight className={cl.buttonNavigationArrow}/>}
+                                />
+                            </div>
+                        </div>
+
                     </div>
                     <div className={cl.sliderCategory}>
-                        <Slider
+                    <Slider
                             spaceBetween = {spaceBetween}
                             onSwiper={setSlider}
                             onSlideChange={handleSlideChange}
@@ -77,6 +99,18 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
                             items={items}
                             renderItem={renderItem}
                             breakpoints={breakpoints}
+                            navigation={{
+                                prevEl: '.slider-prev',
+                                nextEl: `.slider-next`,
+                            }}
+                            pagination={{
+                                el: '.custom-swiper-pagination',
+                                type: 'bullets',
+                                clickable: true,
+                                bulletClass: 'swiper-pagination-bullet',
+                                bulletActiveClass:'swiper-pagination-bullet-active'
+                            }}
+
                         />
                     </div>
                 </>
@@ -93,16 +127,15 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
                                 items={items}
                                 renderItem={renderItem}
                                 breakpoints={breakpoints}
+                                pagination={{
+                                    el: '.custom-swiper-pagination-for-tablet',
+                                    type: 'progressbar',
+                                    clickable: true,
+                                }}
                             />
+                            <div className='custom-swiper-pagination-for-tablet'></div>
                         </div>
-                        <div className={cl.paginationForTablet}>
-                            <PaginationPanel
-                                slider={slider}
-                                onSlideChange={handleSlideChange}
-                                currentSlide={currentSlide}
-                                totalSlide={items.length}
-                            />
-                        </div>
+
                     </>
                 )
             }

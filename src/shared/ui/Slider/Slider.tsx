@@ -6,6 +6,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import cl from "@/shared/ui/Slider/Slider.module.scss";
 import { ReactNode } from "react";
+import {NavigationOptions, PaginationOptions} from "swiper/types";
 
 type SliderProps<T> = {
     onSwiper?: (swiper: SwiperType) => void
@@ -17,11 +18,14 @@ type SliderProps<T> = {
             spaceBetween?: number;
         }
     }
-    items:T[],
+    items: T[],
     renderItem: (item: T, index: number) => ReactNode,
     getItemKey?: (item: T, index: number) => string | number;
     spaceBetween?: number;
-}
+    navigation?: NavigationOptions | boolean;
+    pagination?: PaginationOptions | boolean;
+};
+
 const Slider =<T,> (props: SliderProps<T>) => {
 
     const {
@@ -32,7 +36,9 @@ const Slider =<T,> (props: SliderProps<T>) => {
         renderItem,
         getItemKey,
         breakpoints,
-        spaceBetween
+        spaceBetween,
+        navigation,
+        pagination,
     } = props;
 
     return (
@@ -42,13 +48,11 @@ const Slider =<T,> (props: SliderProps<T>) => {
                 slidesPerView={slidesPerView}
                 spaceBetween={spaceBetween}
                 breakpoints={breakpoints}
-                navigation={{
-                    prevEl: `.${cl.prevButton}`,
-                    nextEl: `.${cl.nextButton}`,
-                }}
-
+                navigation={navigation}
+                pagination={pagination}
                 onSwiper={onSwiper}
                 onSlideChange={(swiper) => onSlideChange(swiper.activeIndex)}
+
             >
                 {items?.map((item, index) => {
                     const key = props.getItemKey ? props.getItemKey(item, index) : `slide-${index}`
