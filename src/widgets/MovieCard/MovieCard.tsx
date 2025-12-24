@@ -17,7 +17,6 @@ import Collapse from '@/assets/icons/collapse.svg?react'
 import {useEffect, useRef, useState} from "react";
 import Slider from "@/shared/ui/Slider/Slider.tsx";
 import ReviewCard from "@/widgets/MovieCard/ui/ReviewCard";
-import Pagination from "@/shared/ui/Pagination";
 import Accordeon from "@/shared/ui/Accordeon";
 import SerialCard from "@/shared/ui/SerialCard";
 import Ratings from "@/shared/ui/Ratings";
