@@ -172,7 +172,25 @@
   gap: 15px;
   z-index: 10;
   width: 100%;
-  padding: fluid-to-laptop(20, 16) fluid-to-laptop(50, 20)
+  padding: fluid-to-laptop(20, 16) fluid-to-laptop(50, 20);
+}
+.swiperPagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.buttonNavigation{
+  background: var(--color-grey-08);
+  padding: fluid-to-laptop(14,12);
+  border: var(--border);
+  border-radius: var(--border-radius-s);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.buttonNavigationArrow {
+  width: fluid-to-laptop(28,24);
+  height: fluid-to-laptop(28,24);
 }
 .buttonArrow {
   display: flex;
@@ -222,3 +240,4 @@
   background: var(--color-red-45) !important;
   width: fluid-to-laptop(23,18);
 }
+.heroSliderPagination {}

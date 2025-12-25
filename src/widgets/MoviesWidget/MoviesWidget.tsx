@@ -6,7 +6,6 @@ import {MovieCollection} from "@/shared/hooks/useMovies.ts";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
 import {kinopoiskAPI} from "@/shared/api/сlient.ts";
 import {useQuery} from "@tanstack/react-query";
-import logo from "@/shared/ui/Logo";
 
 type MoviesWidgetProps = {
     groupedMovies: MovieCollection[],
@@ -22,6 +21,9 @@ const MoviesWidget = ( props: MoviesWidgetProps) => {
     } = props;
 
     const { getTopMovies, getPlannedMovies, getBestMovies, isError, isLoading} = useMoviesList()
+
+
+
 
     return (
         <div className={cl.ShowPageMovie}>
@@ -105,6 +107,7 @@ const MoviesWidget = ( props: MoviesWidgetProps) => {
                     renderItem={(collection, index) => (
                         <MoviesCard variant = {'Trending Now'} key={collection.movie.id}
                                     movieData = {collection.movie}/>
+
                     )}/>
             </div>
             <div>

@@ -10,7 +10,7 @@ type TabProps = {
 }
 type Label = {
     id: number,
-    label: string,
+    label: string | ReactNode,
 }
 
 const Tab = (props: TabProps) => {

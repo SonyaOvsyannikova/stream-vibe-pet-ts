@@ -31,7 +31,7 @@ import {
     Rating
 } from "@/shared/types";
 import { Swiper as SwiperType } from 'swiper';
-import FreeTrialPromo from "src/widgets/Layout/FreeTrialPromo";
+
 
 
 type MovieCardProps = {

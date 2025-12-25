@@ -45,10 +45,9 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
         totalSlides = items.length,
         breakpoints,
         spaceBetween,
-        groupedMovies
     } = props;
 
-    console.log(groupedMovies)
+
 
     const { slider, setSlider, currentSlide, handleSlideChange } = useSliderControl()
     const [isTablet, setIsTablet] = useState<boolean>(false)
@@ -64,8 +63,9 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
         }
     })
 
-    // const prevRef = useRef(null);
-    // const nextRef = useRef(null);
+    const prevRef = useRef<HTMLDivElement>(null);
+    const nextRef = useRef<HTMLDivElement>(null);
+    const paginationRef = useRef<HTMLDivElement>(null)
 
     return (
         <div className={`${cl.categorySection} ${className || ''}`}>
@@ -74,14 +74,14 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
                     <div className={cl.categoryHeader}>
                         <CategoriesDescription labelHeader={title} labelDescription={description}/>
                         <div className={cl.paginationAndNavigation}>
-                            <div className="slider-prev" >
+                            <div className="slider-prev" ref={prevRef}>
                                 <ButtonIcon
                                     className={cl.buttonNavigation}
                                     label={<ArrowRight className={cl.buttonNavigationArrowLeft}/>}
                                 />
                             </div>
-                            <div className={'custom-swiper-pagination'}></div>
-                            <div className="slider-next" >
+                            <div className={'custom-swiper-pagination'} ref={paginationRef}></div>
+                            <div className="slider-next" ref={nextRef}>
                                 <ButtonIcon
                                     className={cl.buttonNavigation}
                                     label={<ArrowRight className={cl.buttonNavigationArrow}/>}
@@ -100,11 +100,11 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
                             renderItem={renderItem}
                             breakpoints={breakpoints}
                             navigation={{
-                                prevEl: '.slider-prev',
-                                nextEl: `.slider-next`,
+                                prevEl: prevRef.current,
+                                nextEl: nextRef.current,
                             }}
                             pagination={{
-                                el: '.custom-swiper-pagination',
+                                el: paginationRef.current,
                                 type: 'bullets',
                                 clickable: true,
                                 bulletClass: 'swiper-pagination-bullet',
@@ -128,12 +128,12 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
                                 renderItem={renderItem}
                                 breakpoints={breakpoints}
                                 pagination={{
-                                    el: '.custom-swiper-pagination-for-tablet',
+                                    el: paginationRef.current,
                                     type: 'progressbar',
                                     clickable: true,
                                 }}
                             />
-                            <div className='custom-swiper-pagination-for-tablet'></div>
+                            <div className='custom-swiper-pagination-for-tablet' ref={paginationRef}></div>
                         </div>
 
                     </>

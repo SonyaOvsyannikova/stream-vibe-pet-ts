@@ -1,11 +1,33 @@
 .welcomePageSection {
-  display: flex;
-  column-gap: fluid-to-laptop(80,50);
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: fluid-to-laptop(80,50);
+  @include tablet {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .welcomePageIntro {
   display: flex;
   flex-direction: column;
   row-gap: fluid(50,30);
+}
+.bgImg {
+  height: fluid(477, 344);
+  width: 100%;
+  background: url("/container1.png") center/100% no-repeat;
+  background-attachment: fixed;
+  background-size:100%;
+  background-position: 0 0;
+  border: var(--border-width-l) solid var(--color-grey-15);
+  border-radius: var(--border-radius-xs);
+  @include mobile {
+    background: url('/container1.png') center/cover no-repeat;
+    background-attachment: fixed;
+    background-size:240%;
+    background-position: 10% 20% ;
+    height: 344px;
+  }
 }
 .welcomePageIntroHeader {
   display: flex;
@@ -27,15 +49,33 @@ h2{
   display: flex;
   flex-direction: column;
   row-gap: fluid(50,20);
+  height: auto;
+  width: 100%;
+  @include tablet {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 }
 .supportPageFormName {
   display: flex;
   column-gap: fluid-to-laptop(50,20);
+  @include tablet {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .supportPageFormContact {
   display: flex;
   column-gap: fluid-to-laptop(50,20);
+  @include tablet {
+    display: flex;
+    flex-direction: column;
+  }
 }
+
 .supportPageFormMessage{
   width: 100%;
   display: flex;
@@ -55,6 +95,11 @@ h2{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @include tablet {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
 }
 .agree {
   display: flex;

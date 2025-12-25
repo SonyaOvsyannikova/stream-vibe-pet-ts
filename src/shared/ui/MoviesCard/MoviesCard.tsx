@@ -68,7 +68,7 @@ const MoviesCard = (props: MoviesCardProps) => {
 
         <div className={cl.moviesCard}>
             {variant === 'Trending Now' && (
-                <div >
+                <div className={cl.moviesCardTrendingNow}>
                     <div className={cl.moviesCardTrendingNowImg}>
                         <img
                             src={movieData?.poster?.previewUrl}

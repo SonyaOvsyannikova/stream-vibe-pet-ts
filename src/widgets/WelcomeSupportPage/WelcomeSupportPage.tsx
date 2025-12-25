@@ -32,7 +32,6 @@ const WelcomeSupportPage = () => {
             return countryCode;
         }
     }
-
     const formatNumber = (value: string, countryCode: Country) => {
         if(!value) return `+${getCountryCallingCode(countryCode)}`
 
@@ -62,7 +61,7 @@ const WelcomeSupportPage = () => {
                     <h2 className={cl.welcomePageIntroTitle}>Welcome to our support page!</h2>
                     <p className={cl.welcomePageIntroDescription}>We're here to help you with any problems you may be having with our product.</p>
                 </div>
-                <img className={cl.welcomeSupportImage} src='./public/supportImage.png' alt='support-image'/>
+                <div className={cl.bgImg} />
             </div>
             <form className={cl.supportPageForm}>
                 <div className={cl.supportPageFormName}>

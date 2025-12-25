@@ -1,6 +1,9 @@
 import cl from './ComparePlan.module.scss'
+import {useEffect, useState} from "react";
+import Tab from "@/shared/ui/Tab/Tab.tsx";
+import ComparePlanCard from "@/widgets/ComparePlan/ComparePlanCard";
 
-type ComparePlanTypes = {
+export type ComparePlanTypes = {
     id: number;
     name: string;
     features: {
@@ -19,6 +22,13 @@ type ComparePlanTypes = {
 
 const ComparePlan = () => {
 
+    const [tablet, setTablet] = useState<boolean>(true)
+    const [billingPlant, setBillingPlant] = useState<'Basic'| 'Standard' | 'Premium'>('Standard')
+    useEffect(() => {
+       if( window.innerWidth <= 1024) {
+           setTablet(false)
+       }
+    }, []);
     const dataComparePlan: ComparePlanTypes[] = [
         {
             id: 1,
@@ -77,44 +87,58 @@ const ComparePlan = () => {
                 <p>StreamVibe offers three different plans to fit your needs: Basic, Standard, and Premium. Compare the features of each plan and choose the one that's right for you.</p>
             </div>
             <div>
-                <table className={cl.planTable}>
+                {tablet ? (<table className={cl.planTable}>
                     <thead className={cl.planTableHead}>
-                        <tr className={cl.planTableHeaderRow}>
-                            <th className={cl.planTableHeader}>Features</th>
-                            {dataComparePlan.map(comparePlan => (
-                                <th
-                                    className={cl.planTableHeader}
-                                    key = {comparePlan.id}
-                                >
-                                    {comparePlan.name === 'Standard' ? (
-                                        <th className={cl.planTableHeaderPopular}>
-                                            {comparePlan.name}
-                                            <div className={cl.popularFlag}>Popular</div>
-                                        </th>
-                                    ) : (
-                                        <th>
-                                            {comparePlan.name}
-                                        </th>
-                                    )}
-                                </th>
-                            ))}
-                        </tr>
+                    <tr className={cl.planTableHeaderRow}>
+                        <th className={cl.planTableHeader}>Features</th>
+                        {dataComparePlan.map(comparePlan => (
+                            <th
+                                className={cl.planTableHeader}
+                                key = {comparePlan.id}
+                            >
+                                {comparePlan.name === 'Standard' ? (
+                                    <th className={cl.planTableHeaderPopular}>
+                                        {comparePlan.name}
+                                        <div className={cl.popularFlag}>Popular</div>
+                                    </th>
+                                ) : (
+                                    <th>
+                                        {comparePlan.name}
+                                    </th>
+                                )}
+                            </th>
+                        ))}
+                    </tr>
                     </thead>
                     <tbody>
-                            {Object.keys(dataComparePlan[0].features).map(feature => (
-                                <tr>
-                                    <td className={cl.planTableBody}>{feature}</td>
-                                    {dataComparePlan.map(plan => (
-                                        <td
-                                            className={cl.planTableBody}
-                                            key = {plan.id}>
-                                            {plan.features[feature]}
-                                        </td>
-                                    ))}
-                                </tr>
+                    {Object.keys(dataComparePlan[0].features).map(feature => (
+                        <tr>
+                            <td className={cl.planTableBody}>{feature}</td>
+                            {dataComparePlan.map(plan => (
+                                <td
+                                    className={cl.planTableBody}
+                                    key = {plan.id}>
+                                    {plan.features[feature]}
+                                </td>
                             ))}
+                        </tr>
+                    ))}
                     </tbody>
-                </table>
+                </table>) : (
+                    <div>
+                        <Tab labels={[{id:1, label:'Basic'}, {id: 2, label: 'Standard'}, {id: 3, label: 'Premium'}]}
+                             onChange={(id) => {
+                                 setBillingPlant(
+                                     id === 1 ? 'Basic' :
+                                         id === 2 ? 'Standard' :
+                                             'Premium'
+                                 );
+                             }}/>
+                        <ComparePlanCard plan={billingPlant} dataComparePlan={dataComparePlan}/>
+                    </div>
+
+                )}
+
             </div>
         </div>
     );

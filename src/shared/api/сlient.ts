@@ -186,10 +186,26 @@ export const kinopoiskAPI = {
     getMoviesSortedByBackdropAndTopMovies: async (options: optionsMovies = {}) => {
         try {
             const params: any = {
-                limit: 6,
+                limit: 2,
                 sortField: 'top10',
-                sortType: 1,
-                'backdrop.url': options.backdrop,
+                sortType: -1,
+                'rating.kp': '7-10',
+                selectFields: [
+                    'id',
+                    'name',
+                    'year',
+                    'rating.kp',
+                    'backdrop.url',
+                    'backdrop.previewUrl',
+                    'poster.url',
+                    'poster.previewUrl'
+                ],
+                notNullFields: [
+                    'backdrop.url',
+                    'poster.url',
+                    'rating.kp'
+                ],
+                year: '2024-2025',
             }
 
             const response = await axiosInstance.get('/movie', {

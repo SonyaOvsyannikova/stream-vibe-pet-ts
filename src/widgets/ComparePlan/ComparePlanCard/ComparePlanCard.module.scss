@@ -1,0 +1,32 @@
+.comparePlanCard {
+  border: var(--border);
+  border-radius: var(--border-radius-l);
+  background-color: var(--color-grey-06);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+.comparePlanCardContents {
+  display: flex;
+  gap: 20px;
+}
+
+.comparePlanCardContents > div {
+  flex: 1;
+  border-radius: 8px;
+}
+
+.comparePlanCardContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+h6 {
+  color: var(--color-grey-light-60);
+}
+p {
+  color: var(--color-white)
+}

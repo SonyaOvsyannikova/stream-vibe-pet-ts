@@ -12,6 +12,7 @@ const MoviesAndShowsPage = () => {
     const {getBestMovies, getPlannedMovies, getTopMovies, isError, isLoading } = useMoviesList()
 
 
+
     if (isLoading ) {
         return <div>Загрузка...</div>;
     }

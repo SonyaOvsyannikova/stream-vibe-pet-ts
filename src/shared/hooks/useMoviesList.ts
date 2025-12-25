@@ -82,18 +82,20 @@ const useMoviesList = ():useMoviesList => {
         queryFn: async (): Promise<MovieWithCategory[]> => {
             const response = await kinopoiskAPI.getSortedMoviesWithParametersSlug(movie.slug, {limit: 2})
 
-            const arrId: number[] = response.docs.map(item => item.movie.id)
+            const arrId: number[] = response.docs.map((item: MovieWithCategory) => item.movie.id)
 
-            const promises = arrId.map(id => {
+            const promises = arrId.map((id:number) => {
                 return kinopoiskAPI.getMoviesId(id)
                     .then((result) => result)
                     .catch(() => null);
             })
 
+            const results = await Promise.all(promises);
+
             const combinedData: MovieWithCategory[] = response.docs.map((item: Movie, index: number) => {
                 return ({
                         ...item,
-                        details: promises[index]
+                        details: results[index]
                     })
             })
             return combinedData
@@ -108,9 +110,13 @@ const useMoviesList = ():useMoviesList => {
         return data.filter(item => item.category.name === categoryName)
     }
 
-    const getTopMovies = () => filteredMovies('Топ 250 фильмов')
-    const getBestMovies = () => filteredMovies('Лучшие 500 фильмов в истории')
-    const getPlannedMovies = () => filteredMovies('Топ ожидаемых фильмов')
+    // const getTopMovies = () => filteredMovies('Топ 250 фильмов')
+    // const getBestMovies = () => filteredMovies('Лучшие 500 фильмов в истории')
+    // const getPlannedMovies = () => filteredMovies('Топ ожидаемых фильмов')
+
+    const getTopMovies = () => results[0]?.data || [];
+    const getBestMovies = () => results[1]?.data || [];
+    const getPlannedMovies = () => results[2]?.data || [];
 
     return {
         isLoading: results.some((result) => {result.isLoading}),

@@ -7,7 +7,7 @@ import ArrowLeft from '@/assets/icons/arrowLeft.svg?react'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import MainButton from "@/shared/ui/MainButton";
 import cl from './Hero.module.scss'
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { IResponseApiMovie, IResponseApiSeasons, IResponseApiEpisodeData } from "@/shared/types";
 import clsx from "clsx";
 import Slider from "@/shared/ui/Slider";
@@ -17,6 +17,7 @@ import PlayButton from '@/assets/icons/playButtonOnHero.svg?react'
 import { kinopoiskAPI } from "@/shared/api/сlient.ts";
 import { useQuery } from "@tanstack/react-query"
 import { MovieData, SeasonInfo} from "@/shared/hooks/useMoviesList.ts";
+
 
 
 type HeroProps = {
@@ -79,11 +80,15 @@ const Hero = (props: HeroProps) => {
 
     const { data: movieOrSeries, isLoading, isError } = useQuery<IResponseApiMovie[]>({
         queryKey: ['movieOrSeriesByHero'],
-        queryFn: () => {
-            return kinopoiskAPI.getMoviesSortedByBackdropAndTopMovies()
+        queryFn: async () => {
+            const response = await kinopoiskAPI.getMoviesSortedByBackdropAndTopMovies()
+            return response.docs
         }
     })
 
+    const sliderPrev = useRef<HTMLDivElement>(null)
+    const sliderNext = useRef<HTMLDivElement>(null)
+    const sliderPagination = useRef<HTMLDivElement>(null)
 
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
     const [slider, setSlider] = useState<null | SwiperType>(null);
@@ -94,7 +99,6 @@ const Hero = (props: HeroProps) => {
         setCurrentSlide(slideIndex);
         slider?.slideTo(slideIndex);
     }
-
 
     const favoriteMovie = () => {
         const favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovie')) || [];
@@ -211,11 +215,11 @@ const Hero = (props: HeroProps) => {
                                             onSlideChange={handleSlideChange}
                                             slidesPerView={1}
                                             navigation={{
-                                                prevEl: '.slider-prev',
-                                                nextEl: `.slider-next`,
+                                                prevEl: sliderPrev.current,
+                                                nextEl: sliderNext.current,
                                             }}
                                             pagination={{
-                                                el: '.custom-swiper-pagination',
+                                                el: sliderPagination.current,
                                                 type: 'bullets',
                                                 clickable: true,
                                                 bulletClass: 'swiper-pagination-bullet',
@@ -304,21 +308,20 @@ const Hero = (props: HeroProps) => {
                                         </Slider>
                                     {tablet >= 1024 && (
                                         <div className={cl.heroSliderPagination}>
-                                            <div className="slider-prev" >
+                                            <div className="slider-prev" ref={sliderPrev} >
                                                 <ButtonIcon
                                                     className={cl.buttonNavigation}
                                                     label={<ArrowLeft className={cl.buttonNavigationArrowLeft}/>}
                                                 />
                                             </div>
-                                            <div className={'custom-swiper-pagination'}></div>
-                                            <div className="slider-next" >
+                                            <div className={cl.swiperPagination} ref={sliderPagination}></div>
+                                            <div className="slider-next" ref={sliderNext} >
                                                 <ButtonIcon
                                                     className={cl.buttonNavigation}
                                                     label={<ArrowRight className={cl.buttonNavigationArrow}/>}
                                                 />
                                             </div>
                                         </div>
-
                                     )}
                                 </div>
                             )
