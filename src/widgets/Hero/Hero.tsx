@@ -16,7 +16,7 @@ import {Swiper as SwiperType} from "swiper";
 import PlayButton from '@/assets/icons/playButtonOnHero.svg?react'
 import { kinopoiskAPI } from "@/shared/api/сlient.ts";
 import { useQuery } from "@tanstack/react-query"
-import { MovieData, SeasonInfo} from "@/shared/hooks/useMoviesList.ts";
+import { MovieData, SeasonInfo} from "@/shared/hooks/useMovie.ts";
 
 
 
@@ -95,7 +95,7 @@ const Hero = (props: HeroProps) => {
     const [currentSlide, setCurrentSlide] = useState<number>(0);
     let tablet = window.innerWidth
 
-    const handleSlideChange = (slideIndex: number):void => {
+    const handleSlideChange = (slideIndex: number) => {
         setCurrentSlide(slideIndex);
         slider?.slideTo(slideIndex);
     }

@@ -6,7 +6,7 @@ export const useSliderControl = () => {
     const [slider, setSlider] = useState<null | SwiperType>(null);
     const [currentSlide, setCurrentSlide] = useState<number>(0);
 
-    const handleSlideChange = (slideIndex: number):void => {
+    const handleSlideChange = (slideIndex: number) => {
         setCurrentSlide(slideIndex);
         slider?.slideTo(slideIndex);
     }

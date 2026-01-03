@@ -86,11 +86,11 @@ const MovieCard = (props: MovieCardProps) => {
         setOpenCreateReview(false);
     }
     const defaultShowLanguage = 5;
-    const handleSlideChange = (slideIndex: number):void => {
+    const handleSlideChange = (slideIndex: number) => {
         setCurrentSlide(slideIndex);
         slider?.slideTo(slideIndex);
     }
-    const outsideRef = useOutsideClick( ():void => {
+    const outsideRef = useOutsideClick( () => {
         if(openCreateReview) setOpenCreateReview(false);
     })
 

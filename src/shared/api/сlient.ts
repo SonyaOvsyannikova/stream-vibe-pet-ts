@@ -25,12 +25,10 @@ type optionsMovies = {
     rating?: Rating,
     poster?: Poster,
     year?: number,
-    genres?: Array<Genres>,
+    genres?: Genres[],
     backdrop?: Backdrop,
     slug?: string,
     lists?: string[],
-
-
 }
 type listOptions = {
     signal?: AbortSignal,
@@ -96,6 +94,7 @@ type Poster = {
     previewUrl: string,
     url: string,
 }
+
 
 export const kinopoiskAPI = {
     getPopularMovies: async (options: optionsMovies = {}) => {

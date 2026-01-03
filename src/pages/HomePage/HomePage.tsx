@@ -1,24 +1,26 @@
 import '@/shared/styles'
-import { useEffect, useState } from "react";
-import {kinopoiskAPI} from "@/shared/api/сlient.ts";
 import Categories from "@/widgets/Categories/Categories.tsx";
 import cl from './HomePage.module.scss'
 import Devices from "@/widgets/Devices/Devices.tsx";
 import Questions from "@/widgets/Questions";
 import Plan from "@/widgets/Plan/Plan.tsx";
 import Hero from "@/widgets/Hero";
-import {Movie, MovieCollection, useMovies} from "@/shared/hooks/useMovies.ts";
-import CategoriesDescription from "@/shared/ui/CategoriesDescription/CategoriesDescription.tsx";
+import {Movie, MovieCollectionByGrouped, useMoviesGrouped} from "@/shared/hooks/useMoviesGrouped.ts";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
-import logo from "@/shared/ui/Logo";
-
+import {useInView} from "react-intersection-observer";
 
 
 const HomePage = () => {
 
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        rootMargin: '200px 0px',
+    });
+
     const {
-        groupedMovies
-    } = useMovies()
+        groupedMoviesPageOne,
+        isLoadingPageOne
+    } = useMoviesGrouped(inView);
 
     return (
         <>
@@ -27,27 +29,31 @@ const HomePage = () => {
                     classNamePosterHomePage={cl.posterHomePage}
                 />
             <div  className='container'>
-                <div>
-                    <Categories
-                        title = {'Explore our wide variety of categories'}
-                        description={'Whether you\'re looking for a comedy to make you laugh, a drama to make you think, or a documentary to learn something new'}
-                        slidesPerView = {5}
-                        breakpoints={{
-                            320: {
-                                slidesPerView: 2,
-                            },
-                            768: {
-                                slidesPerView: 2,
-                            },
-                            1024: {
-                                slidesPerView: 5,
-                            },
-                        }}
-                        items={groupedMovies}
-                        renderItem={(collection, index) => (
-                            <CategoriesCard key={collection.id} collection={collection} group={collection.movies} />
-                        )}
-                    />
+                <div ref={ref}>
+                    {inView && !isLoadingPageOne ? (
+                        <Categories
+                            title = {'Explore our wide variety of categories'}
+                            description={'Whether you\'re looking for a comedy to make you laugh, a drama to make you think, or a documentary to learn something new'}
+                            slidesPerView = {5}
+                            breakpoints={{
+                                320: {
+                                    slidesPerView: 2,
+                                },
+                                768: {
+                                    slidesPerView: 2,
+                                },
+                                1024: {
+                                    slidesPerView: 5,
+                                },
+                            }}
+                            items={groupedMoviesPageOne}
+                            renderItem={(collection, index) => (
+                                <CategoriesCard key={collection.id} collection={collection} group={collection.movies} />
+                            )}
+                        />
+                    ): (
+                        <> Загрузка категорий... </>
+                    ) }
                 </div>
                 <Devices />
                 <Questions />

@@ -8,6 +8,7 @@ import cl from "@/shared/ui/Slider/Slider.module.scss";
 import { ReactNode } from "react";
 import {NavigationOptions, PaginationOptions} from "swiper/types";
 
+
 type SliderProps<T> = {
     onSwiper?: (swiper: SwiperType) => void
     onSlideChange?: (activeIndex: number) => void

@@ -1,28 +1,34 @@
-import {memo, use, useEffect, useMemo, useState} from "react";
-import { MovieCollection } from '@/shared/hooks/useMovies'
-import  { MovieWithCategory } from '@/shared/hooks/useMoviesList'
+import {memo, use, useEffect, useMemo, useState, lazy, Suspense, useRef} from "react";
 import cl from './ShowsPageMovie.module.scss'
-import ShowsWidget from "@/widgets/ShowsWidget";
-import MoviesWidget from "@/widgets/MoviesWidget";
 import Tab from "@/shared/ui/Tab/Tab.tsx";
-
+import { useInView } from 'react-intersection-observer';
+import {MovieCollectionFromUseMovies, MovieWithCategory} from "@/shared/hooks/useMovie.ts";
 
 type ShowsPageMovieProps = {
-    groupedMovies: MovieCollection[],
+    groupedMovies: MovieCollectionFromUseMovies[],
     groupedLength: number,
     moviesTop: MovieWithCategory[],
 }
 
-const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
+const MoviesWidget = lazy(() => {
+    console.log('Начинаем загрузку MoviesWidget в:', performance.now());
+    return import("@/widgets/MoviesWidget").then(module => {
+        console.log('✅ MoviesWidget загружен в:', performance.now());
+        return module;
+    });
+});
+const ShowsWidget = lazy(() => {
+    console.log('Начинаем загрузку ShowsWidget в:', performance.now());
+    return import("@/widgets/ShowsWidget").then(module => {
+        console.log('✅ ShowsWidget загружен в:', performance.now());
+        return module;
+    });
+});
+
+const ShowsPageMovie = () => {
 
     const [activeTab, setActiveTab] = useState<number>(1)
     const [isTablet, setIsTablet] = useState<boolean>(false)
-
-    const {
-        groupedMovies,
-        groupedLength,
-        moviesTop
-    } = props;
 
 
     useEffect(() => {
@@ -33,6 +39,18 @@ const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
         window.addEventListener('resize', handleSize)
         return () => window.removeEventListener('resize', handleSize)
     }, [])
+
+    const {ref: moviesRef, inView: moviesInView} = useInView({
+        triggerOnce: true,
+        rootMargin: '400px 0px',
+        skip: isTablet
+    })
+
+    const {ref: showsRef, inView: showsInView} = useInView({
+        triggerOnce: true,
+        rootMargin: '400px 0px',
+        skip: isTablet
+    })
 
 
     return (
@@ -46,18 +64,45 @@ const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
             )}
             {!isTablet ? (
                 <div className = {cl.moviePageTablet}>
-                    <MoviesWidget groupedMovies={groupedMovies} groupedLength={groupedLength} moviesTop={moviesTop} />
-                    <ShowsWidget groupedMovies={groupedMovies}/>
+
+                         <div
+                             style={{
+                                 minHeight: moviesInView ? 'auto' : '400px',
+                             }}
+                             ref={moviesRef}>
+                                {moviesInView && (
+                            <Suspense fallback={<div> Идет загрузка фильмов ...</div>}>
+                                <MoviesWidget />
+                            </Suspense>
+                                )}
+                        </div>
+
+                        <div
+                            style={{
+                                minHeight: moviesInView ? 'auto' : '400px',
+                            }}
+                            ref={showsRef}>
+                                {showsInView && (
+                                <Suspense fallback={<div> Идет загрузка сериалов ...</div>}>
+                                    <ShowsWidget />
+                                </Suspense>
+                                )}
+                        </div>
+
                 </div>
                 ) : (
                 <>
                     {(activeTab === 1) ? (
                         <>
-                            <MoviesWidget groupedMovies={groupedMovies} groupedLength={groupedLength} moviesTop={moviesTop} />
+                            <Suspense fallback={<div> Идет загрузка фильмов ...</div>}>
+                                <MoviesWidget />
+                            </Suspense>
                         </>
                     ): (
                         <>
-                            <ShowsWidget groupedMovies={groupedMovies}/>
+                            <Suspense fallback={<div> Идет загрузка сериалов ...</div>}>
+                                <ShowsWidget />
+                            </Suspense>
                         </>
                     )}
                 </>
@@ -65,6 +110,6 @@ const ShowsPageMovie = memo((props: ShowsPageMovieProps) => {
 
         </div>
     );
-});
+};
 
 export default ShowsPageMovie;

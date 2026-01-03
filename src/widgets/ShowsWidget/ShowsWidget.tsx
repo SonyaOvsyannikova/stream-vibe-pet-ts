@@ -1,33 +1,41 @@
 import Categories from "@/widgets/Categories/Categories.tsx";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
 import MoviesCard from "@/shared/ui/MoviesCard";
-import { useGetMoviesLoader } from "@/shared/hooks/useGetMoviesOrSeries.ts";
+import useShows  from "@/shared/hooks/useShows.ts";
 import cl from './ShowsWidget.module.scss'
-import { MovieCollection } from "@/shared/hooks/useMovies.ts";
+import {MovieCollectionByGrouped, useMoviesGrouped} from "@/shared/hooks/useMoviesGrouped.ts";
+import {lazy} from "react";
+import {MovieData} from "@/shared/hooks/useMovie.ts";
+import LazyCategoriesWithObserver from "@/widgets/Categories/LazyCategoriesWithObserver";
+import AllGenresTopCategories from "@/widgets/AllGenresTopCategories";
 
 
+const LazyCategories = lazy(() => {
+    return (
+        import('@/widgets/Categories/Categories.tsx')
+            .then(module => {
+                console.log('Загрузка категорий in Shows', performance.now())
+                return module
+            })
+            .catch(error => {
+                console.log('Категории не загружены in Shows', error)
+                throw error;
+            })
+    )
+})
 
-type ShowsWidgetProps = {
-    groupedMovies: MovieCollection[],
-    sliderClassName?: string;
-}
+const ShowsWidget = () => {
 
-const ShowsWidget = (props: ShowsWidgetProps) => {
-
+    const { groupedMoviesPageOne, groupedMoviesPageTwo, isLoadingPageOne, isLoadingPageTwo } = useMoviesGrouped()
 
     const {
-        groupedMovies,
-        sliderClassName
-    } = props;
-
-    const {
-        getPopularSeries,
-        getGreatestSeries,
-        getTopSeries,
+        topSeries,
+        popularSeries,
+        greatestSeries,
         isLoading,
         isError,
-        isSuccess
-    }  = useGetMoviesLoader();
+    }  = useShows();
+
 
     if (isLoading) {
         return <div>Загрузка...</div>;
@@ -37,111 +45,140 @@ const ShowsWidget = (props: ShowsWidgetProps) => {
         return <div>Ошибка загрузки</div>;
     }
 
+    console.log(topSeries);
     return (
         <div className={cl.ShowPageSeries}>
             <span className={cl.showsLabel}>Shows</span>
-            <div>
-                <Categories
-                    className={cl.categorySection}
-                    title="Our Genres"
-                    items={groupedMovies}
-                    slidesPerView={5}
-                    breakpoints={{
-                        320: {
-                            slidesPerView: 2,
-                            spaceBetween: 16
-                        },
-                        768: {
-                            slidesPerView: 2,
-                            spaceBetween: 16
-                        },
-                        1024: {
-                            slidesPerView: 5,
-                            spaceBetween: 16
-                        },
-                    }}
-                    renderItem={(collection, index) => (
-                        <CategoriesCard key={collection.id} collection={collection} group={collection.movies} />
-                    )}
-                />
-            </div>
-            <div>
-                <Categories
-                    className={cl.categorySection}
-                    title="Trending Shows Now"
-                    items={getPopularSeries()}
-                    slidesPerView={4}
-                    breakpoints={{
-                        320: {
-                            slidesPerView: 1.7,
-                            spaceBetween: 16
-                        },
-                        768: {
-                            slidesPerView: 2,
-                            spaceBetween: 16
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                            spaceBetween: 16
-                        },
-                    }}
-                    renderItem={(collection, index) => (
-                        <MoviesCard variant = {'Trending Shows Now'} key={collection.movie.id}
-                                    movieData = {collection.details}/>
-                    )}/>
-            </div>
 
-            <div>
-                <Categories
-                    className={cl.categorySection}
-                    title="New Released Shows"
-                    items={getGreatestSeries()}
-                    slidesPerView={4}
-                    breakpoints={{
-                        320: {
-                            slidesPerView: 1.7,
-                            spaceBetween: 16
-                        },
-                        768: {
-                            slidesPerView: 2,
-                            spaceBetween: 16
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                            spaceBetween: 16
-                        },
-                    }}
-                    renderItem={(collection, index) => (
-                        <MoviesCard variant = {'New Released Shows'} key={collection.movie.id}
-                                    movieData = {collection.details}/>
-                    )}/>
-            </div>
+            {/*<div>*/}
+            {/*    <Categories*/}
+            {/*        className={cl.categorySection}*/}
+            {/*        title="Our Genres"*/}
+            {/*        items={groupedMoviesPageOne}*/}
+            {/*        slidesPerView={5}*/}
+            {/*        spaceBetween={16}*/}
+            {/*        breakpoints={{*/}
+            {/*            320: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            768: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            1023: {*/}
+            {/*                slidesPerView: 5,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*        }}*/}
+            {/*        renderItem={(collection, index) => (*/}
+            {/*            <CategoriesCard key={collection.id} variant={'Our Genres'} collection={collection} group={collection.movies} />*/}
+            {/*        )}*/}
+            {/*    />*/}
+            {/*</div>*/}
+            {/*<div>*/}
+            {/*    <Categories*/}
+            {/*        className={cl.categorySection}*/}
+            {/*        title="Popular Top 10 In Genres"*/}
+            {/*        items={groupedMoviesPageTwo}*/}
+            {/*        slidesPerView={5}*/}
+            {/*        spaceBetween={16}*/}
+            {/*        breakpoints={{*/}
+            {/*            320: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            768: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            1023: {*/}
+            {/*                slidesPerView: 4,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*        }}*/}
+            {/*        renderItem={(collection, index) => (*/}
+            {/*            <CategoriesCard key={collection.id} variant={'Popular Top 10 In Genres'} collection={collection} group={collection.nextMovies} />*/}
+            {/*        )}*/}
+            {/*    />*/}
+            {/*</div>*/}
+            {/*<div>*/}
+            {/*    <Categories*/}
+            {/*        className={cl.categorySection}*/}
+            {/*        title="Trending Shows Now"*/}
+            {/*        items={popularSeries}*/}
+            {/*        slidesPerView={4}*/}
+            {/*        breakpoints={{*/}
+            {/*            320: {*/}
+            {/*                slidesPerView: 1.7,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            768: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            1024: {*/}
+            {/*                slidesPerView: 4,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*        }}*/}
+            {/*        renderItem={(collection: MovieData, index) => (*/}
+            {/*            <MoviesCard variant = {'Trending Shows Now'} key={collection.movie.id}*/}
+            {/*                        movieData = {collection.details}/>*/}
+            {/*        )}/>*/}
+            {/*</div>*/}
 
-            <div>
-                <Categories
-                    className={cl.categorySection}
-                    title="Must - Watch Shows"
-                    items={getTopSeries()}
-                    slidesPerView={4}
-                    breakpoints={{
-                        320: {
-                            slidesPerView: 1.7,
-                            spaceBetween: 16
-                        },
-                        768: {
-                            slidesPerView: 2,
-                            spaceBetween: 16
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                            spaceBetween: 16
-                        },
-                    }}
-                    renderItem={(collection, index) => (
-                        <MoviesCard variant = {'Must - Watch Shows'} key={collection.movie.id}
-                                    movieData = {collection.details}/>
-                    )}/>
-            </div>
+            {/*<div>*/}
+            {/*    <Categories*/}
+            {/*        className={cl.categorySection}*/}
+            {/*        title="New Released Shows"*/}
+            {/*        items={greatestSeries}*/}
+            {/*        slidesPerView={4}*/}
+            {/*        breakpoints={{*/}
+            {/*            320: {*/}
+            {/*                slidesPerView: 1.7,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            768: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            1024: {*/}
+            {/*                slidesPerView: 4,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*        }}*/}
+            {/*        renderItem={(collection: MovieData, index) => (*/}
+            {/*            <MoviesCard variant = {'New Released Shows'} key={collection.movie.id}*/}
+            {/*                        movieData = {collection.details}/>*/}
+            {/*        )}/>*/}
+            {/*</div>*/}
+
+            {/*<div>*/}
+            {/*    <Categories*/}
+            {/*        className={cl.categorySection}*/}
+            {/*        title="Must - Watch Shows"*/}
+            {/*        items={topSeries}*/}
+            {/*        slidesPerView={4}*/}
+            {/*        breakpoints={{*/}
+            {/*            320: {*/}
+            {/*                slidesPerView: 1.7,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            768: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            1024: {*/}
+            {/*                slidesPerView: 4,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*        }}*/}
+            {/*        renderItem={(collection: MovieData, index) => (*/}
+            {/*            <MoviesCard variant = {'Must - Watch Shows'} key={collection.movie.id}*/}
+            {/*                        movieData = {collection.details}/>*/}
+            {/*        )}/>*/}
+            {/*</div>*/}
         </div>
     );
 };

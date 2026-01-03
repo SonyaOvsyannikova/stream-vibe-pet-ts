@@ -1,15 +1,15 @@
-import {ReactNode, useEffect, useMemo, useRef, useState} from "react";
-import Slider from "@/shared/ui/Slider";
+import {lazy, ReactNode, Suspense, useEffect, useMemo, useRef, useState} from "react";
 import cl from './Categories.module.scss'
 import { useSliderControl } from "@/shared/hooks/useSliderControl.ts";
 import CategoriesDescription from "@/shared/ui/CategoriesDescription/CategoriesDescription.tsx";
-import { GroupedMovies } from "@/shared/hooks/useMovies.ts";
+import { GroupedMovies } from "@/shared/hooks/useMoviesGrouped.ts";
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import ArrowRight from '@/assets/icons/arrowRight.svg?react'
 import ArrowLeft from '@/assets/icons/arrowLeft.svg?react'
 import 'swiper/swiper.css'
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import Slider from "@/shared/ui/Slider";
 
 type CategoriesProps<T> = {
     groupedMovies?: GroupedMovies,
@@ -25,12 +25,33 @@ type CategoriesProps<T> = {
     },
     items:T[],
     renderItem: (item: T, index: number) => ReactNode;
-    totalSlides?: number;
     sliderClassName?: string;
     spaceBetween?: number;
 }
 
+/*Categories (обновленный)
+├── useCategoryLoader() ← кастомный хук
+│   ├→ Отслеживает видимость элементов
+│   ├→ Управляет очередью загрузки
+│   └→ Возвращает Map: { id: boolean } (загружен/нет)
+├── CategoryLazyWrapper ← HOC для ленивой загрузки
+│   ├→ Динамически импортирует компонент
+│   ├→ Отображает skeleton пока грузится
+│   └→ Использует Intersection Observer
+└── Категории рендерятся с учетом их состояния
+* */
 
+// const LazySlider = lazy(() =>
+//     import('@/shared/ui/Slider')
+//     .then(module => {
+//         console.log('Slider загружен', performance.now())
+//         return module;
+//     })
+//     .catch(error => {
+//         console.log('Ошибка загрузки слайдера', error)
+//         throw error;
+//     })
+// );
 
 const Categories = <T,>(props: CategoriesProps<T>) => {
 
@@ -42,11 +63,9 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
         slidesPerView,
         items = [],
         renderItem,
-        totalSlides = items.length,
         breakpoints,
         spaceBetween,
     } = props;
-
 
 
     const { slider, setSlider, currentSlide, handleSlideChange } = useSliderControl()
@@ -66,6 +85,9 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
     const prevRef = useRef<HTMLDivElement>(null);
     const nextRef = useRef<HTMLDivElement>(null);
     const paginationRef = useRef<HTMLDivElement>(null)
+
+
+
 
     return (
         <div className={`${cl.categorySection} ${className || ''}`}>
@@ -91,27 +113,28 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
 
                     </div>
                     <div className={cl.sliderCategory}>
-                    <Slider
-                            spaceBetween = {spaceBetween}
-                            onSwiper={setSlider}
-                            onSlideChange={handleSlideChange}
-                            slidesPerView={slidesPerView}
-                            items={items}
-                            renderItem={renderItem}
-                            breakpoints={breakpoints}
-                            navigation={{
-                                prevEl: prevRef.current,
-                                nextEl: nextRef.current,
-                            }}
-                            pagination={{
-                                el: paginationRef.current,
-                                type: 'bullets',
-                                clickable: true,
-                                bulletClass: 'swiper-pagination-bullet',
-                                bulletActiveClass:'swiper-pagination-bullet-active'
-                            }}
 
-                        />
+                            <Slider
+                                spaceBetween = {spaceBetween}
+                                onSwiper={setSlider}
+                                onSlideChange={handleSlideChange}
+                                slidesPerView={slidesPerView}
+                                items={items}
+                                renderItem={renderItem}
+                                breakpoints={breakpoints}
+                                navigation={{
+                                    prevEl: prevRef.current,
+                                    nextEl: nextRef.current,
+                                }}
+                                pagination={{
+                                    el: paginationRef.current,
+                                    type: 'bullets',
+                                    clickable: true,
+                                    bulletClass: 'swiper-pagination-bullet',
+                                    bulletActiveClass:'swiper-pagination-bullet-active'
+                                }}
+
+                            />
                     </div>
                 </>
             ) : (
@@ -120,26 +143,25 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
                             <CategoriesDescription labelHeader={title} labelDescription={description} />
                         </div>
                         <div className={cl.sliderCategory}>
-                            <Slider
-                                onSwiper={setSlider}
-                                onSlideChange={handleSlideChange}
-                                slidesPerView={slidesPerView}
-                                items={items}
-                                renderItem={renderItem}
-                                breakpoints={breakpoints}
-                                pagination={{
-                                    el: paginationRef.current,
-                                    type: 'progressbar',
-                                    clickable: true,
-                                }}
-                            />
+                                <Slider
+                                    onSwiper={setSlider}
+                                    onSlideChange={handleSlideChange}
+                                    slidesPerView={slidesPerView}
+                                    items={items}
+                                    renderItem={renderItem}
+                                    breakpoints={breakpoints}
+                                    pagination={{
+                                        el: paginationRef.current,
+                                        type: 'progressbar',
+                                        clickable: true,
+                                    }}
+                                />
                             <div className='custom-swiper-pagination-for-tablet' ref={paginationRef}></div>
                         </div>
 
                     </>
                 )
             }
-
         </div>
 
     );

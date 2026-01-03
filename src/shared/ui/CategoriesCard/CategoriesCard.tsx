@@ -1,12 +1,13 @@
 import cl from './CategoriesCard.module.scss'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import ArrowRight from '@/assets/icons/arrowRight.svg?react'
-import { MovieCollection, Movie} from '@/shared/hooks/useMovies.ts'
+import { MovieCollectionByGrouped, Movie} from '@/shared/hooks/useMoviesGrouped.ts'
 import logo from "@/shared/ui/Logo";
+import {MovieCollectionFromUseMovies} from "@/shared/hooks/useMovie.ts";
 
 type CategoriesCardProps = {
     group?: Movie[],
-    collection?: MovieCollection,
+    collection?: MovieCollectionByGrouped,
     variant?: 'Our Genres' | 'Popular Top 10 In Genres'
 }
 

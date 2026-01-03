@@ -1,5 +1,5 @@
 import cl from './MoviesCard.module.scss'
-import  { Movie } from '@/shared/hooks/useMoviesList'
+import  { Movie } from '@/shared/hooks/useMovie.ts'
 import Time from '@/assets/icons/timer.svg?react'
 import Eyes from '@/assets/icons/Eyes.svg?react'
 import SeasonIcon from '@/assets/icons/seasonIcon.svg?react'
@@ -57,10 +57,12 @@ const getDurationHM = (movieData?: Movie) => {
 
 const MoviesCard = (props: MoviesCardProps) => {
 
-    const { movieData, variant } = props;
+    const {
+        movieData,
+        variant
+    } = props;
 
     const { hours, minutes } = getDurationHM(movieData);
-
     const hour = Math.floor(movieData.movieLength / 60)
     const minute = movieData.movieLength % 60
 
