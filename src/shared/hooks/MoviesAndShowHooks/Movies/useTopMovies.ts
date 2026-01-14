@@ -2,7 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import { fetchSeriesOrMovies } from "@/shared/hooks/fetchSeriesOrMovies.ts";
 import { moviesMap } from "@/shared/hooks/useMovie.ts";
 
-const UseTopMovies = (enabled = true) => {
+const UseTopMovies = (enabled = false) => {
 
     const topMoviesQuery = useQuery({
         queryKey: ['movies', moviesMap['top250'].slug ],

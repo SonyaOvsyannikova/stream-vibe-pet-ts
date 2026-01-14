@@ -1,1 +1,1 @@
-export { default } from './ShowsWidget'
+export { default } from './Shows.tsx'

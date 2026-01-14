@@ -10,17 +10,17 @@ type ShowsPageMovieProps = {
     moviesTop: MovieWithCategory[],
 }
 
-const MoviesWidget = lazy(() => {
-    console.log('Начинаем загрузку MoviesWidget в:', performance.now());
-    return import("@/widgets/MoviesWidget").then(module => {
-        console.log('✅ MoviesWidget загружен в:', performance.now());
+const Movies = lazy(() => {
+    console.log('Начинаем загрузку Movies в:', performance.now());
+    return import("@/widgets/MoviesWidget/Movies.tsx").then(module => {
+        console.log('✅ Movies загружен в:', performance.now());
         return module;
     });
 });
-const ShowsWidget = lazy(() => {
-    console.log('Начинаем загрузку ShowsWidget в:', performance.now());
-    return import("@/widgets/ShowsWidget").then(module => {
-        console.log('✅ ShowsWidget загружен в:', performance.now());
+const Shows = lazy(() => {
+    console.log('Начинаем загрузку Shows в:', performance.now());
+    return import("@/widgets/ShowsWidget/Shows.tsx").then(module => {
+        console.log('✅ Shows загружен в:', performance.now());
         return module;
     });
 });
@@ -72,7 +72,7 @@ const ShowsPageMovie = () => {
                              ref={moviesRef}>
                                 {moviesInView && (
                             <Suspense fallback={<div> Идет загрузка фильмов ...</div>}>
-                                <MoviesWidget />
+                                <Movies />
                             </Suspense>
                                 )}
                         </div>
@@ -84,7 +84,7 @@ const ShowsPageMovie = () => {
                             ref={showsRef}>
                                 {showsInView && (
                                 <Suspense fallback={<div> Идет загрузка сериалов ...</div>}>
-                                    <ShowsWidget />
+                                    <Shows />
                                 </Suspense>
                                 )}
                         </div>
@@ -95,13 +95,13 @@ const ShowsPageMovie = () => {
                     {(activeTab === 1) ? (
                         <>
                             <Suspense fallback={<div> Идет загрузка фильмов ...</div>}>
-                                <MoviesWidget />
+                                <Movies />
                             </Suspense>
                         </>
                     ): (
                         <>
                             <Suspense fallback={<div> Идет загрузка сериалов ...</div>}>
-                                <ShowsWidget />
+                                <Shows />
                             </Suspense>
                         </>
                     )}

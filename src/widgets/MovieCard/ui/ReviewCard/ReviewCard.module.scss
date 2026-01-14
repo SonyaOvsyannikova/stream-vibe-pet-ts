@@ -3,8 +3,9 @@
   border-radius: var(--border-radius-s);
   background-color: var(--color-grey-06);
   padding: fluid(40,24);
-  height: 265px;
-  width: 488px ;
+  height: fluid(265, 214);
+  max-width: fluid(468, 310) ;
+  width: 100%;
 }
 .gradeReview {
   display: flex;
@@ -41,6 +42,7 @@ h6 {
 .reviewDescription {
   overflow: auto;
   max-height: fluid(108,96);
+  //width: fluid(388, 262);
   @include mobile {
     max-height: 106px;
   }

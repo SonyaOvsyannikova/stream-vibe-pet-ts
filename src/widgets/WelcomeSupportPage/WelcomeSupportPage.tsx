@@ -8,18 +8,49 @@ import parsePhoneNumber, { AsYouType } from 'libphonenumber-js'
 import ButtonIcon from "@/shared/ui/ButtonIcon";
 import CheckMark from '@/assets/icons/checkMark.svg?react'
 import {useOutsideClick} from "@/shared/hooks/useOutsideClick.ts";
+import  {  useForm, Controller  }  from  'react-hook-form' ;
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
-
+const userSchema = z.object({
+    firstName: z.string().min(1, 'Имя обязательно'),
+    lastName: z.string().min(1, 'Фамилия обязательна'),
+    email: z.string()
+        .min(1, 'email обязателен')
+        .email('Некорректный email'),
+    phoneNumber: z.string().
+        transform(val => val.replace(/\D/g, ''))
+        .refine(val => val.length >= 10, 'Неполный номер телефона')
+        .refine(val => val.length <= 15, 'Слишком длинный номер'),
+    countryCode: z.custom<Country>().default('RU' as Country),
+    message: z.string().min(1, 'Необходимо заполнить поле'),
+    agree: z.boolean().refine(val => val === true),
+})
 
 
 const WelcomeSupportPage = () => {
 
 
-    const [value, setValue] = useState<string>('RU')
-    const [selectCountryCode, setSelectCountryCode] = useState<Country>('RU')
+    const  {
+        register ,
+        handleSubmit ,
+        control,
+        watch,
+        setValue,
+        formState : { errors } ,
+    }  =  useForm({
+        resolver: zodResolver(userSchema),
+        defaultValues: {
+            countryCode: 'RU',
+            phoneNumber: '',
+          }
+    }) ;
+
+    const countryCode = watch('countryCode') as Country;
+    const phoneValue = watch('phoneNumber')
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null)
-    const [inputValue, setInputValue] = useState<string>('')
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
     const getCountryName = (countryCode: string): string => {
@@ -45,14 +76,17 @@ const WelcomeSupportPage = () => {
         if(inputRef.current) {
             inputRef.current.focus()
         }
-        setSelectCountryCode(country)
-        setInputValue('')
+        // setSelectCountryCode(country)
+        // setInputValue('')
+        setValue('countryCode', country)
+        setValue('phoneNumber', '')
+        setIsOpen(false)
     }
 
     const outsideRef = useOutsideClick( ()=> {
         if(isOpen) { setIsOpen(false)}
     })
-    const buttonRef = useRef(null);
+
 
     return (
         <div className={cl.welcomePageSection}>
@@ -63,22 +97,25 @@ const WelcomeSupportPage = () => {
                 </div>
                 <div className={cl.bgImg} />
             </div>
-            <form className={cl.supportPageForm}>
+
+            <form
+                onSubmit = { handleSubmit ( ( data )  =>  console.log ( data ) ) }
+                className={cl.supportPageForm}>
                 <div className={cl.supportPageFormName}>
                     <div className={cl.supportForm}>
                         <label>First Name</label>
-                        <input/>
+                        <input {...register('firstName')}/>
                     </div>
                     <div className={cl.supportForm}>
                         <label>Last Name</label>
-                        <input/>
+                        <input {...register('lastName')}/>
                     </div>
                 </div>
 
                 <div className={cl.supportPageFormContact}>
                     <div className={cl.supportForm}>
                         <label>Email</label>
-                        <input/>
+                        <input {...register('email')}/>
                     </div>
                     <div className={cl.supportForm}>
                         <label>Phone Number</label>
@@ -88,7 +125,7 @@ const WelcomeSupportPage = () => {
                             >
                                 <ReactCountryFlag
                                     className={cl.countyFlag}
-                                    countryCode={selectCountryCode}
+                                    countryCode={countryCode || 'RU'}
                                     svg
                                 />
                                 <ButtonIcon
@@ -98,26 +135,26 @@ const WelcomeSupportPage = () => {
                                     label={<CheckMark />}
                                     >
                                 </ButtonIcon>
-
                             </div>
-                            <input
-                                className={cl.inputSupport}
-                                placeholder={'Enter Phone Number'}
-                                value={formatNumber(inputValue, selectCountryCode)}
-                                onChange={(e) => {
-                                    let digits = e.target.value.replace(/\D/g, '')
-                                    if(digits.length <= 15 ) {
-                                        setInputValue(e.target.value)
-                                    }
-                                }}
-                                onFocus={() => setIsFocused(true)}
-                                onBlur={(e) => {
-                                    setIsFocused(false)
-                                }}
-                                ref={inputRef}
-                                type='tel'
-                                required>
-                                </input>
+                            <Controller
+                                control={control}
+                                name={'phoneNumber'}
+                                render={({field}) => (
+                                <input
+                                    {...field}
+                                    className={cl.inputSupport}
+                                    placeholder={'Enter Phone Number'}
+                                    value={formatNumber(phoneValue || '', countryCode || 'RU')}
+                                    onChange={(e) => {
+                                        setValue('phoneNumber', e.target.value);
+                                    }}
+                                    onFocus={() => setIsFocused(true)}
+                                    onBlur={() => setIsFocused(false)}
+                                    ref={inputRef}
+                                    type='tel'
+                                    required />
+                            )} />
+
                         </div>
                         <div className={cl.openList}
                         ref={outsideRef}>
@@ -142,11 +179,12 @@ const WelcomeSupportPage = () => {
 
                 <div className={cl.supportPageFormMessage}>
                     <label>Message</label>
-                    <textarea className={cl.formMessageTextArea}/>
+                    <textarea {...register('message')} className={cl.formMessageTextArea}/>
                 </div>
                 <div className={cl.supportPageFormAgree}>
                     <div className={cl.agree}>
                         <input
+                            {...register('agree')}
                             className={cl.agreeCheckBox}
                             type='checkbox'
                         />

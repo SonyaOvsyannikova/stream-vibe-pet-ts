@@ -49,6 +49,7 @@
 .buttonHeaderMovieCard {
   display: flex;
   column-gap: 10px;
+
 }
 .headerMovieCard {
   display: flex;
@@ -58,12 +59,7 @@
   height: 52px;
   margin-bottom: 30px;
 }
-.castMovieCard {
-  max-width: 1057px;
-  padding: 50px;
-  border: var(--border);
-  border-radius: var(--border-radius-m);
-}
+
 .prevButton {
   border: var(--border);
   @include square(52);
@@ -72,40 +68,106 @@
   @include flex-center;
 }
 
-.review {
-  max-width: 1057px;
-  padding: 50px;
-  border: var(--border);
-  border-radius: var(--border-radius-m);
-}
+
 .reviewCardSection {
   display: flex;
   flex-direction: row;
   row-gap: 20px;
 }
 
+
 .paginationMovieCard {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto auto;
   justify-content: center;
-  column-gap: 10px;
+  align-items: center;
   margin-top: 40px;
+  gap: 20px;
 }
 
+
+.paginationContainer {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 20px;
+  width: 120px;
+}
+
+
+.paginationContainer :global(.custom-swiper-pagination) {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.buttonNavigationArrowLeft {
+  transform: rotate(180deg);
+}
+.buttonNavigationLeft, .buttonNavigation {
+  border: var(--border);
+  padding: fluid-to-laptop(20,16);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-grey-08);
+}
+
+
 .movieContent {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-  max-width: 1600px;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
+  width: 100%;
   padding-top: var(--section-padding-y);
   padding-bottom: var(--section-padding-y);
+  gap: 30px;
+
+  @include tablet-above {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+  @include tablet {
+    .asidePanel {
+      order: -1 !important;
+    }
+    .description {
+      order: -2 !important;
+    }
+    .serialInfo {
+      order: -3 !important;
+    }
+    .castMovieCard {
+      order: 1 !important;
+    }
+    .review {
+      order: 2 !important;
+    }
+  }
 }
 .movieInfo {
   display: flex;
   flex-direction: column;
   row-gap: 30px;
+  @include tablet {
+    display: contents;
+  }
+
+}
+
+.castMovieCard {
+  max-width: fluid-to-laptop(1057, 850);
+  padding: 50px;
+  border: var(--border);
+  border-radius: var(--border-radius-m);
+}
+.review {
+  //max-width: 1057px;
+  max-width: fluid-to-laptop(1057, 850);
+  padding: fluid(50,24);
+  border: var(--border);
+  border-radius: var(--border-radius-m);
 }
 .summaryHeader {
   display: flex;
@@ -136,12 +198,15 @@
 .asidePanel {
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
-  padding: 50px;
+  row-gap: fluid(30,20);
+  padding: fluid-to-laptop(50,24);
   border: var(--border);
   border-radius: var(--border-radius-l);
-  width: 100%;
+  //width: 100%;
   height: fit-content;
+  @include tablet {
+    order: 2;
+  }
 }
 .buttonAdd {
   background-color: var(--color-grey-06);

@@ -1,8 +1,8 @@
-import useOurGenres from "@/shared/hooks/MoviesAndShowHooks/useOurGenres.ts";
+import useOurGenres from "@/shared/hooks/MoviesAndShowHooks/Movies/useOurGenres.ts";
 import {lazy, useEffect} from "react";
 import { useInView } from 'react-intersection-observer';
 import Categories from "@/widgets/Categories/Categories.tsx";
-import cl from "@/widgets/MoviesWidget/MoviesWidget.module.scss";
+import cl from "@/widgets/MoviesWidget/Movies.module.scss";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
 
 const LazyOurGenres = () => {

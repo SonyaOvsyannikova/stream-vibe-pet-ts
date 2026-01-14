@@ -55,7 +55,6 @@ const ReviewCard = (props: IProps) => {
 
     return (
         <div className={cl.ratingCard}>
-            <div className={cl.cardContent}>
                 <div className={cl.ratingCardHeader}>
                     <div className={cl.ratingCardHeaderTitle}>
                         <h6>{review.author}</h6>
@@ -88,9 +87,6 @@ const ReviewCard = (props: IProps) => {
                 <div className={cl.reviewBody}>
                     <p className={cl.reviewDescription}>{review.review}</p>
                 </div>
-
-            </div>
-
         </div>
     )
 };

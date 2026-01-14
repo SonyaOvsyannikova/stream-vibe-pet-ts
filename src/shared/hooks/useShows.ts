@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchSeriesOrMovies } from "@/shared/hooks/fetchSeriesOrMovies.ts";
 
-const serialsMap = {
+export const serialsMap = {
     'popular-series': { slug: 'popular-series', name: 'Популярные сериалы' },
     'series-top250': { slug: 'series-top250', name: 'Топ 250 сериалов' },
     '100_greatest_TVseries': { slug: '100_greatest_TVseries', name: '100 Великих телешоу' },

@@ -14,7 +14,7 @@ import Gernes from '@/assets/icons/gernes.svg?react'
 import PlusIcon from '@/assets/icons/plus.svg?react'
 import More from '@/assets/icons/more.svg?react'
 import Collapse from '@/assets/icons/collapse.svg?react'
-import {useEffect, useRef, useState} from "react";
+import {use, useEffect, useRef, useState} from "react";
 import Slider from "@/shared/ui/Slider/Slider.tsx";
 import ReviewCard from "@/widgets/MovieCard/ui/ReviewCard";
 import Accordeon from "@/shared/ui/Accordeon";
@@ -31,13 +31,15 @@ import {
     Rating
 } from "@/shared/types";
 import { Swiper as SwiperType } from 'swiper';
+import clsx from "clsx";
+
 
 
 
 type MovieCardProps = {
-    movieData: IResponseApiMovie,
-    seasons: IResponseApiSeasons[],
-    reviews: IResponseApiReview[],
+    movieData?: IResponseApiMovie,
+    seasons?: IResponseApiSeasons[],
+    reviews?: IResponseApiReview[],
     isOpenPlayer: boolean,
     setIsOpenPlayer: (isOpen: boolean) => void,
     onPlayClick?: (episode?: IResponseApiEpisodeData, index?: number) => void;
@@ -49,16 +51,19 @@ type MovieCardProps = {
 
 const MovieCard = (props: MovieCardProps) => {
 
+
+
+
     const {
         movieData,
         seasons,
         reviews,
-        isOpenPlayer,
-        setIsOpenPlayer,
-        selectedEpisodes,
-        setSelectedEpisodes,
+        // isOpenPlayer,
+        // setIsOpenPlayer,
+        // selectedEpisodes,
+        // setSelectedEpisodes,
         onPlayClick,
-        slidesPerView = 2
+        // slidesPerView = 2
          } = props;
 
 
@@ -96,8 +101,7 @@ const MovieCard = (props: MovieCardProps) => {
 
 
     return (
-        <div>
-            <div className={cl.movieContent}>
+            <section className={cl.movieContent}>
                 <div className={cl.movieInfo}>
                         {movieData?.type === 'tv-series' ? (
                             <div className={cl.serialInfo}>
@@ -130,6 +134,7 @@ const MovieCard = (props: MovieCardProps) => {
                             </div>
                         ) : null}
                     <Description
+                        className={cl.description}
                         movieData={movieData}/>
                     <div className={cl.castMovieCard}>
                         <div className={cl.headerMovieCard}>
@@ -154,7 +159,7 @@ const MovieCard = (props: MovieCardProps) => {
                         <SliderCast
                             onSwiper={setSliderCast}
                         >
-                            {movieData && movieData.persons.map((person) => (
+                            {movieData && movieData?.persons?.map((person) => (
                                 <SwiperSlide
                                     className={cl.cardPhotoCast}>
                                     <img src={person.photo} alt={person.name}
@@ -208,7 +213,18 @@ const MovieCard = (props: MovieCardProps) => {
                         <Slider
                             onSwiper={setSlider}
                             onSlideChange={handleSlideChange}
-                            slidesPerView={2}
+                            breakpoints={{
+                                320: {
+                                    slidesPerView: 1,
+                                },
+                                768: {
+                                    slidesPerView: 1,
+                                },
+                                1024: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 20
+                                },
+                            }}
                             items={addReviews}
                             navigation={{
                                 prevEl: '.slider-prev',
@@ -219,19 +235,24 @@ const MovieCard = (props: MovieCardProps) => {
                                 type: 'bullets',
                                 clickable: true,
                                 bulletClass: 'swiper-pagination-bullet',
-                                bulletActiveClass:'swiper-pagination-bullet-active'
+                                bulletActiveClass:'swiper-pagination-bullet-active',
+                                dynamicBullets: true,
+                                dynamicMainBullets: 2
                             }}
                             renderItem={(review, index) => (
                                 <ReviewCard review={review} key={index} />
                             )}/>
                         <div className={cl.paginationMovieCard}>
-                            <div className="slider-prev" >
+                            <div className="slider-prev">
                                 <ButtonIcon
-                                    className={cl.buttonNavigation}
+                                    className={cl.buttonNavigationLeft}
                                     label={<ArrowRight className={cl.buttonNavigationArrowLeft}/>}
                                 />
                             </div>
-                            <div className={'custom-swiper-pagination'}></div>
+                            <div className={cl.paginationContainer}>
+                                <div className="custom-swiper-pagination"></div>
+                            </div>
+                            {/*<div className="custom-swiper-pagination"></div>*/}
                             <div className="slider-next" >
                                 <ButtonIcon
                                     className={cl.buttonNavigation}
@@ -360,8 +381,7 @@ const MovieCard = (props: MovieCardProps) => {
                         ))}
                     </div>
                 </aside>
-            </div>
-        </div>
+            </section>
     );
 };
 

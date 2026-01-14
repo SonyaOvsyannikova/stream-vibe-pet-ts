@@ -12,13 +12,14 @@ import {
     IResponseApiEpisodeData ,
     SelectedEpisode
 } from "@/shared/types";
+import {useQuery} from "@tanstack/react-query";
 
 
 const MoviesOpenPage = () => {
-
-    const [movieData, setMovieData] = useState<null | IResponseApiMovie>(null);
-    const [seasons, setSeasons] = useState<IResponseApiSeasons[] | null>(null);
-    const [reviews, setReviews] = useState<IResponseApiReview[]>([]);
+    //
+    // const [movieData, setMovieData] = useState<null | IResponseApiMovie>(null);
+    // const [seasons, setSeasons] = useState<IResponseApiSeasons[] | null>(null);
+    // const [reviews, setReviews] = useState<IResponseApiReview[]>([]);
     const [isOpenPlayer, setIsOpenPlayer] = useState<boolean>(false)
     const [selectedEpisodes, setSelectedEpisodes] = useState<SelectedEpisode>(null);
     const [firstEpisode, setFirstEpisode] = useState<null | IResponseApiSeasons>(null);
@@ -28,57 +29,98 @@ const MoviesOpenPage = () => {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
+    //
+    //     const fetchMovie = async () => {
+    //         try {
+    //             const response = await kinopoiskAPI.getMoviesId(id)
+    //             setMovieData(response);
+    //             console.log(response);
+    //         }
+    //         catch(error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     fetchMovie();
+    // }, [id])
+    //
+    // useEffect(() => {
+    //
+    //     const getSeasonInfo = async () => {
+    //
+    //         try {
+    //             const response = await kinopoiskAPI.getSeasons(id)
+    //             setSeasons(response.docs)
+    //             console.log( response.docs);
+    //         }
+    //         catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     getSeasonInfo()
+    //
+    // }, [id]);
 
-        const fetchMovie = async () => {
-            try {
-                const response = await kinopoiskAPI.getMoviesId(id)
-                setMovieData(response);
-                console.log(response);
-            }
-            catch(error) {
-                console.log(error);
-            }
-        }
-        fetchMovie();
-    }, [id])
+    // useEffect(() => {
+    //     if(id) {
+    //         const getReview = async () => {
+    //             setIsLoading(true);
+    //             try {
+    //                 const reviewData = await kinopoiskAPI.getReviewedMovies(id)
+    //                 setReviews(reviewData.docs)
+    //                 console.log(reviewData.docs)
+    //             }
+    //             catch(e) {
+    //                 console.log(e)
+    //             }
+    //
+    //         }
+    //         getReview()
+    //     }
+    //
+    // }, [id])
 
-    useEffect(() => {
 
-        const getSeasonInfo = async () => {
+    const { data: movieData, isLoading: isMovieLoading, } = useQuery<IResponseApiMovie>({
+        queryKey: ['movieData', id],
+        queryFn: async ():Promise<IResponseApiMovie> => {
+            const response: IResponseApiMovie = await kinopoiskAPI.getMoviesId(id)
+            return response;
+        },
+        enabled: !!id,
+    })
 
-            try {
-                const response = await kinopoiskAPI.getSeasons(id)
-                setSeasons(response.docs)
-                console.log( response.docs);
-            }
-            catch (error) {
-                console.log(error);
-            }
-        }
-        getSeasonInfo()
+    const { data: seasons, isLoading: isSeasonsLoading  } = useQuery<IResponseApiSeasons[]>({
+        queryKey: ['seasons', id],
+        queryFn: async () => {
+            const response = await kinopoiskAPI.getSeasons(id)
+            return response.docs
+        },
+        enabled: !!id,
+    })
 
-    }, [id]);
+    const { data: reviews, isLoading: isReviewsLoading } = useQuery<IResponseApiReview[]>({
+        queryKey: ['reviews', id],
+        queryFn: async () => {
+            const reviewData = await kinopoiskAPI.getReviewedMovies(id)
+            return reviewData.docs
+        },
+        enabled: !!id,
+    })
 
-    useEffect(() => {
-        if(id) {
-            const getReview = async () => {
-                setIsLoading(true);
-                try {
-                    const reviewData = await kinopoiskAPI.getReviewedMovies(id)
-                    setReviews(reviewData.docs)
-                    console.log(reviewData.docs)
-                }
-                catch(e) {
-                    console.log(e)
-                }
 
-            }
-            getReview()
-        }
+    if (!id) {
+        return <div>ID фильма не указан</div>;
+    }
 
-    }, [id])
+    if (isMovieLoading) {
+        return <div>Загрузка фильма...</div>;
+    }
 
+
+    if (!movieData) {
+        return <div>Фильм не найден</div>;
+    }
 
 
     const handlePlaySeriesOrMovie = (episode?: IResponseApiEpisodeData, index?: number): void => {
@@ -104,6 +146,7 @@ const MoviesOpenPage = () => {
     }
 
 
+    console.log(movieData)
 
     return (
         <div className='container'>

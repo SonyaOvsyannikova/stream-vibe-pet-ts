@@ -1,1 +1,1 @@
-export { default } from './MoviesWidget'
+export { default } from './Movies.tsx'

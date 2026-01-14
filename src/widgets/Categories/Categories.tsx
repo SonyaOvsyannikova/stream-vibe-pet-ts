@@ -29,29 +29,6 @@ type CategoriesProps<T> = {
     spaceBetween?: number;
 }
 
-/*Categories (обновленный)
-├── useCategoryLoader() ← кастомный хук
-│   ├→ Отслеживает видимость элементов
-│   ├→ Управляет очередью загрузки
-│   └→ Возвращает Map: { id: boolean } (загружен/нет)
-├── CategoryLazyWrapper ← HOC для ленивой загрузки
-│   ├→ Динамически импортирует компонент
-│   ├→ Отображает skeleton пока грузится
-│   └→ Использует Intersection Observer
-└── Категории рендерятся с учетом их состояния
-* */
-
-// const LazySlider = lazy(() =>
-//     import('@/shared/ui/Slider')
-//     .then(module => {
-//         console.log('Slider загружен', performance.now())
-//         return module;
-//     })
-//     .catch(error => {
-//         console.log('Ошибка загрузки слайдера', error)
-//         throw error;
-//     })
-// );
 
 const Categories = <T,>(props: CategoriesProps<T>) => {
 
@@ -110,7 +87,6 @@ const Categories = <T,>(props: CategoriesProps<T>) => {
                                 />
                             </div>
                         </div>
-
                     </div>
                     <div className={cl.sliderCategory}>
 

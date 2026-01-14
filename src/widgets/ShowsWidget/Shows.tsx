@@ -1,42 +1,65 @@
 import Categories from "@/widgets/Categories/Categories.tsx";
-import MoviesCard from "@/shared/ui/MoviesCard";
-import cl from './MoviesWidget.module.scss'
-import useMovie, {Movie, MovieData} from "@/shared/hooks/useMovie.ts";
-import { MovieCollectionFromUseMovies } from "@/shared/hooks/useMovie.ts";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
+import MoviesCard from "@/shared/ui/MoviesCard";
+import useShows  from "@/shared/hooks/useShows.ts";
+import cl from './Shows.module.scss'
 import {MovieCollectionByGrouped, useMoviesGrouped} from "@/shared/hooks/useMoviesGrouped.ts";
-import {lazy, Suspense} from "react";
-import {MovieCollection} from "@/shared/hooks/useShows.ts";
+import {lazy, Suspense, useMemo} from "react";
+import {MovieData} from "@/shared/hooks/useMovie.ts";
 import LazyCategoriesWithObserver from "@/widgets/Categories/LazyCategoriesWithObserver";
-import AllGenresCategories from "@/widgets/AllGenresCategories";
 import AllGenresTopCategories from "@/widgets/AllGenresTopCategories";
-import LazyOurGenres from "@/shared/ui/LazyOurGenres/LazyOurGenres.tsx";
+import LazyGreatestSeries from "@/shared/ui/LazyGreatestSeries";
+import LazyTopSeries from "@/shared/ui/LazyTopSeries/LazyTopSeries.tsx";
 
 
+// const LazyCategories = lazy(() => {
+//     return (
+//         import('@/widgets/Categories/Categories.tsx')
+//             .then(module => {
+//                 console.log('Загрузка категорий in Shows', performance.now())
+//                 return module
+//             })
+//             .catch(error => {
+//                 console.log('Категории не загружены in Shows', error)
+//                 throw error;
+//             })
+//     )
+// })
 
-const MoviesWidget = () => {
-
+const Shows = () => {
 
     // const { groupedMoviesPageOne, groupedMoviesPageTwo, isLoadingPageOne, isLoadingPageTwo } = useMoviesGrouped()
-    // const { topMovies, plannedMovies, bestMovies, isError, isLoading} = useMovie()
-
-    // if (isLoading ) {
+    //
+    // const {
+    //     topSeries,
+    //     popularSeries,
+    //     greatestSeries,
+    //     isLoading,
+    //     isError,
+    // }  = useShows();
+    //
+    //
+    // if (isLoading) {
     //     return <div>Загрузка...</div>;
     // }
     //
-    // if (isError ) {
+    // if (isError) {
     //     return <div>Ошибка загрузки</div>;
     // }
+    //
+    // console.log(topSeries);
+
+
 
     const LazyOurGenres = lazy(() => import('@/shared/ui/LazyOurGenres'))
     const LazyTopOurGenres = lazy(() => import('@/shared/ui/LazyOurTopGenres'))
+    const LazyPopularSeries = lazy(() => import('@/shared/ui/LazyPopularSeries'))
+    const LazyGreatestSeries = lazy(() => import('@/shared/ui/LazyGreatestSeries'))
+    const LazyTopSeries = lazy(() => import('@/shared/ui/LazyTopSeries'))
 
     return (
-        <div className={cl.ShowPageMovie}>
-            {/*{isLoading && (*/}
-            {/*    <h5> Идет загрузка...</h5>*/}
-            {/*)}*/}
-            <span className={cl.movieLabel}>Movies</span>
+        <div className={cl.ShowPageSeries}>
+            <span className={cl.showsLabel}>Shows</span>
 
             <Suspense fallback={null}>
                 <LazyOurGenres />
@@ -44,6 +67,17 @@ const MoviesWidget = () => {
             <Suspense fallback={null}>
                 <LazyTopOurGenres />
             </Suspense>
+            <Suspense fallback={null}>
+                <LazyPopularSeries />
+            </Suspense>
+            <Suspense fallback={null}>
+                <LazyGreatestSeries />
+            </Suspense>
+            <Suspense fallback={null}>
+                <LazyTopSeries />
+            </Suspense>
+
+
 
             {/*<div>*/}
             {/*    <Categories*/}
@@ -97,71 +131,15 @@ const MoviesWidget = () => {
             {/*        )}*/}
             {/*    />*/}
             {/*</div>*/}
-
             {/*<div>*/}
             {/*    <Categories*/}
             {/*        className={cl.categorySection}*/}
-            {/*        title="Trending Now"*/}
-            {/*        items={topMovies}*/}
-            {/*        slidesPerView={5}*/}
-            {/*        spaceBetween={16}*/}
-            {/*        breakpoints={{*/}
-            {/*            320: {*/}
-            {/*                slidesPerView: 2,*/}
-            {/*                spaceBetween: 16*/}
-            {/*            },*/}
-            {/*            768: {*/}
-            {/*                slidesPerView: 2,*/}
-            {/*                spaceBetween: 16*/}
-            {/*            },*/}
-            {/*            1024: {*/}
-            {/*                slidesPerView: 5,*/}
-            {/*                spaceBetween: 16*/}
-            {/*            },*/}
-            {/*        }}*/}
-            {/*        renderItem={(collection: MovieData, index) => (*/}
-            {/*            <MoviesCard variant = {'Trending Now'} key={collection.movie.id}*/}
-            {/*                        movieData = {collection.movie}/>*/}
-
-            {/*        )}/>*/}
-            {/*</div>*/}
-
-
-            {/*<div>*/}
-            {/*    <Categories*/}
-            {/*        className={cl.categorySection}*/}
-            {/*        title="New Releases"*/}
-            {/*        items={plannedMovies}*/}
-            {/*        slidesPerView={5}*/}
-
-            {/*        breakpoints={{*/}
-            {/*            320: {*/}
-            {/*                slidesPerView: 2,*/}
-            {/*                spaceBetween: 16*/}
-            {/*            },*/}
-            {/*            768: {*/}
-            {/*                slidesPerView: 2,*/}
-            {/*                spaceBetween: 16*/}
-            {/*            },*/}
-            {/*            1024: {*/}
-            {/*                slidesPerView: 5,*/}
-            {/*                spaceBetween: 16*/}
-            {/*            },*/}
-            {/*        }}*/}
-            {/*        renderItem={(collection: MovieData, index) => (*/}
-            {/*            <MoviesCard variant={'New Releases'} key={collection.movie.id}*/}
-            {/*                        movieData={collection.movie}*/}
-            {/*            />*/}
-            {/*        )}/>*/}
-            {/*</div>*/}
-            {/*<div>*/}
-            {/*    <Categories*/}
-            {/*        className={cl.categorySection}*/}
-            {/*        title="Must - Watch Movies"*/}
+            {/*        title="Trending Shows Now"*/}
+            {/*        items={popularSeries}*/}
             {/*        slidesPerView={4}*/}
             {/*        breakpoints={{*/}
             {/*            320: {*/}
-            {/*                slidesPerView: 1.5,*/}
+            {/*                slidesPerView: 1.7,*/}
             {/*                spaceBetween: 16*/}
             {/*            },*/}
             {/*            768: {*/}
@@ -173,15 +151,65 @@ const MoviesWidget = () => {
             {/*                spaceBetween: 16*/}
             {/*            },*/}
             {/*        }}*/}
-            {/*        items={bestMovies}*/}
             {/*        renderItem={(collection: MovieData, index) => (*/}
-            {/*            <MoviesCard variant={'Must - Watch Movies'} key={collection.movie.id}*/}
-            {/*                        movieData={collection.movie} />*/}
-            {/*        )}*/}
-            {/*    />*/}
+            {/*            <MoviesCard variant = {'Trending Shows Now'} key={collection.movie.id}*/}
+            {/*                        movieData = {collection.details}/>*/}
+            {/*        )}/>*/}
+            {/*</div>*/}
+
+            {/*<div>*/}
+            {/*    <Categories*/}
+            {/*        className={cl.categorySection}*/}
+            {/*        title="New Released Shows"*/}
+            {/*        items={greatestSeries}*/}
+            {/*        slidesPerView={4}*/}
+            {/*        breakpoints={{*/}
+            {/*            320: {*/}
+            {/*                slidesPerView: 1.7,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            768: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            1024: {*/}
+            {/*                slidesPerView: 4,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*        }}*/}
+            {/*        renderItem={(collection: MovieData, index) => (*/}
+            {/*            <MoviesCard variant = {'New Released Shows'} key={collection.movie.id}*/}
+            {/*                        movieData = {collection.details}/>*/}
+            {/*        )}/>*/}
+            {/*</div>*/}
+
+            {/*<div>*/}
+            {/*    <Categories*/}
+            {/*        className={cl.categorySection}*/}
+            {/*        title="Must - Watch Shows"*/}
+            {/*        items={topSeries}*/}
+            {/*        slidesPerView={4}*/}
+            {/*        breakpoints={{*/}
+            {/*            320: {*/}
+            {/*                slidesPerView: 1.7,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            768: {*/}
+            {/*                slidesPerView: 2,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*            1024: {*/}
+            {/*                slidesPerView: 4,*/}
+            {/*                spaceBetween: 16*/}
+            {/*            },*/}
+            {/*        }}*/}
+            {/*        renderItem={(collection: MovieData, index) => (*/}
+            {/*            <MoviesCard variant = {'Must - Watch Shows'} key={collection.movie.id}*/}
+            {/*                        movieData = {collection.details}/>*/}
+            {/*        )}/>*/}
             {/*</div>*/}
         </div>
     );
 };
 
-export default MoviesWidget;
+export default Shows;

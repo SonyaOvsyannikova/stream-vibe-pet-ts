@@ -86,6 +86,7 @@ const Hero = (props: HeroProps) => {
         }
     })
 
+
     const sliderPrev = useRef<HTMLDivElement>(null)
     const sliderNext = useRef<HTMLDivElement>(null)
     const sliderPagination = useRef<HTMLDivElement>(null)
@@ -328,7 +329,6 @@ const Hero = (props: HeroProps) => {
                         default:
                             return (
                                 <div>
-                                    {movieData &&
                                         <div className={cl.heroWrapper}>
                                         <img
                                             src={movieData.backdrop?.url || '../public/content.png'}
@@ -336,8 +336,6 @@ const Hero = (props: HeroProps) => {
                                             className={clsx(cl.heroPoster, classNamePosterHomePage)}
                                         />
                                         </div>
-                                    }
-
                                     <div className={cl.heroContent}>
                                         <div className={`container ${cl.heroContentInner}`}>
                                             <div className={cl.heroContentHeader}>

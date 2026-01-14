@@ -1,9 +1,9 @@
 import React from 'react';
 import {useInView} from "react-intersection-observer";
-import useTopMovies from "@/shared/hooks/MoviesAndShowHooks/useTopMovies.ts";
-import usePopularOurGenres from "@/shared/hooks/MoviesAndShowHooks/usePopularOurGenres.ts";
+import useTopMovies from "@/shared/hooks/MoviesAndShowHooks/Movies/useTopMovies.ts";
+import usePopularOurGenres from "@/shared/hooks/MoviesAndShowHooks/Movies/usePopularOurGenres.ts";
 import Categories from "@/widgets/Categories/Categories.tsx";
-import cl from "@/widgets/MoviesWidget/MoviesWidget.module.scss";
+import cl from "@/widgets/MoviesWidget/Movies.module.scss";
 import CategoriesCard from "@/shared/ui/CategoriesCard/CategoriesCard.tsx";
 
 const LazyOurTopGenres = () => {

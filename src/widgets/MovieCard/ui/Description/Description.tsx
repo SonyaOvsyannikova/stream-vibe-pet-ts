@@ -1,17 +1,20 @@
 import cl from './Description.module.scss'
 import { IResponseApiMovie } from "@/shared/types";
+import clsx from "clsx";
 
 interface IProps {
-    movieData: IResponseApiMovie
+    movieData: IResponseApiMovie,
+    className?: string
 }
 const Description = (props: IProps) => {
 
     const {
-        movieData
+        movieData,
+        className,
     } = props;
 
     return (
-        <div className={cl.movieCardDescription}>
+        <div className={clsx(cl.movieCardDescription, className)}>
             <h6
             className={cl.headerDescription}>Description</h6>
             {movieData && (
