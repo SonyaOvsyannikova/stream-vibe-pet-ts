@@ -8,14 +8,15 @@
   z-index: 10;
   display: flex;
   justify-content: center;
+
   ::-webkit-scrollbar {
     width: 10px;
   }
+
   ::-webkit-scrollbar-thumb {
     background: var(--color-grey-light-60);
     border-radius: 5px;
   }
-
 }
 
 .movieList {
@@ -30,7 +31,6 @@
   height: 600px;
   overflow: scroll;
   overflow-x: hidden;
-
 }
 
 .movieListItem {
@@ -76,7 +76,7 @@
 }
 
 h4 {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 1.1rem;
   line-height: 1.2;
 }

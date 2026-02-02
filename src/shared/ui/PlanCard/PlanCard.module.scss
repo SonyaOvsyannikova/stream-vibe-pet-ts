@@ -2,20 +2,23 @@
   background-color: var(--color-grey-08);
   color: var(--color-white);
   border: var(--border);
-  padding: fluid(18,14) fluid(44,32);
+  padding: fluid(18, 14) fluid(44, 32);
   border-radius: var(--border-radius-s);
 }
+
 .activeButton {
-  padding: fluid(18,14) fluid(35,32);
+  padding: fluid(18, 14) fluid(35, 32);
   border-radius: var(--border-radius-s);
 }
+
 .planCard {
   display: flex;
   flex-direction: column;
-  row-gap: fluid(50,30);
+  row-gap: fluid(50, 30);
   border: var(--border);
-  padding: fluid(50,24);
-  border-radius:fluid(12, 10);
+  padding: fluid(50, 24);
+  border-radius: fluid(12, 10);
+
   @include tablet {
     display: flex;
     flex-direction: column;
@@ -23,32 +26,39 @@
     justify-content: center;
   }
 }
+
 .planCardTitle {
   @include fluid-text(24, 18);
+
   font-weight: 700;
 }
+
 .planCardDescription {
   @include fluid-text(18, 14);
+
   font-weight: 500;
   color: var(--color-grey-60);
 }
+
 .planCardSection {
   display: flex;
   flex-direction: row;
   column-gap: 20px;
+
   @include tablet {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     row-gap: 20px;
   }
 }
+
 .planCardPrice {
   display: flex;
   align-items: baseline;
   column-gap: 4px;
 }
+
 .planCardButton {
   display: flex;
-  column-gap: fluid-to-laptop(20,12);
+  column-gap: fluid-to-laptop(20, 12);
 }
-

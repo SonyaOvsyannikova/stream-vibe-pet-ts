@@ -7,22 +7,28 @@
   object-fit: cover;
   border-radius: var(--border-radius-m);
 }
+
 .seasonTitle {
   @include fluid-text(24, 16);
 }
+
 .seasonEpisodes {
   @include fluid-text(18, 14);
+
   color: var(--color-grey-light-60);
 }
+
 .infoLabel {
   font-size: fluid-to-laptop(18, 16);
   color: var(--color-grey-light-60);
 }
+
 .infoIcon {
-  width: fluid-to-laptop(24,20);
-  height: fluid-to-laptop(24,20);
+  width: fluid-to-laptop(24, 20);
+  height: fluid-to-laptop(24, 20);
   color: var(--color-grey-light-60);
 }
+
 .raitingTag {
   display: flex;
   flex-direction: column;
@@ -33,12 +39,14 @@
   row-gap: 5px;
   width: 100%;
 }
+
 .raitingTagBody {
   display: flex;
   flex-direction: row;
   column-gap: 5px;
   align-items: center;
 }
+
 .cardPhotoCast {
   display: flex;
   flex-direction: column;
@@ -46,11 +54,12 @@
   height: auto;
   row-gap: 20px;
 }
+
 .buttonHeaderMovieCard {
   display: flex;
   column-gap: 10px;
-
 }
+
 .headerMovieCard {
   display: flex;
   flex-direction: row;
@@ -62,19 +71,20 @@
 
 .prevButton {
   border: var(--border);
+
   @include square(52);
+
   border-radius: 50%;
   padding: 14px;
+
   @include flex-center;
 }
-
 
 .reviewCardSection {
   display: flex;
   flex-direction: row;
   row-gap: 20px;
 }
-
 
 .paginationMovieCard {
   display: grid;
@@ -85,7 +95,6 @@
   gap: 20px;
 }
 
-
 .paginationContainer {
   grid-column: 2;
   display: flex;
@@ -95,25 +104,26 @@
   width: 120px;
 }
 
-
 .paginationContainer :global(.custom-swiper-pagination) {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
+
 .buttonNavigationArrowLeft {
   transform: rotate(180deg);
 }
-.buttonNavigationLeft, .buttonNavigation {
+
+.buttonNavigationLeft,
+.buttonNavigation {
   border: var(--border);
-  padding: fluid-to-laptop(20,16);
+  padding: fluid-to-laptop(20, 16);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--color-grey-08);
 }
-
 
 .movieContent {
   display: flex;
@@ -128,32 +138,38 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
   }
+
   @include tablet {
     .asidePanel {
       order: -1 !important;
     }
+
     .description {
       order: -2 !important;
     }
+
     .serialInfo {
       order: -3 !important;
     }
+
     .castMovieCard {
       order: 1 !important;
     }
+
     .review {
       order: 2 !important;
     }
   }
 }
+
 .movieInfo {
   display: flex;
   flex-direction: column;
   row-gap: 30px;
+
   @include tablet {
     display: contents;
   }
-
 }
 
 .castMovieCard {
@@ -162,31 +178,36 @@
   border: var(--border);
   border-radius: var(--border-radius-m);
 }
+
 .review {
-  //max-width: 1057px;
+  // max-width: 1057px;
   max-width: fluid-to-laptop(1057, 850);
-  padding: fluid(50,24);
+  padding: fluid(50, 24);
   border: var(--border);
   border-radius: var(--border-radius-m);
 }
+
 .summaryHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;padding: fluid-to-laptop(32, 27) fluid-to-laptop(50,40);
-
+  align-items: center;
+  padding: fluid-to-laptop(32, 27) fluid-to-laptop(50, 40);
 }
+
 .summaryTitle {
   display: flex;
   flex-direction: row;
   align-items: center;
   column-gap: 10px;
 }
+
 .openAccordeon {
   border: var(--border);
   height: 52px;
   width: 52px;
   border-radius: 50%;
 }
+
 .serialInfo {
   display: flex;
   flex-direction: column;
@@ -195,19 +216,23 @@
   padding: 40px;
   border-radius: var(--border-radius-l);
 }
+
 .asidePanel {
   display: flex;
   flex-direction: column;
-  row-gap: fluid(30,20);
-  padding: fluid-to-laptop(50,24);
+  row-gap: fluid(30, 20);
+  padding: fluid-to-laptop(50, 24);
   border: var(--border);
   border-radius: var(--border-radius-l);
-  //width: 100%;
+
+  // width: 100%;
   height: fit-content;
+
   @include tablet {
     order: 2;
   }
 }
+
 .buttonAdd {
   background-color: var(--color-grey-06);
   color: var(--color-grey-light-75);
@@ -230,10 +255,8 @@
 
 .sectionList {
   display: flex;
-  flex-direction: row;
-  column-gap: 10px;
-  flex-wrap: wrap;
-  row-gap: 10px;
+  flex-flow: row wrap;
+  gap: 10px;
 }
 
 .infoTag {
@@ -252,7 +275,9 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
+
   @include flex-center;
+
   transition: transform 0.3s ease;
 }
 
@@ -271,30 +296,30 @@
   column-gap: 10px;
   align-items: center;
 }
+
 .photoPerson {
-  width: fluid(40,30);
-  height: fluid(58,48);
+  width: fluid(40, 30);
+  height: fluid(58, 48);
   border-radius: 4px;
 }
+
 .creators {
   display: flex;
   flex-direction: column;
-  row-gap: fluid(20,15);
+  row-gap: fluid(20, 15);
 }
+
 .reviewOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgb(0 0 0 / 50%);
   z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.detailsStyle {
 
+.detailsStyle {
   border: var(--border);
   border-radius: var(--border-radius-l);
   background-color: var(--color-grey-06);

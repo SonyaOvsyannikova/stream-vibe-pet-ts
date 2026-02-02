@@ -1,133 +1,149 @@
 .welcomePageSection {
   display: grid;
   grid-template-columns: 40% 60%;
-  gap: fluid-to-laptop(80,50);
+  gap: fluid-to-laptop(80, 50);
+
   @include tablet {
     display: flex;
     flex-direction: column;
   }
 }
+
 .welcomePageIntro {
   display: flex;
   flex-direction: column;
-  row-gap: fluid(50,30);
+  row-gap: fluid(50, 30);
 }
+
 .bgImg {
   height: fluid(477, 344);
   width: 100%;
-  background: url("/container1.png") center/100% no-repeat;
+  background: url('/container1.png') center/100% no-repeat;
   background-attachment: fixed;
-  background-size:100%;
+  background-size: 100%;
   background-position: 0 0;
   border: var(--border-width-l) solid var(--color-grey-15);
   border-radius: var(--border-radius-xs);
+
   @include mobile {
     background: url('/container1.png') center/cover no-repeat;
     background-attachment: fixed;
-    background-size:240%;
-    background-position: 10% 20% ;
+    background-size: 240%;
+    background-position: 10% 20%;
     height: 344px;
   }
 }
+
 .welcomePageIntroHeader {
   display: flex;
   flex-direction: column;
-  row-gap: fluid-to-laptop(14,10);
+  row-gap: fluid-to-laptop(14, 10);
 }
+
 .welcomeSupportImage {
   border-radius: var(--border-radius-m);
 }
-h2{
+
+h2 {
   margin: 0;
   padding: 0;
 }
+
 .supportPageForm {
   background-color: var(--color-grey-06);
   border: var(--border);
   border-radius: var(--border-radius-l);
-  padding: fluid(50,24);
+  padding: fluid(50, 24);
   display: flex;
   flex-direction: column;
-  row-gap: fluid(50,20);
+  row-gap: fluid(50, 20);
   height: auto;
   width: 100%;
+
   @include tablet {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-
 }
+
 .supportPageFormName {
   display: flex;
-  column-gap: fluid-to-laptop(50,20);
-  @include tablet {
-    display: flex;
-    flex-direction: column;
-  }
-}
-.supportPageFormContact {
-  display: flex;
-  column-gap: fluid-to-laptop(50,20);
+  column-gap: fluid-to-laptop(50, 20);
+
   @include tablet {
     display: flex;
     flex-direction: column;
   }
 }
 
-.supportPageFormMessage{
+.supportPageFormContact {
+  display: flex;
+  column-gap: fluid-to-laptop(50, 20);
+
+  @include tablet {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.supportPageFormMessage {
   width: 100%;
   display: flex;
   flex-direction: column;
-  row-gap: fluid-to-laptop(16,12);
+  row-gap: fluid-to-laptop(16, 12);
 }
+
 .formMessageTextArea {
   width: 100%;
-  height: fluid(173,109);
+  height: fluid(173, 109);
   background-color: var(--color-grey-08);
   color: var(--color-grey-light-60);
-  padding: fluid-to-laptop(20,16);
+  padding: fluid-to-laptop(20, 16);
   border-radius: var(--border-radius-s);
   border: var(--border);
 }
+
 .supportPageFormAgree {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   @include tablet {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
   }
 }
+
 .agree {
   display: flex;
   align-items: center;
   column-gap: 10px;
 }
+
 .agreeCheckBox {
-  width: fluid-to-laptop(28,24) ;
-  height: fluid-to-laptop(28,24) ;
+  width: fluid-to-laptop(28, 24);
+  height: fluid-to-laptop(28, 24);
   border: var(--border);
   border-radius: var(--border-radius-xxxs);
   background-color: transparent;
   margin: 0;
   padding: 0;
-
   position: relative;
-
-
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  appearance: none;
+  appearance: none;
   cursor: pointer;
 }
+
 .agreeCheckBox:checked {
   background-color: var(--color-red-45);
 }
+
 .agreeCheckBox:checked::after {
-  content: "\2714";
+  content: '\2714';
   color: white;
   display: flex;
   align-items: center;
@@ -138,71 +154,81 @@ h2{
   display: flex;
   flex-direction: column;
   width: 413px;
-  row-gap: fluid-to-laptop(16,12);
+  row-gap: fluid-to-laptop(16, 12);
 }
+
 .selectForm {
-  width:fluid(94,76);
-  height: fluid-to-laptop(67,53);
+  width: fluid(94, 76);
+  height: fluid-to-laptop(67, 53);
 }
+
 .choiseCountryNumber {
   display: flex;
-  column-gap: fluid-to-laptop(8,4);
+  column-gap: fluid-to-laptop(8, 4);
   align-items: center;
   justify-content: center;
-  padding: fluid-to-laptop(21,14) fluid-to-laptop(12,8);
+  padding: fluid-to-laptop(21, 14) fluid-to-laptop(12, 8);
   border: var(--border);
   border-radius: var(--border-radius-m);
   background-color: var(--color-grey-08);
   position: relative;
 }
-.enterPhone{
+
+.enterPhone {
   display: flex;
   align-items: center;
-  column-gap: fluid-to-laptop(16,12);
+  column-gap: fluid-to-laptop(16, 12);
+}
 
-}
 .countyFlag {
-  width: fluid(40,36)!important;
-  height: fluid-to-laptop(26,24)!important;
+  width: fluid(40, 36) !important;
+  height: fluid-to-laptop(26, 24) !important;
 }
-.listCountry{
+
+.listCountry {
   overflow: auto;
   height: 300px;
   width: 413px;
   border: var(--border);
-  padding:  fluid-to-laptop(20,16);
+  padding: fluid-to-laptop(20, 16);
   border-radius: var(--border-radius-m);
   margin-bottom: 20px;
 }
+
 .openList {
   ::-webkit-scrollbar {
     width: 10px;
   }
+
   ::-webkit-scrollbar-thumb {
     background: var(--color-grey-light-60);
     border-radius: 5px;
   }
 }
+
 .itemCountry {
   display: flex;
   flex-direction: column;
-  row-gap: fluid(10,5);
-  padding: fluid(10,5);
+  row-gap: fluid(10, 5);
+  padding: fluid(10, 5);
   cursor: pointer;
   border-bottom: var(--border);
 }
+
 .itemCountry:hover {
   color: var(--color-red-45);
   transition-duration: var(--transition-duration);
 }
+
 input {
   background-color: var(--color-grey-08);
   border: var(--border);
   border-radius: var(--border-radius-s);
   height: 67px;
   color: var(--color-grey-light-60);
-  padding: fluid-to-laptop(20,16);
+  padding: fluid-to-laptop(20, 16);
 }
+
 .inputSupport {
   width: 303px !important;
 }

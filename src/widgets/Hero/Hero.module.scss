@@ -7,13 +7,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
+
 .heroButton {
   display: flex;
   align-items: center;
   column-gap: 10px;
 }
+
 .heroContainer {
   position: relative;
   width: 100%;
@@ -27,6 +28,7 @@
   object-fit: cover;
   height: fluid(860, 500);
 }
+
 .heroPosterButton {
   position: absolute;
   top: 50%;
@@ -36,36 +38,32 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  width: fluid-to-laptop(470,300);
+  width: fluid-to-laptop(470, 300);
+
   @include tablet {
     width: 200px;
     transform: translate(-50%, -45%);
   }
 }
-.heroPoster::after{
+
+.heroPoster::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 0%, #141414 100%);
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(20 20 20 / 0%) 0%, #141414 100%);
   pointer-events: none;
   z-index: 11;
 }
 
 .heroWrapper {
   position: relative;
-
 }
+
 .heroWrapper::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 0%, #141414 100%);
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(20 20 20 / 0%) 0%, #141414 100%);
   pointer-events: none;
   z-index: 1;
   width: 100%;
@@ -73,7 +71,7 @@
 
 .heroContent {
   position: absolute;
-  bottom: fluid(20,16);
+  bottom: fluid(20, 16);
   left: 0;
   width: 100%;
   color: white;
@@ -95,13 +93,16 @@
   align-items: center;
   justify-content: center;
 }
+
 .heroContentHeader {
   width: fluid(1494, 310);
 }
+
 .heroPosterTitle {
   display: flex;
   justify-content: center;
 }
+
 .heroPosterDescription {
   display: flex;
   justify-content: center;
@@ -110,9 +111,11 @@
 .likeButton {
   color: var(--color-white);
 }
+
 .likeButtonActive {
   color: var(--color-red-45);
 }
+
 .heroContentHomePage {
   display: flex;
   flex-direction: column;
@@ -121,30 +124,36 @@
   transform: translateY(-60px);
   position: relative;
   z-index: 10;
+
   @include tablet {
     transform: translateY(-90px);
   }
 }
+
 .heroTitleHomePage {
   margin: 0;
   padding: 0;
 }
+
 .playIconHeroSection {
   display: flex;
   align-items: center;
   flex-direction: row;
   column-gap: 4px;
 }
+
 .heroHeaderHomePage {
   width: fluid(1096, 390);
   display: flex;
   align-items: center;
   flex-direction: column;
 }
+
 .heroSlider {
   width: 100%;
   position: relative;
 }
+
 .heroContainerHome {
   margin-top: -150px;
 }
@@ -153,16 +162,15 @@
   width: 100%;
   position: relative;
 }
+
 .gradientOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 0%, #141414 100%);
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(20 20 20 / 0%) 0%, #141414 100%);
   pointer-events: none;
   z-index: 0;
 }
+
 .heroSliderPagination {
   position: absolute;
   bottom: 0;
@@ -176,35 +184,40 @@
   width: 100%;
   padding: fluid-to-laptop(20, 16) fluid-to-laptop(50, 20);
 }
+
 .swiperPagination {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.buttonNavigation{
+
+.buttonNavigation {
   background: var(--color-grey-08);
-  padding: fluid-to-laptop(14,12);
+  padding: fluid-to-laptop(14, 12);
   border: var(--border);
   border-radius: var(--border-radius-s);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .buttonNavigationArrow {
-  width: fluid-to-laptop(28,24);
-  height: fluid-to-laptop(28,24);
+  width: fluid-to-laptop(28, 24);
+  height: fluid-to-laptop(28, 24);
 }
+
 .buttonArrow {
   display: flex;
   align-items: center;
-
 }
+
 .buttonIcon {
   border: var(--border);
   border-radius: var(--border-radius-s);
-  padding: fluid-to-laptop(20,12);
+  padding: fluid-to-laptop(20, 12);
   background-color: var(--color-grey-06);
 }
+
 .contentOverlay {
   position: absolute;
   bottom: 80px; /* Поднять выше от нижнего края */
@@ -215,6 +228,7 @@
   flex-direction: column;
   gap: 24px;
 }
+
 .custom-swiper-pagination {
   display: flex;
   justify-content: center;
@@ -222,6 +236,7 @@
   gap: 4px; /* Уменьшаем расстояние между буллетами */
   min-height: 20px;
 }
+
 :global(.swiper-pagination-bullet) {
   width: fluid-to-laptop(16, 14);
   height: 4px;
@@ -238,8 +253,11 @@
   }
 }
 
-:global(.swiper-pagination-bullet-active ) {
+:global(.swiper-pagination-bullet-active) {
   background: var(--color-red-45) !important;
-  width: fluid-to-laptop(23,18);
+  width: fluid-to-laptop(23, 18);
 }
-.heroSliderPagination {}
+
+.toastShow {
+  padding: 20px;
+}

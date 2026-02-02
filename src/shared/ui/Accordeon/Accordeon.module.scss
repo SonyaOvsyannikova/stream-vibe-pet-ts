@@ -1,13 +1,13 @@
-
 .summaryStyle {
   list-style: none;
 }
+
 .accordionContent {
   display: grid;
   grid-template-rows: 0fr;
   transition-duration: 0.3s;
 }
+
 ::-webkit-details-marker {
   display: none;
 }
-

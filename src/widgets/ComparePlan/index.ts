@@ -1,1 +1,1 @@
-export { default } from './ComparePlan';
+export { default } from './ComparePlan'

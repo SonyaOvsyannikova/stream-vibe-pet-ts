@@ -1,4 +1,4 @@
-//еще вернуться к футеру
+// еще вернуться к футеру
 .footer {
   background-color: var(--color-grey-06);
   padding: 100px 162px 50px;
@@ -13,27 +13,30 @@
   padding-bottom: fluid(50, 20);
   border-top: 1px solid var(--color-grey-15);
   margin-top: 100px;
+
   @include tablet {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
   }
-  @include mobile {
 
+  @include mobile {
   }
 }
+
 .footerCopyright {
   display: flex;
   align-items: center;
   white-space: nowrap;
 }
+
 .footerList {
   display: flex;
   white-space: nowrap;
 }
+
 .footerItem {
   $spacing: fluid-to-laptop(20, 16);
-
 
   &:nth-child(1) {
     margin-right: $spacing;
@@ -42,16 +45,17 @@
   &:nth-child(2)::before {
     content: '|';
     margin-right: $spacing;
-    color:  var(--color-grey-15);
+    color: var(--color-grey-15);
     font-weight: 300;
   }
 
   &:nth-child(2)::after {
     content: '|';
     margin-left: $spacing;
-    color:  var(--color-grey-15);
+    color: var(--color-grey-15);
     font-weight: 300;
   }
+
   &:nth-child(3) {
     margin-left: $spacing;
   }

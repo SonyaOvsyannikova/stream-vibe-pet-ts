@@ -1,28 +1,34 @@
 .deviceCard {
   width: fluid(512, 361);
-  height: fluid(283,175);
+  height: fluid(283, 175);
   border: var(--border);
   border-radius: var(--border-radius-m);
-  background: linear-gradient(20deg, rgba(229, 0, 0, 0) 81%, rgba(229, 0, 0, 0.25) 100%), var(--color-black);
-  padding: fluid(50,24);
+  background:
+    linear-gradient(20deg, rgb(229 0 0 / 0%) 81%, rgb(229 0 0 / 25%) 100%),
+    var(--color-black);
+  padding: fluid(50, 24);
   display: flex;
   flex-direction: column;
-  row-gap: fluid(30,20);
+  row-gap: fluid(30, 20);
 }
+
 .deviceIcon {
-  padding: fluid(16,10);
+  padding: fluid(16, 10);
   border: var(--border);
   background-color: var(--color-grey-08);
   border-radius: var(--border-radius-m);
-  @include square(fluid(72,44));
+
+  @include square(fluid(72, 44));
+
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
-.iconColor{
+
+.iconColor {
   color: var(--color-red-45);
 }
+
 .devicesCardHeader {
   display: flex;
   flex-direction: row;

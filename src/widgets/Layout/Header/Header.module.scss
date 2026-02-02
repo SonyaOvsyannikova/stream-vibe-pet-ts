@@ -4,8 +4,8 @@
   justify-content: space-between;
   align-items: center;
   column-gap: 16px;
-  padding-top: fluid-to-laptop(30,24);
-  padding-bottom: 50px; //временно, убрать потом
+  padding-top: fluid-to-laptop(30, 24);
+  padding-bottom: 50px; // временно, убрать потом
   z-index: 10;
   position: relative;
 
@@ -15,21 +15,20 @@
     justify-content: space-between;
     padding-top: 46px;
   }
+
   @include mobile-s {
     display: flex;
     flex-direction: column;
   }
 }
+
 .logo {
   width: fluid(199, 116);
   height: fluid(60, 35);
 }
-.headerActions {
 
+.headerActions {
   @include tablet {
     display: none;
   }
 }
-
-
-

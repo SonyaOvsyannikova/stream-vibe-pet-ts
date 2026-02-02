@@ -12,17 +12,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    "allowJs": true,          // Разрешить .js файлы
-    "checkJs": false,         // Не проверять .js файлы (включайте постепенно)
-    "strict": false,          // Сначала отключить строгий режим
+    "allowJs": true, // Разрешить .js файлы
+    "checkJs": false, // Не проверять .js файлы (включайте постепенно)
+    "strict": false, // Сначала отключить строгий режим
 
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src",
-    "vite.config"
-  ],
+  "include": ["src", "vite.config"],
   "exclude": ["node_modules"]
 }

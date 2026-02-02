@@ -1,13 +1,15 @@
 .moviePage {
-  margin-top: fluid-to-laptop(200,100);
+  margin-top: fluid-to-laptop(200, 100);
   display: flex;
   flex-direction: column;
 }
+
 .moviePageTab {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .moviePageButton {
   width: 100%;
   text-align: center;

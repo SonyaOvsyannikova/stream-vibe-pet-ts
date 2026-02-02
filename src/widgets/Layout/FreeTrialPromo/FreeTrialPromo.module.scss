@@ -4,15 +4,17 @@
   border-radius: var(--border-radius-l);
   border: var(--border);
   margin-bottom: fluid(150, 80);
-  background: linear-gradient(90deg,
-          rgba(15, 15, 15, 1) 2%,
-          rgba(20, 15, 15, 0.97) 16%,
-          rgba(34, 14, 14, 0.91) 28%,
-          rgba(229, 0, 0, 0.2) 100%),
-  url("@/assets/images/FreeTrial.png") center center no-repeat;
-
+  background:
+    linear-gradient(
+      90deg,
+      rgb(15 15 15 / 100%) 2%,
+      rgb(20 15 15 / 97%) 16%,
+      rgb(34 14 14 / 91%) 28%,
+      rgb(229 0 0 / 20%) 100%
+    ),
+    url('@/assets/images/FreeTrial.png') center center no-repeat;
   height: fluid-to-laptop(313, 236);
-  padding: fluid-to-laptop(100,80) fluid-to-laptop(80, 60);
+  padding: fluid-to-laptop(100, 80) fluid-to-laptop(80, 60);
 
   @include mobile {
     height: 344px;
@@ -22,33 +24,39 @@
     justify-content: center;
     align-items: center;
   }
+
   margin-top: fluid(150, 80);
 }
+
 h2 {
   margin: 0;
   padding: 0;
   font-weight: bold;
 }
+
 .freeTrialPromoHeader {
   display: flex;
   flex-direction: column;
   row-gap: fluid-to-laptop(14, 10);
+
   @include mobile {
     row-gap: 10px;
     align-items: center;
     justify-content: center;
   }
 }
+
 .freeTrialPromoButton {
   display: inline-flex;
   align-items: center;
 }
-.freeTrialButton{
+
+.freeTrialButton {
   width: fluid-to-laptop(188, 149);
-  padding: fluid-to-laptop(18,14) fluid-to-laptop(24, 20);
+  padding: fluid-to-laptop(18, 14) fluid-to-laptop(24, 20);
   white-space: nowrap;
+
   @include mobile {
     padding: 14px 20px;
-
   }
 }

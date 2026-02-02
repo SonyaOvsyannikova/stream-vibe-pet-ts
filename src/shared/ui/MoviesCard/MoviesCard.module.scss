@@ -10,24 +10,33 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  row-gap: fluid(20,12);
+  row-gap: fluid(20, 12);
 }
 
-.moviesCardTrendingNow {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  height: 100%;
-  width: 100%;
+//.moviesCardTrendingNow {
+//  display: grid;
+//  grid-template-rows: 1fr auto;
+//  height: 100%;
+//  width: 100%;
+//}
+
+.showsCardImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
 }
-
-
+.moviesCardImg {
+}
 .moviesCardImg {
   display: flex;
   align-items: center;
   justify-content: center;
+  object-fit: cover;
 }
-
-.movieCardLength, {
+.moviesCardContainer {
+}
+.movieCardLength {
   display: flex;
   column-gap: 2px;
   border: var(--border);
@@ -38,6 +47,7 @@
   color: var(--color-grey-light-60);
   white-space: nowrap;
 }
+
 .movieCardRating {
   display: flex;
   column-gap: 6px;
@@ -47,8 +57,8 @@
   align-items: center;
   padding: 0 6px;
   color: var(--color-grey-light-60);
-
 }
+
 .movieCardReleased {
   display: flex;
   justify-content: center;
@@ -70,16 +80,19 @@
 .movieCardDescription {
   font-size: 10px;
 }
+
 .movieCardTimeIcon {
-  width: fluid-to-laptop(24,20);
-  height: fluid-to-laptop(24,20);
+  width: fluid-to-laptop(24, 20);
+  height: fluid-to-laptop(24, 20);
 }
+
 .movieCardRating {
   max-width: 147px;
 }
+
 .movieCardRatingStar {
-  width: fluid(17,10);
-  height: fluid(17,10);
+  width: fluid(17, 10);
+  height: fluid(17, 10);
 }
 
 .showsTrendingNow {
@@ -89,29 +102,27 @@
   border-radius: var(--border-radius-s);
   padding: 5px;
 }
+
 .showsTrendingNowDescription {
   font-size: 10px;
 }
-.moviesCardImg {
-  width: 100%;
-  height: 100%;
-}
 
-//.moviesCard {
+// .moviesCard {
 //  display: flex;
 //  flex-direction: column;
 //  align-items: center;
 //  justify-content: center;
 //  row-gap: fluid(20,12);
 //  width: fluid(244,144) !important ;
-//}
-//.moviesCardTrendingNowImg {
+// }
+// .moviesCardTrendingNowImg {
 //
-//}
+// }
 .movieCardBody {
   display: flex;
   justify-content: space-between;
 }
-//.movieCardLength, .movieCardRating {
+
+// .movieCardLength, .movieCardRating {
 //  display: flex;
-//}
+// }

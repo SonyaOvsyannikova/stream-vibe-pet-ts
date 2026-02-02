@@ -1,106 +1,119 @@
-import {useQueries, useQuery} from '@tanstack/react-query';
-import { kinopoiskAPI } from "@/shared/api/сlient.ts";
-import {useEffect} from "react";
+import { useQueries, useQuery } from '@tanstack/react-query'
+import { kinopoiskAPI } from '@/shared/api/сlient.ts'
+import { useEffect } from 'react'
 
 export type Movie = {
-    id?: number,
-    name?: string,
-    year?: number,
-    rating?: {
-        kp: number,
-        imdb: number,
-        await: number,
-    },
+  id?: number
+  name?: string
+  year?: number
+  rating?: {
+    kp: number
+    imdb: number
+    await: number
+  }
+  poster?: {
+    url: string
+    previewUrl: string
+  }
+  premiere?: {
+    world: Date
+  }
+  movie?: {
+    name?: string
     poster?: {
-        url: string,
-        previewUrl: string,
-    },
-    premiere?: {
-        world: Date,
-    },
-    movie?: {
-        name?: string,
-        poster?: {
-            url: string,
-            previewUrl: string,
-        }
-    },
-    slug?: string,
-    // movies?: Movie[],
-    // nextMovies?: Movie[],
+      url: string
+      previewUrl: string
+    }
+  }
+  slug?: string
+  // movies?: Movie[],
+  // nextMovies?: Movie[],
 }
 
 export type MovieCollectionByGrouped = {
-    id?: string,
-    name: string,
-    slug: string,
-    movies: Movie[],
-    nextMovies: Movie[],
+  id?: string
+  name: string
+  slug: string
+  movies: Movie[]
+  nextMovies: Movie[]
 }
 export type GroupedMovies = MovieCollectionByGrouped[]
 
 export const genreSlugs = {
-    ww2: { slug: 'theme_ww2', name: 'Война' },
-    comics: { slug: 'theme_comics', name: 'Комиксы' },
-    kidsFilms: { slug: 'theme_kids_films', name: 'Детское кино' },
-    romanticComedy: { slug: 'theme_romantic_comedy', name: 'Ромком' },
-    actionComedy: { slug: 'theme_action_comdey', name: 'Экшен-комедии' },
-    kidsAnimation: { slug: 'theme_kids_animation', name: 'Мультфильмы' },
-    familyComedy: { slug: 'theme_family_comedy', name: 'Семейное кино' },
-    space: { slug: 'theme_space', name: 'Космос' },
-    zombie: { slug: 'theme_zombie', name: 'Зомби' },
-    love: { slug: 'theme_love', name: 'Мелодрамы' },
+  ww2: { slug: 'theme_ww2', name: 'Война' },
+  comics: { slug: 'theme_comics', name: 'Комиксы' },
+  kidsFilms: { slug: 'theme_kids_films', name: 'Детское кино' },
+  romanticComedy: { slug: 'theme_romantic_comedy', name: 'Ромком' },
+  actionComedy: { slug: 'theme_action_comdey', name: 'Экшен-комедии' },
+  kidsAnimation: { slug: 'theme_kids_animation', name: 'Мультфильмы' },
+  familyComedy: { slug: 'theme_family_comedy', name: 'Семейное кино' },
+  space: { slug: 'theme_space', name: 'Космос' },
+  zombie: { slug: 'theme_zombie', name: 'Зомби' },
+  love: { slug: 'theme_love', name: 'Мелодрамы' },
 }
 
 export const useMoviesGrouped = (enabled = true) => {
+  const firstPageQueries = Object.entries(genreSlugs).map(([key, genre]) => ({
+    queryKey: ['genre-page1', genre.slug],
+    queryFn: () =>
+      kinopoiskAPI.getSortedMoviesWithParametersSlug(genre.slug, { limit: 2 }),
+    enabled,
+  }))
+  const firstResults = useQueries({ queries: firstPageQueries })
 
-    const firstPageQueries = Object.entries(genreSlugs).map(([key, genre]) => ({
-        queryKey: ['genre-page1', genre.slug],
-        queryFn: () => kinopoiskAPI.getSortedMoviesWithParametersSlug(genre.slug, { limit: 2 }),
-        enabled,
-    }))
-    const firstResults = useQueries({queries: firstPageQueries})
+  const secondPageQueries = Object.entries(genreSlugs).map(
+    ([key, genre], index) => ({
+      queryKey: ['genre-2', genre.slug, 'page-2'],
+      queryFn: async () => {
+        const firstPage = await kinopoiskAPI.getSortedMoviesWithParametersSlug(
+          genre.slug,
+          {
+            limit: 4,
+          },
+        )
+        if (!firstPage.next) throw new Error('Нет второй страницы')
 
-    const secondPageQueries = Object.entries(genreSlugs).map(([key, genre], index) => ({
-        queryKey: ['genre-2', genre.slug, 'page-2'],
-        queryFn: async () => {
-            const firstPage = await kinopoiskAPI.getSortedMoviesWithParametersSlug(genre.slug, {
-                limit: 4,
-            })
-            if (!firstPage.next) throw new Error('Нет второй страницы');
+        return kinopoiskAPI.getSortedMoviesWithParametersSlug(genre.slug, {
+          limit: 4,
+          next: firstPage.next,
+        })
+      },
+      enabled,
+    }),
+  )
+  const secondResults = useQueries({ queries: secondPageQueries })
 
-            return kinopoiskAPI.getSortedMoviesWithParametersSlug(genre.slug, {
-                limit: 4,
-                next: firstPage.next
-            });
-        },
-        enabled
-    }))
-    const secondResults = useQueries({queries: secondPageQueries})
+  const groupedMoviesPageOne = Object.entries(genreSlugs).map(
+    ([key, genre], index) => ({
+      id: key,
+      name: genre.name,
+      slug: genre.slug,
+      movies:
+        firstResults[index]?.data?.docs?.map((doc) => doc.movie || doc) || [],
+      nextMovies: [],
+    }),
+  )
 
-    const groupedMoviesPageOne = Object.entries(genreSlugs).map(([key, genre], index) => ({
-        id: key,
-        name: genre.name,
-        slug: genre.slug,
-        movies: firstResults[index]?.data?.docs?.map(doc => doc.movie || doc) || [],
-        nextMovies: [],
-    }));
+  const groupedMoviesPageTwo = Object.entries(genreSlugs).map(
+    ([key, genre], index) => ({
+      id: key,
+      name: genre.name,
+      slug: genre.slug,
+      movies: [],
+      nextMovies:
+        secondResults[index]?.data?.docs?.map((doc) => doc.movie || doc) || [],
+    }),
+  )
 
-    const groupedMoviesPageTwo = Object.entries(genreSlugs).map(([key, genre], index) => ({
-        id: key,
-        name: genre.name,
-        slug: genre.slug,
-        movies: [],
-        nextMovies: secondResults[index]?.data?.docs?.map(doc => doc.movie || doc) || [],
-    }));
-
-    return {
-        groupedMoviesPageOne,
-        groupedMoviesPageTwo,
-        isLoadingPageOne: firstResults.some(r => r.isLoading),
-        isLoadingPageTwo: secondResults.some(r => r.isLoading),
-        isError: firstResults.some(r => r.isError) || secondResults.some(r => r.isError),
-    }
+  return {
+    groupedMoviesPageOne,
+    groupedMoviesPageTwo,
+    isLoadingPageOne: firstResults.some((r) => r.isLoading),
+    isLoadingPageTwo: secondResults.some((r) => r.isLoading),
+    isError:
+      firstResults.some((r) => r.isError) ||
+      secondResults.some((r) => r.isError),
+  }
 }
 
 // const allQueries = Object.entries(genreSlugs).map(([key, genre]) => [

@@ -1,12 +1,11 @@
 @use 'sass:math';
 @use './constants.scss' as *;
 
-
 @function fluid($max: 100, $min: 10, $isEndOfLaptop: false) {
   $maxViewportWidth: $container-desktop-width;
   $minViewportWidth: 390;
 
-  @if ($isEndOfLaptop) {
+  @if $isEndOfLaptop {
     $minViewportWidth: $container-laptop-width;
   }
 
@@ -14,14 +13,13 @@
   $minSize: math.div($min, 16);
   $maxWidth: math.div($maxViewportWidth, 16);
   $minWidth: math.div($minViewportWidth, 16);
-
   $slope: math.div(($maxSize - $minSize), ($maxWidth - $minWidth));
   $yAxisIntersections: -$minWidth * $slope + $minSize;
 
   @return clamp(
-          #{$minSize * 1rem},
-          #{$yAxisIntersections * 1rem} + #{$slope * 100vw},
-          #{$maxSize * 1rem}
+    #{$minSize * 1rem},
+    #{$yAxisIntersections * 1rem} + #{$slope * 100vw},
+    #{$maxSize * 1rem}
   );
 }
 

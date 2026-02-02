@@ -1,13 +1,14 @@
 .planSection {
   display: flex;
   flex-direction: column;
-  row-gap: fluid(80,40);
+  row-gap: fluid(80, 40);
 }
 
 .planSectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   @include tablet {
     display: flex;
     flex-direction: column;

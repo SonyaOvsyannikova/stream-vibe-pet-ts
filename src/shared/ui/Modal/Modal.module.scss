@@ -1,20 +1,22 @@
 .modal {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgb(0 0 0 / 60%);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
+
 .modalContent {
   position: relative;
   background: #222;
   padding: 30px 40px;
   border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.7);
+  box-shadow: 0 8px 16px rgb(0 0 0 / 70%);
   max-width: 500px;
   width: 90%;
   color: wheat;

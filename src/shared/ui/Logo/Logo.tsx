@@ -1,21 +1,13 @@
 type LogoProps = {
-    className?: string;
+  className?: string
 }
 const Logo = (props: LogoProps) => {
+  const { className } = props
+  return (
+    <a className={className} href="/public">
+      <img src="../public/LogoHeader.png" alt="Logo" loading="lazy" />
+    </a>
+  )
+}
 
-    const {
-        className
-    } = props
-    return (
-        <a className={className}
-            href="/public">
-            <img
-            src='../public/LogoHeader.png'
-            alt='Logo'
-            loading="lazy"
-            />
-        </a>
-    );
-};
-
-export default Logo;
+export default Logo

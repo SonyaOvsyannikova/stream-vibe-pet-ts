@@ -1,5 +1,6 @@
 .headerList {
   display: none;
+
   @include tablet-above {
     display: flex;
     padding: 24px 40px;
@@ -10,6 +11,6 @@
     white-space: nowrap;
   }
 }
-.headerListLink{
 
+.headerListLink {
 }

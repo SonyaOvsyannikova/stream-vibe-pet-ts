@@ -8,6 +8,7 @@ $mobile-s: 480px;
     @content;
   }
 }
+
 @mixin laptop {
   @media (width <= $laptop) {
     @content;
@@ -19,6 +20,7 @@ $mobile-s: 480px;
     @content;
   }
 }
+
 @mixin tablet {
   @media (width <= $tablet) {
     @content;
@@ -30,6 +32,7 @@ $mobile-s: 480px;
     @content;
   }
 }
+
 @mixin mobile {
   @media (width <= $mobile) {
     @content;
@@ -41,6 +44,7 @@ $mobile-s: 480px;
     @content;
   }
 }
+
 @mixin mobile-s {
   @media (width <= $mobile-s) {
     @content;

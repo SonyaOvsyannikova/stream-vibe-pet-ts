@@ -5,6 +5,7 @@
   flex-direction: column;
   row-gap: fluid(50, 20);
 }
+
 .movieLabel {
   display: flex;
   align-items: center;
@@ -17,17 +18,20 @@
   height: fluid-to-laptop(50, 40);
   background-color: var(--color-red-45);
   border-radius: var(--border-radius-xs);
+
   @include tablet {
     display: none;
   }
 }
+
 .ShowPageMovie {
   border: var(--border);
   padding: fluid(50, 40);
   border-radius: var(--border-radius-m);
   position: relative;
+  margin-bottom: 100px;
+
   @include tablet {
     border: none;
   }
-  margin-bottom: 100px;
 }

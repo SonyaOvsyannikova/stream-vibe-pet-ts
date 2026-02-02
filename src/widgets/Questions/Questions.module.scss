@@ -1,73 +1,85 @@
 .questionCard {
   --questionCardColumns: 2;
   --questionCardRows: 4;
+
   display: grid;
   grid-template-columns: repeat(var(--questionCardColumns), 1fr);
   grid-auto-flow: column;
-  grid-template-rows: repeat(var(--questionCardRows), 1fr) ;
-  gap: fluid-to-laptop(30,20) fluid(30, 10);
+  grid-template-rows: repeat(var(--questionCardRows), 1fr);
+  gap: fluid-to-laptop(30, 20) fluid(30, 10);
 
   @include mobile {
     --questionCardColumns: 1;
+
     grid-auto-flow: row;
   }
 }
+
 .questionCardSection {
   display: flex;
   flex-direction: column;
-  row-gap: fluid(80,40);
+  row-gap: fluid(80, 40);
   margin-top: fluid(75, 40);
   margin-bottom: fluid(75, 40);
 }
+
 .questionsCardSummary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  column-gap: fluid(24,12);
-  height: fluid(127,94);
+  column-gap: fluid(24, 12);
+  height: fluid(127, 94);
   padding: 30px 34px;
   cursor: pointer;
 }
+
 .questionsHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   @include tablet {
     flex-direction: column;
     row-gap: 20px;
     align-items: start;
   }
 }
+
 .questionsCardSummaryHeader {
   display: flex;
   flex-direction: row;
   align-items: center;
-  column-gap: fluid(20,16);
+  column-gap: fluid(20, 16);
 }
+
 .questionsCardCount {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: fluid(20,12);
+  padding: fluid(20, 12);
   border: var(--border);
   background-color: var(--color-grey-12);
   border-radius: var(--border-radius-m);
 }
-.questionsCardTitle {
 
+.questionsCardTitle {
 }
+
 .questionCardDescription {
   transform: translateY(-50px);
+
   @include tablet {
     transform: translateY(-30px);
   }
+
   @include mobile {
     transform: translateY(-10px);
     padding: 0 10px;
   }
-  padding: 0 fluid-to-laptop(116, 90);
 
+  padding: 0 fluid-to-laptop(116, 90);
 }
+
 .openCross {
   width: fluid(20, 10);
   height: 3px;
@@ -76,8 +88,8 @@
   position: relative;
 
   &::after,
-  &::before{
-    content: "";
+  &::before {
+    content: '';
     position: absolute;
     width: fluid(20, 15);
     height: 3px;
@@ -87,6 +99,7 @@
     left: 0;
     transition-duration: var(--transition-duration);
   }
+
   &::before {
     transform: rotate(0deg);
   }
@@ -94,9 +107,7 @@
   &::after {
     transform: rotate(90deg);
   }
-
 }
-
 
 :global(details[open]) .openCross::after {
   transform: rotate(0deg);
@@ -105,18 +116,27 @@
 
 .questionCard > * .questionCardDetails {
   position: relative;
+
   &::before {
-    content: "";
+    content: '';
     bottom: 0;
     left: 0;
     right: 0;
     position: absolute;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, rgba(229, 0, 0, 0) 0%, rgba(229, 0, 0, 1) 17%, rgba(229, 0, 0, 0) 100%);
+    background: linear-gradient(
+      90deg,
+      rgb(229 0 0 / 0%) 0%,
+      rgb(229 0 0 / 100%) 17%,
+      rgb(229 0 0 / 0%) 100%
+    );
   }
 }
-.questionCard > :nth-child(n + 4):nth-child(-n + 4) .questionCardDetails::before,
+
+.questionCard
+  > :nth-child(n + 4):nth-child(-n + 4)
+  .questionCardDetails::before,
 .questionCard > :last-child .questionCardDetails::before {
   display: none;
 }

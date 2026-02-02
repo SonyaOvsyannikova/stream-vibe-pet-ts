@@ -2,51 +2,58 @@
   border: var(--border);
   border-radius: var(--border-radius-s);
   background-color: var(--color-grey-06);
-  padding: fluid(40,24);
+  padding: fluid(40, 24);
   height: fluid(265, 214);
-  max-width: fluid(468, 310) ;
+  max-width: fluid(468, 310);
   width: 100%;
 }
+
 .gradeReview {
   display: flex;
   flex-direction: row;
-  column-gap: fluid(15,7);
+  column-gap: fluid(15, 7);
 }
+
 .ratingCardHeaderTitle {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
 }
+
 .ratingCardHeader {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
   overflow: auto;
-  height: fluid(60,45);
+  height: fluid(60, 45);
 }
+
 .reatingCardBody {
-
 }
+
 .review {
-
 }
+
 .cardReview {
   display: flex;
   flex-direction: row;
   column-gap: 20px;
 }
+
 h6 {
   margin: 0;
 }
 
 .reviewDescription {
   overflow: auto;
-  max-height: fluid(108,96);
-  //width: fluid(388, 262);
+  max-height: fluid(108, 96);
+
+  // width: fluid(388, 262);
   @include mobile {
     max-height: 106px;
   }
 }
+
 .reviewDescription::-webkit-scrollbar,
 .ratingCardHeader::-webkit-scrollbar {
   width: 7px;
@@ -57,9 +64,11 @@ h6 {
   background: var(--color-grey-light-60);
   border-radius: 5px;
 }
+
 .isActive {
   color: gold;
 }
+
 .svg {
   fill: var(--color-grey-light-60);
 }

@@ -1,0 +1,46 @@
+.authPageForm {
+  background: var(--color-grey-06);
+  padding: fluid(80, 40);
+  border: var(--border);
+  border-radius: var(--border-radius-l);
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(30, 15);
+}
+.authInputField {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: fluid(15, 5);
+}
+.authInputFieldRememberMe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: fluid(15, 5);
+}
+.authRemember {
+  width: 20px;
+  height: 20px;
+}
+.buttonEntry {
+  border: var(--border);
+  border-radius: var(--border-radius-l);
+  background-color: var(--color-red-45);
+  padding: fluid(20, 10);
+  color: var(--color-white);
+}
+.authInputFieldPassword {
+  position: relative;
+}
+.authInputFieldIcon {
+  position: absolute;
+  display: inline-block;
+  top: 30%;
+  right: 7%;
+}
+.forgetPassword {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--color-grey-light-60);
+}

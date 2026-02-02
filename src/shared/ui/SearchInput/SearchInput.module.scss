@@ -5,7 +5,8 @@
   align-items: center;
   justify-content: center;
 }
-.searchInput{
+
+.searchInput {
   width: fluid(400, 300);
   height: 50px;
   border: var(--border);
@@ -13,5 +14,5 @@
   background-color: var(--color-grey-30);
   color: var(--color-grey-light-99);
   padding: 0 fluid(30, 10);
-  margin-bottom: fluid(10,5);
+  margin-bottom: fluid(10, 5);
 }

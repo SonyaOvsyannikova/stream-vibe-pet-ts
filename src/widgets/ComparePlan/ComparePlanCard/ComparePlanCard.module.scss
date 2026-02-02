@@ -8,7 +8,6 @@
   gap: 16px;
 }
 
-
 .comparePlanCardContents {
   display: flex;
   gap: 20px;
@@ -24,9 +23,11 @@
   flex-direction: column;
   justify-content: center;
 }
+
 h6 {
   color: var(--color-grey-light-60);
 }
+
 p {
-  color: var(--color-white)
+  color: var(--color-white);
 }

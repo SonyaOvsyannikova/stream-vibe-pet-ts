@@ -1,63 +1,44 @@
-import Logo from "@/shared/ui/Logo/Logo.tsx";
-import useModal from "@/shared/ui/Modal/useModal.tsx";
-import Modal from "@/shared/ui/Modal/Modal.tsx";
-import BurgerButton from "@/shared/ui/BurgerButton/BurgerButton.tsx";
+import Logo from '@/shared/ui/Logo/Logo.tsx'
+import useModal from '@/shared/ui/Modal/useModal.tsx'
+import Modal from '@/shared/ui/Modal/Modal.tsx'
+import BurgerButton from '@/shared/ui/BurgerButton/BurgerButton.tsx'
 import cl from './Header.module.scss'
 import '@/shared/styles'
-import ModalMenu from "@/widgets/Layout/Header/ui/ModalMenu/ModalMenu.tsx";
-import HeaderList from "@/widgets/Layout/Header/ui/HeaderList";
-import HeaderActions from "@/shared/ui/HeaderActions/HeaderActions.tsx";
+import ModalMenu from '@/widgets/Layout/Header/ui/ModalMenu/ModalMenu.tsx'
+import HeaderList from '@/widgets/Layout/Header/ui/HeaderList'
+import HeaderActions from '@/shared/ui/HeaderActions/HeaderActions.tsx'
 
 const Header = () => {
+  type Pages = {
+    label: string
+    path: string
+  }
+  const pagesItems: Pages[] = [
+    { label: 'Home', path: '/home' },
+    { label: 'Movies & Shows', path: '/MoviesAndShowsPage' },
+    { label: 'Support', path: '/support' },
+    { label: 'Subscriptions', path: '/subscriptions' },
+  ]
 
+  const { openModal, closeModal, activeModal, modalType } = useModal()
 
-    type Pages = {
-        label: string;
-        path: string;
-    }
-    let pagesItems: Pages[] = [
-        { label: 'Home', path: '/home' },
-        { label: 'Movies & Shows', path: '/MoviesAndShowsPage' },
-        { label: 'Support', path: '/support' },
-        { label: 'Subscriptions', path: '/subscriptions' },
-    ]
+  return (
+    <header>
+      <div className={`${cl.header} container`}>
+        {activeModal === modalType.menu && (
+          <Modal isOpen={true} onClose={closeModal}>
+            <ModalMenu pages={pagesItems} onClose={closeModal} />
+          </Modal>
+        )}
+        <Logo className={cl.logo} />
+        <HeaderList pages={pagesItems} />
+        <div className={cl.headerActions}>
+          <HeaderActions />
+        </div>
+        <BurgerButton onClick={() => openModal(modalType.menu)} />
+      </div>
+    </header>
+  )
+}
 
-    const {
-        openModal,
-        closeModal,
-        activeModal,
-        modalType
-    } = useModal()
-
-
-    return (
-        <header>
-            <div className={`${cl.header} container`}>
-                {activeModal === modalType.menu && (
-                    <Modal
-                        isOpen={true}
-                        onClose={closeModal}
-                        >
-                            <ModalMenu
-                            pages={pagesItems}
-                            onClose={closeModal}
-                            />
-                    </Modal>
-                )}
-                <Logo className={cl.logo} />
-                <HeaderList
-                    pages = {pagesItems}/>
-                <div className={cl.headerActions}>
-                    <HeaderActions />
-                </div>
-                <BurgerButton
-                    onClick={
-                    ()=> openModal(modalType.menu)}
-                />
-
-            </div>
-        </header>
-    );
-};
-
-export default Header;
+export default Header
